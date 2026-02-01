@@ -1,178 +1,700 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>LinguaParrot</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-body {
-  font-family:'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
-  background:var(--tg-theme-bg-color,#F8F9FA);
-  color:var(--tg-theme-text-color,#2C3E50);
-  overscroll-behavior:none;
-}
-.app { max-width:430px; margin:0 auto; min-height:100vh; padding:16px; }
-
-/* HEADER */
-.header {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:8px 0 16px;
-}
-.header-title { font-size:24px; font-weight:800; }
-
-/* CARDS */
-.card {
-  background:var(--tg-theme-secondary-bg-color,#fff);
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:16px;
-  box-shadow:0 4px 20px rgba(0,0,0,.08);
-}
-
-/* LESSON SCREEN */
-.lesson {
-  position:fixed; inset:0;
-  background:var(--tg-theme-bg-color,#F8F9FA);
-  display:none;
-  z-index:10;
-}
-.lesson.active { display:block; animation:slide .25s ease; }
-@keyframes slide { from{transform:translateY(100%)} to{transform:none} }
-
-.flashcard {
-  margin:40px 16px;
-  padding:40px 24px;
-  border-radius:20px;
-  background:#fff;
-  text-align:center;
-  font-size:28px;
-  font-weight:800;
-  box-shadow:0 4px 20px rgba(0,0,0,.08);
-}
-.flashcard.flipped {
-  background:linear-gradient(135deg,#2D7A5F,#3D9A7A);
-  color:#fff;
-}
-.meaning { font-size:20px; margin-top:16px; display:none; }
-.flashcard.flipped .meaning { display:block; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LinguaParrot</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        :root {
+            --tg-bg: var(--tg-theme-bg-color, #F8F9FA);
+            --tg-text: var(--tg-theme-text-color, #2C3E50);
+            --tg-hint: var(--tg-theme-hint-color, #7F8C8D);
+            --tg-link: var(--tg-theme-link-color, #2D7A5F);
+            --tg-button: var(--tg-theme-button-color, #2D7A5F);
+            --tg-button-text: var(--tg-theme-button-text-color, #FFFFFF);
+            --primary: #2D7A5F;
+            --primary-light: #3D9A7A;
+            --accent: #F4A261;
+            --success: #27AE60;
+            --error: #E74C3C;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        body { 
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background: var(--tg-bg); 
+            color: var(--tg-text); 
+            min-height: 100vh;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        .app-container { max-width: 430px; margin: 0 auto; min-height: 100vh; position: relative; padding: 16px; }
+        
+        /* TG Header */
+        .tg-header {
+            position: sticky;
+            top: 0;
+            background: var(--tg-bg);
+            z-index: 100;
+            padding: 8px 0 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .tg-header-title {
+            font-size: 24px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tg-close-btn {
+            position: absolute;
+            top: 8px;
+            right: 0;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--tg-hint);
+        }
+        
+        /* Main Button (TG style) */
+        .tg-main-btn {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--tg-button);
+            color: var(--tg-button-text);
+            border: none;
+            padding: 16px 24px 32px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .tg-main-btn.show {
+            transform: translateY(0);
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--tg-theme-secondary-bg-color, #FFFFFF);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+        }
+        
+        /* Daily Goal */
+        .daily-goal {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 20px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .goal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .goal-title { font-size: 17px; font-weight: 700; opacity: 0.9; }
+        .goal-time { font-size: 28px; font-weight: 800; }
+        .progress-bar { height: 6px; background: rgba(255,255,255,0.3); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: white; border-radius: 3px; transition: width 0.5s ease; width: 0%; }
+        
+        /* Mode Toggle */
+        .mode-toggle {
+            display: flex;
+            background: var(--tg-theme-secondary-bg-color, #FFFFFF);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            border-radius: 10px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            color: var(--tg-hint);
+            transition: all 0.2s ease;
+        }
+        
+        .mode-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* AI Tutor */
+        .tutor-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .tutor-card:active { transform: scale(0.98); }
+        
+        .tutor-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent) 0%, #F4D35E 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .tutor-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            background: var(--success);
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+        
+        .tutor-info { flex: 1; }
+        .tutor-name { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+        .tutor-status { font-size: 14px; color: var(--tg-hint); display: flex; align-items: center; gap: 6px; }
+        .pulse { animation: pulse 2s infinite; color: var(--success); }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        
+        .arrow { color: var(--tg-hint); font-size: 20px; }
+        
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .stat-card { text-align: center; padding: 20px 16px; }
+        .stat-value { font-size: 32px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
+        .stat-label { font-size: 13px; color: var(--tg-hint); font-weight: 600; }
+        
+        /* Lessons */
+        .section-title { font-size: 17px; font-weight: 700; margin-bottom: 12px; margin-top: 8px; }
+        
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--tg-theme-secondary-bg-color, #FFFFFF);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.2s ease;
+        }
+        
+        .lesson-item:active { transform: scale(0.98); }
+        
+        .lesson-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(45, 122, 95, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .lesson-info { flex: 1; }
+        .lesson-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+        .lesson-meta { font-size: 13px; color: var(--tg-hint); }
+        
+        /* Lesson Screen */
+        .lesson-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--tg-bg);
+            z-index: 100;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+        
+        .lesson-screen.active { display: block; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        
+        .lesson-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--tg-bg);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--tg-theme-secondary-bg-color, #F0F0F0);
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .progress-dots { display: flex; gap: 6px; flex: 1; justify-content: center; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--tg-hint); opacity: 0.3; transition: all 0.3s ease; }
+        .dot.active { background: var(--primary); opacity: 1; width: 20px; border-radius: 3px; }
+        .dot.completed { background: var(--success); opacity: 1; }
+        
+        /* Flashcard */
+        .flashcard-container { padding: 20px 16px 100px; }
+        
+        .flashcard {
+            background: var(--tg-theme-secondary-bg-color, #FFFFFF);
+            border-radius: 20px;
+            padding: 40px 24px;
+            text-align: center;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+        
+        .flashcard.flipped { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; }
+        
+        .flashcard-word { font-size: 32px; font-weight: 800; margin-bottom: 16px; }
+        .flashcard-trans { font-size: 15px; opacity: 0.6; margin-bottom: 8px; font-family: monospace; }
+        .flashcard-rus-trans { font-size: 16px; color: var(--accent); margin-bottom: 20px; font-weight: 600; display: none; }
+        .flashcard.flipped .flashcard-rus-trans { color: rgba(255,255,255,0.9); display: block; }
+        .flashcard-meaning { font-size: 24px; font-weight: 700; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; }
+        .flashcard.flipped .flashcard-meaning { opacity: 1; transform: translateY(0); }
+        
+        .flip-hint {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            opacity: 0.5;
+            background: rgba(0,0,0,0.05);
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+        
+        /* Detail Card */
+        .detail-card {
+            background: rgba(45, 122, 95, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+            display: none;
+        }
+        
+        .detail-card.show { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .detail-title { font-size: 13px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .detail-example { font-size: 16px; font-style: italic; margin-bottom: 8px; padding: 16px; background: var(--tg-theme-secondary-bg-color, #FFFFFF); border-radius: 12px; }
+        .detail-translation { font-size: 14px; color: var(--tg-hint); padding-left: 12px; border-left: 3px solid var(--accent); }
+        
+        /* Transcription Toggle */
+        .trans-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--tg-theme-secondary-bg-color, #FFFFFF);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        .toggle-switch {
+            width: 50px;
+            height: 28px;
+            background: var(--tg-hint);
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.3;
+        }
+        
+        .toggle-switch.active { background: var(--primary); opacity: 1; }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .toggle-switch.active::after { left: 26px; }
+        
+        /* Result Screen */
+        .result-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--tg-bg);
+            z-index: 200;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 24px;
+            text-align: center;
+        }
+        
+        .result-screen.active { display: flex; }
+        .result-emoji { font-size: 80px; margin-bottom: 20px; }
+        .result-title { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+        .result-subtitle { color: var(--tg-hint); margin-bottom: 32px; }
+        
+        .result-stats {
+            background: var(--tg-theme-secondary-bg-color, #FFFFFF);
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 24px;
+        }
+        
+        .result-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 16px; }
+        .result-row:last-child { border-bottom: none; }
+        .result-value { font-weight: 800; color: var(--primary); }
+        .result-value.xp { color: var(--accent); }
+        
+        /* Haptic feedback */
+        .haptic:active { opacity: 0.7; }
+    </style>
 </head>
-
 <body>
-<div class="app" id="main">
-  <div class="header">
-    <div class="header-title">🦜 LinguaParrot</div>
-    <button onclick="tg.close()">✕</button>
-  </div>
+    <div class="app-container" id="app">
+        <!-- Main Screen -->
+        <div class="screen active" id="mainScreen">
+            <div class="tg-header">
+                <div class="tg-header-title">🦜 LinguaParrot</div>
+                <button class="tg-close-btn" onclick="tg.close()">✕</button>
+            </div>
+            
+            <div class="daily-goal">
+                <div class="goal-header">
+                    <div>
+                        <div class="goal-title">Цель дня</div>
+                        <div class="goal-time"><span id="dailyProgress">0</span>/15 мин</div>
+                    </div>
+                    <div style="font-size: 40px;">🔥</div>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+            </div>
+            
+            <div class="mode-toggle">
+                <button class="mode-btn active" onclick="setMode(this, 'calm')">🌿 Спокойный</button>
+                <button class="mode-btn" onclick="setMode(this, 'strict')">📚 Строгий</button>
+            </div>
+            
+            <div class="card tutor-card haptic" onclick="openChat()">
+                <div class="tutor-avatar">🦜</div>
+                <div class="tutor-info">
+                    <div class="tutor-name">Попугай-репетитор</div>
+                    <div class="tutor-status"><span class="pulse">●</span> Онлайн • Нажми чтобы начать</div>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="card stat-card">
+                    <div class="stat-value" id="wordsCount">248</div>
+                    <div class="stat-label">Слов изучено</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-value" id="streakCount">12</div>
+                    <div class="stat-label">Дней подряд</div>
+                </div>
+            </div>
+            
+            <div class="section-title">Уроки на сегодня</div>
+            
+            <div class="lesson-item haptic" onclick="startLesson()">
+                <div class="lesson-icon">📖</div>
+                <div class="lesson-info">
+                    <div class="lesson-title">Словарный запас</div>
+                    <div class="lesson-meta">5 слов • ~5 минут</div>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+            
+            <div class="lesson-item haptic" onclick="startLesson()">
+                <div class="lesson-icon">📝</div>
+                <div class="lesson-info">
+                    <div class="lesson-title">Грамматика</div>
+                    <div class="lesson-meta">Present Perfect • ~5 минут</div>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+            
+            <div class="lesson-item haptic" onclick="startLesson()">
+                <div class="lesson-icon">🗣️</div>
+                <div class="lesson-info">
+                    <div class="lesson-title">Разговорная практика</div>
+                    <div class="lesson-meta">AI-диалог • ~5 минут</div>
+                </div>
+                <div class="arrow">›</div>
+            </div>
+        </div>
+        
+        <!-- Lesson Screen -->
+        <div class="lesson-screen" id="lessonScreen">
+            <div class="lesson-header">
+                <button class="back-btn haptic" onclick="closeLesson()">←</button>
+                <div class="progress-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div style="width: 36px;"></div>
+            </div>
+            
+            <div class="flashcard-container">
+                <div class="trans-toggle">
+                    <span>🔤 Русская транскрипция</span>
+                    <div class="toggle-switch" id="transToggle" onclick="toggleTrans()"></div>
+                </div>
+                
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="flashcard-word" id="cardWord">Serendipity</div>
+                    <div class="flashcard-trans" id="cardTrans">/ˌser.ənˈdɪp.ə.ti/</div>
+                    <div class="flashcard-rus-trans" id="cardRusTrans">[сэ-рэн-ди-пи-ти]</div>
+                    <div class="flashcard-meaning" id="cardMeaning">Счастливая случайность</div>
+                    <div class="flip-hint">Нажми, чтобы перевернуть</div>
+                </div>
+                
+                <div class="detail-card" id="detailCard">
+                    <div class="detail-title">💡 Пример использования</div>
+                    <div class="detail-example" id="detailExample">"Meeting her was pure serendipity."</div>
+                    <div class="detail-translation" id="detailTranslation">"Встреча с ней была чистой случайностью"</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Result Screen -->
+        <div class="result-screen" id="resultScreen">
+            <div class="result-emoji">🎉</div>
+            <div class="result-title">Отлично!</div>
+            <div class="result-subtitle">Урок завершён</div>
+            
+            <div class="result-stats">
+                <div class="result-row">
+                    <span>Изучено слов</span>
+                    <span class="result-value">5</span>
+                </div>
+                <div class="result-row">
+                    <span>Время</span>
+                    <span class="result-value" id="timeValue">4:32</span>
+                </div>
+                <div class="result-row">
+                    <span>Опыт</span>
+                    <span class="result-value xp">+50 XP</span>
+                </div>
+            </div>
+            
+            <button class="tg-main-btn show" onclick="finishLesson()">Продолжить обучение</button>
+        </div>
+    </div>
 
-  <div class="card" onclick="startLesson()">
-    <b>📖 Словарный урок</b><br>
-    5 слов · ~5 минут
-  </div>
-</div>
-
-<!-- LESSON -->
-<div class="lesson" id="lesson">
-  <div class="flashcard" id="card" onclick="flip()">
-    <div id="word"></div>
-    <div class="meaning" id="meaning"></div>
-  </div>
-</div>
-
-<script>
-const tg = window.Telegram.WebApp;
-tg.ready();
-tg.expand();
-
-const words = [
-  { w:'Serendipity', m:'Счастливая случайность' },
-  { w:'Ephemeral', m:'Мимолётный' },
-  { w:'Resilience', m:'Устойчивость' },
-  { w:'Eloquent', m:'Красноречивый' },
-  { w:'Mellifluous', m:'Плавный, мелодичный' }
-];
-
-let index = 0;
-let flipped = false;
-
-/* INIT USER */
-const user = tg.initDataUnsafe?.user;
-if (user) {
-  tg.sendData(JSON.stringify({ action:'init', user_id:user.id }));
-}
-
-/* START */
-function startLesson() {
-  index = 0;
-  flipped = false;
-  showCard();
-  document.getElementById('main').style.display = 'none';
-  document.getElementById('lesson').classList.add('active');
-
-  tg.BackButton.show();
-  tg.MainButton.hide();
-}
-
-/* CARD */
-function showCard() {
-  document.getElementById('word').textContent = words[index].w;
-  document.getElementById('meaning').textContent = words[index].m;
-  document.getElementById('card').classList.remove('flipped');
-  flipped = false;
-}
-
-/* FLIP */
-function flip() {
-  if (flipped) return;
-  flipped = true;
-  document.getElementById('card').classList.add('flipped');
-
-  tg.MainButton.setText(
-    index === words.length - 1 ? 'Завершить 🎉' : 'Следующее →'
-  );
-  tg.MainButton.show();
-}
-
-/* MAIN BUTTON */
-tg.MainButton.onClick(() => {
-  if (!flipped) return;
-
-  index++;
-  if (index >= words.length) {
-    finish();
-  } else {
-    showCard();
-    tg.MainButton.hide();
-  }
-});
-
-/* BACK */
-tg.BackButton.onClick(() => {
-  tg.showConfirm('Выйти из урока?', ok => {
-    if (ok) exitLesson();
-  });
-});
-
-function exitLesson() {
-  document.getElementById('lesson').classList.remove('active');
-  document.getElementById('main').style.display = 'block';
-  tg.MainButton.hide();
-  tg.BackButton.hide();
-}
-
-/* FINISH */
-function finish() {
-  tg.sendData(JSON.stringify({
-    action:'lesson_complete',
-    words:words.length
-  }));
-  exitLesson();
-}
-</script>
+    <script>
+        // Telegram WebApp init
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+        
+        // Data
+        const words = [
+            { word: 'Serendipity', trans: '/ˌser.ənˈdɪp.ə.ti/', rus: '[сэ-рэн-ди-пи-ти]', meaning: 'Счастливая случайность', example: '"Meeting her was pure serendipity."', exampleRu: '"Встреча с ней была чистой случайностью"' },
+            { word: 'Ephemeral', trans: '/ɪˈfem.ər.əl/', rus: '[и-фэ-мэ-рл]', meaning: 'Мимолётный', example: '"Fame in the internet age is ephemeral."', exampleRu: '"Слава в эпоху интернета мимолётна."' },
+            { word: 'Resilience', trans: '/rɪˈzɪl.jəns/', rus: '[ри-зи-лйэнс]', meaning: 'Устойчивость', example: '"Her resilience helped her overcome all difficulties."', exampleRu: '"Её жизнестойкость помогла преодолеть трудности."' },
+            { word: 'Eloquent', trans: '/ˈel.ə.kwənt/', rus: '[э-лэ-квэнт]', meaning: 'Красноречивый', example: '"He gave an eloquent speech about freedom."', exampleRu: '"Он произнёс красноречивую речь о свободе."' },
+            { word: 'Mellifluous', trans: '/meˈlɪf.lu.əs/', rus: '[мэ-ли-флу-эс]', meaning: 'Медовый, плавный', example: '"She had a rich, mellifluous voice."', exampleRu: '"У неё был богатый, плавный голос."' }
+        ];
+        
+        let currentCard = 0;
+        let showRusTrans = false;
+        let lessonStartTime = null;
+        let isFlipped = false;
+        
+        // Haptic feedback helper
+        function haptic() {
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
+        }
+        
+        function setMode(btn, mode) {
+            haptic();
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+        
+        function openChat() {
+            haptic();
+            // Send data to bot
+            tg.sendData(JSON.stringify({ action: 'open_chat' }));
+            tg.showAlert('AI-репетитор скоро будет доступен! 🦜');
+        }
+        
+        function startLesson() {
+            haptic();
+            currentCard = 0;
+            isFlipped = false;
+            lessonStartTime = Date.now();
+            updateCard();
+            document.getElementById('mainScreen').classList.remove('active');
+            document.getElementById('lessonScreen').classList.add('active');
+            
+            // Set TG main button
+            tg.MainButton.setText('Проверить ✅');
+            tg.MainButton.hide();
+        }
+        
+        function updateCard() {
+            const w = words[currentCard];
+            document.getElementById('cardWord').textContent = w.word;
+            document.getElementById('cardTrans').textContent = w.trans;
+            document.getElementById('cardRusTrans').textContent = w.rus;
+            document.getElementById('cardMeaning').textContent = w.meaning;
+            document.getElementById('detailExample').textContent = w.example;
+            document.getElementById('detailTranslation').textContent = w.exampleRu;
+            
+            document.getElementById('flashcard').classList.remove('flipped');
+            document.getElementById('detailCard').classList.remove('show');
+            
+            // Update dots
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((d, i) => {
+                d.classList.remove('active', 'completed');
+                if (i < currentCard) d.classList.add('completed');
+                if (i === currentCard) d.classList.add('active');
+            });
+            
+            // Update main button
+            tg.MainButton.setText(currentCard < words.length - 1 ? 'Следующее слово →' : 'Завершить урок 🎉');
+        }
+        
+        function flipCard() {
+            if (isFlipped) return;
+            haptic();
+            isFlipped = true;
+            document.getElementById('flashcard').classList.add('flipped');
+            setTimeout(() => {
+                document.getElementById('detailCard').classList.add('show');
+                tg.MainButton.show();
+            }, 300);
+        }
+        
+        function toggleTrans() {
+            haptic();
+            showRusTrans = !showRusTrans;
+            document.getElementById('transToggle').classList.toggle('active');
+            document.getElementById('cardRusTrans').style.display = showRusTrans ? 'block' : 'none';
+        }
+        
+        function closeLesson() {
+            haptic();
+            if (confirm('Прервать урок? Прогресс будет сохранён.')) {
+                document.getElementById('lessonScreen').classList.remove('active');
+                document.getElementById('mainScreen').classList.add('active');
+                tg.MainButton.hide();
+            }
+        }
+        
+        function finishLesson() {
+            haptic();
+            const timeSpent = Math.floor((Date.now() - lessonStartTime) / 1000);
+            const mins = Math.floor(timeSpent / 60);
+            const secs = timeSpent % 60;
+            
+            document.getElementById('timeValue').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+            document.getElementById('resultScreen').classList.remove('active');
+            document.getElementById('mainScreen').classList.add('active');
+            
+            // Update progress
+            const current = parseInt(document.getElementById('dailyProgress').textContent);
+            document.getElementById('dailyProgress').textContent = current + 5;
+            document.getElementById('progressBar').style.width = Math.min(((current + 5) / 15 * 100), 100) + '%';
+            
+            // Send result to bot
+            tg.sendData(JSON.stringify({
+                action: 'lesson_complete',
+                words: 5,
+                time: timeSpent,
+                xp: 50
+            }));
+        }
+        
+        // TG Main Button handler
+        tg.MainButton.onClick(() => {
+            haptic();
+            if (!isFlipped) {
+                flipCard();
+                return;
+            }
+            
+            currentCard++;
+            if (currentCard >= words.length) {
+                // Show results
+                document.getElementById('lessonScreen').classList.remove('active');
+                document.getElementById('resultScreen').classList.add('active');
+                tg.MainButton.hide();
+            } else {
+                isFlipped = false;
+                updateCard();
+                tg.MainButton.hide();
+            }
+        });
+        
+        // Init
+        document.getElementById('progressBar').style.width = '0%';
+    </script>
 </body>
 </html>
