@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>LinguaParrot</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body {
+  font-family:'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  background:var(--tg-theme-bg-color,#F8F9FA);
+  color:var(--tg-theme-text-color,#2C3E50);
+  overscroll-behavior:none;
+}
+.app { max-width:430px; margin:0 auto; min-height:100vh; padding:16px; }
+
+/* HEADER */
+.header {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:8px 0 16px;
+}
+.header-title { font-size:24px; font-weight:800; }
+
+/* CARDS */
+.card {
+  background:var(--tg-theme-secondary-bg-color,#fff);
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:16px;
+  box-shadow:0 4px 20px rgba(0,0,0,.08);
+}
+
+/* LESSON SCREEN */
+.lesson {
+  position:fixed; inset:0;
+  background:var(--tg-theme-bg-color,#F8F9FA);
+  display:none;
+  z-index:10;
+}
+.lesson.active { display:block; animation:slide .25s ease; }
+@keyframes slide { from{transform:translateY(100%)} to{transform:none} }
+
+.flashcard {
+  margin:40px 16px;
+  padding:40px 24px;
+  border-radius:20px;
+  background:#fff;
+  text-align:center;
+  font-size:28px;
+  font-weight:800;
+  box-shadow:0 4px 20px rgba(0,0,0,.08);
+}
+.flashcard.flipped {
+  background:linear-gradient(135deg,#2D7A5F,#3D9A7A);
+  color:#fff;
+}
+.meaning { font-size:20px; margin-top:16px; display:none; }
+.flashcard.flipped .meaning { display:block; }
+</style>
+</head>
+
+<body>
+<div class="app" id="main">
+  <div class="header">
+    <div class="header-title">🦜 LinguaParrot</div>
+    <button onclick="tg.close()">✕</button>
+  </div>
+
+  <div class="card" onclick="startLesson()">
+    <b>📖 Словарный урок</b><br>
+    5 слов · ~5 минут
+  </div>
+</div>
+
+<!-- LESSON -->
+<div class="lesson" id="lesson">
+  <div class="flashcard" id="card" onclick="flip()">
+    <div id="word"></div>
+    <div class="meaning" id="meaning"></div>
+  </div>
+</div>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+const words = [
+  { w:'Serendipity', m:'Счастливая случайность' },
+  { w:'Ephemeral', m:'Мимолётный' },
+  { w:'Resilience', m:'Устойчивость' },
+  { w:'Eloquent', m:'Красноречивый' },
+  { w:'Mellifluous', m:'Плавный, мелодичный' }
+];
+
+let index = 0;
+let flipped = false;
+
+/* INIT USER */
+const user = tg.initDataUnsafe?.user;
+if (user) {
+  tg.sendData(JSON.stringify({ action:'init', user_id:user.id }));
+}
+
+/* START */
+function startLesson() {
+  index = 0;
+  flipped = false;
+  showCard();
+  document.getElementById('main').style.display = 'none';
+  document.getElementById('lesson').classList.add('active');
+
+  tg.BackButton.show();
+  tg.MainButton.hide();
+}
+
+/* CARD */
+function showCard() {
+  document.getElementById('word').textContent = words[index].w;
+  document.getElementById('meaning').textContent = words[index].m;
+  document.getElementById('card').classList.remove('flipped');
+  flipped = false;
+}
+
+/* FLIP */
+function flip() {
+  if (flipped) return;
+  flipped = true;
+  document.getElementById('card').classList.add('flipped');
+
+  tg.MainButton.setText(
+    index === words.length - 1 ? 'Завершить 🎉' : 'Следующее →'
+  );
+  tg.MainButton.show();
+}
+
+/* MAIN BUTTON */
+tg.MainButton.onClick(() => {
+  if (!flipped) return;
+
+  index++;
+  if (index >= words.length) {
+    finish();
+  } else {
+    showCard();
+    tg.MainButton.hide();
+  }
+});
+
+/* BACK */
+tg.BackButton.onClick(() => {
+  tg.showConfirm('Выйти из урока?', ok => {
+    if (ok) exitLesson();
+  });
+});
+
+function exitLesson() {
+  document.getElementById('lesson').classList.remove('active');
+  document.getElementById('main').style.display = 'block';
+  tg.MainButton.hide();
+  tg.BackButton.hide();
+}
+
+/* FINISH */
+function finish() {
+  tg.sendData(JSON.stringify({
+    action:'lesson_complete',
+    words:words.length
+  }));
+  exitLesson();
+}
+</script>
+</body>
+</html>
