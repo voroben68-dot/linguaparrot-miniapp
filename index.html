@@ -551,11 +551,70 @@
         
         // Data
         const words = [
-            { word: 'Serendipity', trans: '/ˌser.ənˈdɪp.ə.ti/', rus: '[сэ-рэн-ди-пи-ти]', meaning: 'Счастливая случайность', example: '"Meeting her was pure serendipity."', exampleRu: '"Встреча с ней была чистой случайностью"' },
-            { word: 'Ephemeral', trans: '/ɪˈfem.ər.əl/', rus: '[и-фэ-мэ-рл]', meaning: 'Мимолётный', example: '"Fame in the internet age is ephemeral."', exampleRu: '"Слава в эпоху интернета мимолётна."' },
-            { word: 'Resilience', trans: '/rɪˈzɪl.jəns/', rus: '[ри-зи-лйэнс]', meaning: 'Устойчивость', example: '"Her resilience helped her overcome all difficulties."', exampleRu: '"Её жизнестойкость помогла преодолеть трудности."' },
-            { word: 'Eloquent', trans: '/ˈel.ə.kwənt/', rus: '[э-лэ-квэнт]', meaning: 'Красноречивый', example: '"He gave an eloquent speech about freedom."', exampleRu: '"Он произнёс красноречивую речь о свободе."' },
-            { word: 'Mellifluous', trans: '/meˈlɪf.lu.əs/', rus: '[мэ-ли-флу-эс]', meaning: 'Медовый, плавный', example: '"She had a rich, mellifluous voice."', exampleRu: '"У неё был богатый, плавный голос."' }
+            const words = [
+    // BEGINNER (10 слов)
+    { word: 'Hello', trans: '/həˈloʊ/', rus: '[хэ-лоу]', meaning: 'Привет', example: '"Hello, how are you?"', exampleRu: '"Привет, как дела?"' },
+    { word: 'Thank you', trans: '/ˈθæŋk juː/', rus: '[сэнк ю]', meaning: 'Спасибо', example: '"Thank you very much!"', exampleRu: '"Большое спасибо!"' },
+    { word: 'Please', trans: '/pliːz/', rus: '[плииз]', meaning: 'Пожалуйста', example: '"Could you help me, please?"', exampleRu: '"Не могли бы вы мне помочь, пожалуйста?"' },
+    { word: 'Sorry', trans: '/ˈsɔːri/', rus: '[со-ри]', meaning: 'Извините', example: '"I am sorry for being late."', exampleRu: '"Извините, что опоздал."' },
+    { word: 'Goodbye', trans: '/ˌɡʊdˈbaɪ/', rus: '[гуд-бай]', meaning: 'До свидания', example: '"Goodbye! See you tomorrow!"', exampleRu: '"До свидания! Увидимся завтра!"' },
+    { word: 'Love', trans: '/lʌv/', rus: '[лав]', meaning: 'Любовь', example: '"I love this song!"', exampleRu: '"Я люблю эту песню!"' },
+    { word: 'Friend', trans: '/frend/', rus: '[фрэнд]', meaning: 'Друг', example: '"He is my best friend."', exampleRu: '"Он мой лучший друг."' },
+    { word: 'Family', trans: '/ˈfæməli/', rus: '[фэ-ми-ли]', meaning: 'Семья', example: '"Family is very important to me."', exampleRu: '"Семья очень важна для меня."' },
+    { word: 'Happy', trans: '/ˈhæpi/', rus: '[хэ-пи]', meaning: 'Счастливый', example: '"I am so happy today!"', exampleRu: '"Я так счастлив сегодня!"' },
+    { word: 'Beautiful', trans: '/ˈbjuːtɪfl/', rus: '[бью-ти-фл]', meaning: 'Красивый', example: '"What a beautiful day!"', exampleRu: '"Какой красивый день!"' },
+    
+    // ELEMENTARY (10 слов)
+    { word: 'Adventure', trans: '/ədˈventʃər/', rus: '[эд-вэн-чэр]', meaning: 'Приключение', example: '"Life is either a daring adventure or nothing."', exampleRu: '"Жизнь — это либо отважное приключение, либо ничто."' },
+    { word: 'Dream', trans: '/driːm/', rus: '[дрим]', meaning: 'Мечта', example: '"Never give up on your dreams."', exampleRu: '"Никогда не сдавайся и не отказывайся от своих мечт."' },
+    { word: 'Journey', trans: '/ˈdʒɜːrni/', rus: '[джё-ни]', meaning: 'Путешествие', example: '"Life is a journey, not a destination."', exampleRu: '"Жизнь — это путешествие, а не пункт назначения."' },
+    { word: 'Smile', trans: '/smaɪl/', rus: '[смайл]', meaning: 'Улыбка', example: '"Your smile brightens my day."', exampleRu: '"Твоя улыбка освещает мой день."' },
+    { word: 'Sunshine', trans: '/ˈsʌnʃaɪn/', rus: '[сан-шайн]', meaning: 'Солнечный свет', example: '"You are my sunshine!"', exampleRu: '"Ты моё солнышко!"' },
+    { word: 'Wonderful', trans: '/ˈwʌndərfl/', rus: '[ван-дэ-фл]', meaning: 'Чудесный', example: '"We had a wonderful time!"', exampleRu: '"Мы прекрасно провели время!"' },
+    { word: 'Believe', trans: '/bɪˈliːv/', rus: '[би-лив]', meaning: 'Верить', example: '"Believe in yourself!"', exampleRu: '"Верь в себя!"' },
+    { word: 'Freedom', trans: '/ˈfriːdəm/', rus: '[фри-дэм]', meaning: 'Свобода', example: '"Freedom is not worth having if it does not include the freedom to make mistakes."', exampleRu: '"Свобода не стоит того, чтобы её иметь, если она не включает свободу совершать ошибки."' },
+    { word: 'Knowledge', trans: '/ˈnɒlɪdʒ/', rus: '[но-лидж]', meaning: 'Знание', example: '"Knowledge is power."', exampleRu: '"Знание — сила."' },
+    { word: 'Wisdom', trans: '/ˈwɪzdəm/', rus: '[виз-дэм]', meaning: 'Мудрость', example: '"With age comes wisdom."', exampleRu: '"С возрастом приходит мудрость."' },
+    
+    // INTERMEDIATE (15 слов)
+    { word: 'Serendipity', trans: '/ˌser.ənˈdɪp.ə.ti/', rus: '[сэ-рэн-ди-пи-ти]', meaning: 'Счастливая случайность', example: '"Meeting her was pure serendipity."', exampleRu: '"Встреча с ней была чистой случайностью."' },
+    { word: 'Ephemeral', trans: '/ɪˈfem.ər.əl/', rus: '[и-фэ-мэ-рл]', meaning: 'Мимолётный', example: '"Fame in the internet age is ephemeral."', exampleRu: '"Слава в эпоху интернета мимолётна."' },
+    { word: 'Resilience', trans: '/rɪˈzɪl.jəns/', rus: '[ри-зи-лйэнс]', meaning: 'Устойчивость', example: '"Her resilience helped her overcome all difficulties."', exampleRu: '"Её жизнестойкость помогла преодолеть трудности."' },
+    { word: 'Eloquent', trans: '/ˈel.ə.kwənt/', rus: '[э-лэ-квэнт]', meaning: 'Красноречивый', example: '"He gave an eloquent speech about freedom."', exampleRu: '"Он произнёс красноречивую речь о свободе."' },
+    { word: 'Mellifluous', trans: '/meˈlɪf.lu.əs/', rus: '[мэ-ли-флу-эс]', meaning: 'Медовый, плавный', example: '"She had a rich, mellifluous voice."', exampleRu: '"У неё был богатый, плавный голос."' },
+    { word: 'Petrichor', trans: '/ˈpet.rɪ.kɔːr/', rus: '[пэ-три-кор]', meaning: 'Запах дождя', example: '"I love the petrichor after summer rain."', exampleRu: '"Я люблю запах дождя после летнего ливня."' },
+    { word: 'Luminous', trans: '/ˈluː.mɪ.nəs/', rus: '[лу-ми-нэс]', meaning: 'Светящийся', example: '"The room was filled with luminous colors."', exampleRu: '"Комната была наполнена светящимися красками."' },
+    { word: 'Solitude', trans: '/ˈsɒl.ɪ.tjuːd/', rus: '[со-ли-тьюд]', meaning: 'Уединение', example: '"He enjoyed the peace and solitude of the woods."', exampleRu: '"Он наслаждался покоем и уединением леса."' },
+    { word: 'Euphoria', trans: '/juːˈfɔː.ri.ə/', rus: '[ю-фо-ри-э]', meaning: 'Эйфория', example: '"There was a sense of euphoria after the victory."', exampleRu: '"После победы было чувство эйфории."' },
+    { word: 'Melancholy', trans: '/ˈmel.ən.kɒl.i/', rus: '[мэ-лан-ко-ли]', meaning: 'Меланхолия', example: '"A deep melancholy settled over the city."', exampleRu: '"Глубокая меланхолия охватила город."' },
+    { word: 'Serene', trans: '/səˈriːn/', rus: '[сэ-рин]', meaning: 'Безмятежный', example: '"The lake was calm and serene."', exampleRu: '"Озеро было спокойным и безмятежным."' },
+    { word: 'Vibrant', trans: '/ˈvaɪ.brənt/', rus: '[вай-брэнт]', meaning: 'Яркий, живой', example: '"The city is vibrant with energy."', exampleRu: '"Город яркий и полон энергии."' },
+    { word: 'Whimsical', trans: '/ˈwɪm.zɪ.kəl/', rus: '[вим-зи-кл]', meaning: 'Причудливый', example: '"She has a whimsical sense of humor."', exampleRu: '"У неё причудливое чувство юмора."' },
+    { word: 'Epiphany', trans: '/ɪˈpɪf.ə.ni/', rus: '[и-пи-фэ-ни]', meaning: 'Озарение', example: '"I had an epiphany about my career."', exampleRu: '"У меня было озарение насчёт моей карьеры."' },
+    { word: 'Nostalgia', trans: '/nɒsˈtæl.dʒə/', rus: '[нос-тэл-джэ]', meaning: 'Ностальгия', example: '"Photos of my childhood fill me with nostalgia."', exampleRu: '"Фотографии моего детства наполняют меня ностальгией."' },
+    
+    // ADVANCED (15 слов)
+    { word: 'Sonder', trans: '/ˈsɒn.dər/', rus: '[сон-дэр]', meaning: 'Осознание, что каждый имеет сложную жизнь', example: '"Walking through the crowd, I was struck by sonder."', exampleRu: '"Идя сквозь толпу, я был поражён осознанием, что у каждого своя сложная жизнь."' },
+    { word: 'Petrichor', trans: '/ˈpet.rɪ.kɔːr/', rus: '[пэ-три-кор]', meaning: 'Запах дождя по земле', example: '"The petrichor after the storm was intoxicating."', exampleRu: '"Запах дождя после грозы был опьяняющим."' },
+    { word: 'Ineffable', trans: '/ɪnˈef.ə.bəl/', rus: '[ин-э-фэ-бл]', meaning: 'Невыразимый', example: '"The beauty of the sunset was ineffable."', exampleRu: '"Красота заката была невыразимой."' },
+    { word: 'Hiraeth', trans: '/ˈhɪraɪθ/', rus: '[хи-райс]', meaning: 'Тоска по дому, которого нет', example: '"There is a word for it: hiraeth, a longing for home."', exampleRu: '"Есть слово для этого: хираэт, тоска по дому."' },
+    { word: 'Saudade', trans: '/sauˈdɑː.də/', rus: '[сау-да-дэ]', meaning: 'Грустная тоска по чему-то потерянному', example: '"Saudade is a deep emotional state of nostalgic longing."', exampleRu: '"Саудáде — это глубокое эмоциональное состояние ностальгической тоски."' },
+    { word: 'Komorebi', trans: '/ko.mo.ɾe.bi/', rus: '[ко-мо-рэ-би]', meaning: 'Свет, пробивающийся сквозь листья', example: '"The komorebi in the forest was magical."', exampleRu: '"Свет, пробивающийся сквозь листья в лесу, был волшебным."' },
+    { word: 'Mudita', trans: '/muːˈdiː.tə/', rus: '[му-ди-тэ]', meaning: 'Счастье от чужого счастья', example: '"Mudita is finding joy in the happiness of others."', exampleRu: '"Мудита — это находить радость в счастье других."' },
+    { word: 'Gigil', trans: '/ˈɡiː.ɡɪl/', rus: '[ги-гил]', meaning: 'Непреодолимое желание что-то сжать (от умиления)', example: '"The puppy was so cute I felt gigil."', exampleRu: '"Щенок был таким милым, что мне захотелось его сжать."' },
+    { word: 'Forelsket', trans: '/fɔːˈrɛlskət/', rus: '[фо-рэл-скэт]', meaning: 'Предвкушение любви', example: '"Forelsket describes the euphoria of beginning to fall in love."', exampleRu: '"Форельскет описывает эйфорию начала влюблённости."' },
+    { word: 'Dépaysement', trans: '/de.peɪz.mɑ̃/', rus: '[дэ-пэйз-мон]', meaning: 'Чувство дезориентации в чужой стране', example: '"The dépaysement of arriving in Tokyo was overwhelming."', exampleRu: '"Чувство дезориентации при прибытии в Токио было ошеломляющим."' },
+    { word: 'Limerence', trans: '/ˈlɪm.ər.əns/', rus: '[ли-мэ-рэнс]', meaning: 'Состояние влюблённости', example: '"Limerence is an involuntary interpersonal state."', exampleRu: '"Лимеренс — это непроизвольное межличностное состояние."' },
+    { word: 'Vellichor', trans: '/ˈvɛl.ɪ.kɔːr/', rus: '[вэ-ли-кор]', meaning: 'Тоска по старым книгам', example: '"The vellichor of the used bookstore was comforting."', exampleRu: '"Тоска по старым книгам в букинистическом магазине была утешительной."' },
+    { word: 'Chrysalism', trans: '/ˈkrɪs.ə.lɪz.əm/', rus: '[кри-за-ли-зэм]', meaning: 'Уют в помещении во время дождя', example: '"I love the chrysalism of reading by the window on a rainy day."', exampleRu: '"Я люблю уют чтения у окна в дождливый день."' },
+    { word: 'Monachopsis', trans: '/ˌmɒn.əˈkɒp.sɪs/', rus: '[мо-на-коп-сис]', meaning: 'Тонкое чувство неуместности', example: '"Monachopsis is the subtle but persistent feeling of being out of place."', exampleRu: '"Монахопсис — это тонкое, но постоянное чувство неуместности."' },
+    { word: 'Ethereal', trans: '/ɪˈθɪə.ri.əl/', rus: '[и-фиэ-ри-эл]', meaning: 'Небесный, воздушный', example: '"The ethereal beauty of the aurora left us speechless."', exampleRu: '"Небесная красота северного сияния оставила нас безмолвными."' }
+];
+
+            
+            
+            
+            
         ];
         
         let currentCard = 0;
