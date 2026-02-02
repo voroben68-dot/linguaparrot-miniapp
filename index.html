@@ -548,6 +548,9 @@
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
+// Load saved progress
+loadProgress();
+
         
         // Data
         const words = [
@@ -609,6 +612,32 @@
     { word: 'Monachopsis', trans: '/ˌmɒn.əˈkɒp.sɪs/', rus: '[мо-на-коп-сис]', meaning: 'Тонкое чувство неуместности', example: '"Monachopsis is the subtle but persistent feeling of being out of place."', exampleRu: '"Монахопсис — это тонкое, но постоянное чувство неуместности."' },
     { word: 'Ethereal', trans: '/ɪˈθɪə.ri.əl/', rus: '[и-фиэ-ри-эл]', meaning: 'Небесный, воздушный', example: '"The ethereal beauty of the aurora left us speechless."', exampleRu: '"Небесная красота северного сияния оставила нас безмолвными."' }
 ];
+// Cloud Storage functions
+function saveProgress() {
+    const progress = {
+        wordsLearned: currentCard,
+        totalWords: words.length,
+        xp: currentCard * 10,
+        lastVisit: new Date().toISOString()
+    };
+    tg.CloudStorage.setItem('linguaparrot_progress', JSON.stringify(progress));
+}
+
+function loadProgress() {
+    tg.CloudStorage.getItem('linguaparrot_progress', (error, value) => {
+        if (!error && value) {
+            const progress = JSON.parse(value);
+            currentCard = progress.wordsLearned || 0;
+            updateStats();
+        }
+    });
+}
+
+function updateStats() {
+    document.getElementById('wordsCount').textContent = currentCard;
+    document.getElementById('dailyProgress').textContent = Math.min(currentCard, 15);
+    document.getElementById('progressBar').style.width = Math.min((currentCard / 15 * 100), 100) + '%';
+}
 
             
             
@@ -653,7 +682,10 @@
             
             // Set TG main button
             tg.MainButton.setText('Проверить ✅');
-            tg.MainButton.hide();
+            tg.MainButton.hide(); 
+      saveProgress();
+
+
         }
         
         function updateCard() {
