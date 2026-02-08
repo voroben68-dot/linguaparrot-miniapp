@@ -21,7 +21,12 @@
             --accent: #F4A261;
             --success: #27AE60;
             --error: #E74C3C;
-            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow: 0 4px 20px rgba(0,0,0,0.08); 
+            --street-primary: #FF6B35;
+--street-accent: #F7C59F;
+--street-dark: #1A1A2E;
+--street-gold: #FFD700;
+
         }
         
         body { 
@@ -105,31 +110,47 @@
         .goal-time { font-size: 28px; font-weight: 800; }
         .progress-bar { height: 6px; background: rgba(255,255,255,0.3); border-radius: 3px; overflow: hidden; }
         .progress-fill { height: 100%; background: white; border-radius: 3px; transition: width 0.5s ease; width: 0%; }
-        
         .mode-toggle {
-            display: flex;
-            background: var(--tg-theme-secondary-bg-color, #FFFFFF);
-            border-radius: 12px;
-            padding: 4px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
-        }
-        
-        .mode-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: transparent;
-            border-radius: 10px;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            color: var(--tg-hint);
-            transition: all 0.2s ease;
-        }
-        
-        .mode-btn.active { background: var(--primary); color: white; }
+    display: flex;
+    background: var(--tg-theme-secondary-bg-color, #FFFFFF);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+}
+
+body.street-mode .mode-toggle {
+    background: rgba(255,255,255,0.05);
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 12px 4px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--tg-hint);
+    transition: all 0.2s ease;
+}
+
+body.street-mode .mode-btn {
+    color: rgba(255,255,255,0.6);
+}
+
+.mode-btn.active { 
+    background: var(--primary); 
+    color: white; 
+}
+
+body.street-mode .mode-btn.active {
+    background: #FF6B35;
+}
+
+
         
         .tutor-card {
             display: flex;
@@ -420,8 +441,28 @@
             <div class="mode-toggle">
                 <button class="mode-btn active" onclick="setMode(this, 'calm')">🌿 Спокойный</button>
                 <button class="mode-btn" onclick="setMode(this, 'strict')">📚 Строгий</button>
+                <button class="mode-btn" onclick="setMode(this, 'street')">🔥 Street</button>
+
             </div>
-            
+            <!-- Street Stats (visible only in street mode) -->
+<div class="street-stats" id="streetStats" style="display: none;">
+    <div class="street-header">
+        <div class="street-title">🎤 STREET CRED</div>
+        <div class="cred-badge">
+            <span>⚡</span>
+            <span id="streetCred">0</span>
+        </div>
+    </div>
+    <div class="progress-bar">
+        <div class="progress-fill" id="streetProgress" style="width: 0%"></div>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; opacity: 0.8;">
+        <span>Уровень <span id="streetLevel">1</span></span>
+        <span><span id="streetNext">100</span> до следующего</span>
+    </div>
+</div>
+<div id="standardContent">
+
             <div class="card tutor-card haptic" onclick="openChat()">
                 <div class="tutor-avatar">🦜</div>
                 <div class="tutor-info">
@@ -445,7 +486,101 @@
             <div class="section-title">Выберите уровень</div>
             <div class="level-grid" id="levelGrid"></div>
         </div>
+        </div>
+<!-- Street Content (visible only in street mode) -->
+<div id="streetContent" style="display: none;">
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="setTab('slang')">🎯 Сленг</button>
+        <button class="tab-btn" onclick="setTab('tracks')">🎵 Треки</button>
+    </div>
+    
+    <!-- Slang Tab -->
+    <div class="tab-content active" id="slangTab">
+        <div class="section-title">Выбери категорию</div>
+        <div class="category-grid">
+            <div class="category-card active" onclick="selectCategory('oldschool', this)">
+                <div class="category-emoji">📻</div>
+                <div class="category-name">Old School</div>
+            </div>
+            <div class="category-card" onclick="selectCategory('modern', this)">
+                <div class="category-emoji">🔥</div>
+                <div class="category-name">Modern</div>
+            </div>
+            <div class="category-card" onclick="selectCategory('trap', this)">
+                <div class="category-emoji">🚀</div>
+                <div class="category-name">Trap</div>
+            </div>
+        </div>
         
+        <div class="section-title">Изучи сленг</div>
+        <div class="level-grid" id="slangGrid"></div>
+    </div>
+    
+    <!-- Tracks Tab -->
+    <div class="tab-content" id="tracksTab">
+        <!-- Sections: All / Favorites / My Tracks -->
+        <div class="tracks-sections">
+            <button class="section-tab active" onclick="setTrackSection('all')">Все</button>
+            <button class="section-tab" onclick="setTrackSection('favorites')">⭐ Избранное</button>
+            <button class="section-tab" onclick="setTrackSection('custom')">📤 Мои</button>
+        </div>
+        
+        <!-- Search and Filter (for All and Favorites) -->
+        <div id="tracksFilterSection">
+            <div class="search-container">
+                <input type="text" class="search-input" id="trackSearch" placeholder="Поиск треков..." oninput="filterTracks()">
+                <span class="search-icon">🔍</span>
+            </div>
+            
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="setDifficultyFilter('all')">Все</button>
+                <button class="filter-btn" onclick="setDifficultyFilter('easy')">Easy</button>
+                <button class="filter-btn" onclick="setDifficultyFilter('medium')">Medium</button>
+                <button class="filter-btn" onclick="setDifficultyFilter('hard')">Hard</button>
+            </div>
+        </div>
+        
+        <!-- Upload Section (for Custom) -->
+        <div class="upload-section" id="uploadSection" onclick="showUploadForm()" style="display: none;">
+            <div class="upload-icon">📤</div>
+            <div class="upload-title">Загрузить свой трек</div>
+            <div class="upload-hint">Добавь текст песни для разбора</div>
+        </div>
+        
+        <!-- Custom Track Form -->
+        <div class="custom-track-form" id="customTrackForm">
+            <div class="form-group">
+                <label class="form-label">Исполнитель</label>
+                <input type="text" class="form-input" id="customArtist" placeholder="Например: Eminem">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Название трека</label>
+                <input type="text" class="form-input" id="customTitle" placeholder="Например: Lose Yourself">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Сложность</label>
+                <select class="form-input" id="customDifficulty">
+                    <option value="easy">Easy (Легко)</option>
+                    <option value="medium" selected>Medium (Средне)</option>
+                    <option value="hard">Hard (Сложно)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Текст песни</label>
+                <textarea class="form-textarea" id="customLyrics" placeholder="Вставь текст песни здесь...&#10;&#10;Каждая строка с новой строки.&#10;Сленг будет автоматически подсвечен если он есть в базе."></textarea>
+                <div class="form-hint">Мы автоматически проанализируем текст и добавим разбор сленга</div>
+            </div>
+            <div class="form-actions">
+                <button class="form-btn secondary" onclick="hideUploadForm()">Отмена</button>
+                <button class="form-btn primary" onclick="saveCustomTrack()">Сохранить</button>
+            </div>
+        </div>
+        
+        <div class="section-title" id="tracksListTitle">Все треки</div>
+        <div class="track-list" id="trackList"></div>
+    </div>
+</div>
+
         <div class="lesson-screen" id="lessonScreen">
             <div class="lesson-header">
                 <button class="back-btn haptic" onclick="closeLesson()">←</button>
@@ -474,7 +609,57 @@
                 </div>
             </div>
         </div>
+        <!-- Track Analysis Screen -->
+<div class="track-analysis-screen" id="trackAnalysisScreen">
+    <div class="lesson-header">
+        <button class="back-btn haptic" onclick="closeTrackAnalysis()">←</button>
+        <div style="flex: 1; text-align: center; font-weight: 700;" id="analysisTitle">Разбор трека</div>
+        <div style="width: 36px;"></div>
+    </div>
+    
+    <div class="track-player" id="trackPlayer">
+        <div class="track-visual" id="trackVisual">🎵</div>
         
+        <div class="visualizer paused" id="visualizer">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        
+        <div class="track-controls">
+            <button class="control-btn secondary" onclick="skipBackward()">⏮</button>
+            <button class="control-btn play" id="playBtn" onclick="togglePlay()">▶</button>
+            <button class="control-btn secondary" onclick="skipForward()">⏭</button>
+        </div>
+        
+        <div class="track-progress">
+            <div class="track-progress-fill" id="trackProgress"></div>
+        </div>
+        <div class="track-time">
+            <span id="currentTime">0:00</span>
+            <span id="totalTime">0:30</span>
+        </div>
+        
+        <button class="analysis-btn" onclick="showAnalysis()">
+            🔍 Перейти к разбору
+        </button>
+    </div>
+    
+    <div class="lyrics-container" id="lyricsContainer">
+        <div class="lyrics-header">
+            <div class="lyrics-title" id="lyricsTitle">Разбор</div>
+            <div class="difficulty-badge" id="difficultyBadge">Medium</div>
+        </div>
+        <div id="lyricsContent"></div>
+        
+        <button class="analysis-btn" onclick="backToPlayer()" style="margin-top: 20px; width: 100%;">
+            🎵 Вернуться к треку
+        </button>
+    </div>
+</div>
+
         <div class="result-screen" id="resultScreen">
             <div class="result-emoji">🎉</div>
             <div class="result-title">Уровень пройден!</div>
@@ -501,379 +686,966 @@
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
-        
-        const levels = [
-            {
-                id: 1,
-                name: 'Новичок',
-                description: 'Базовые слова',
-                words: [
-                    { word: 'Serendipity', trans: '/ˌser.ənˈdɪp.ə.ti/', rus: '[сэ-рэн-ди-пи-ти]', meaning: 'Счастливая случайность', example: '"Meeting her was pure serendipity."', exampleRu: '"Встреча с ней была чистой случайностью"' },
-                    { word: 'Ephemeral', trans: '/ɪˈfem.ər.əl/', rus: '[и-фэ-мэ-рл]', meaning: 'Мимолётный', example: '"Fame in the internet age is ephemeral."', exampleRu: '"Слава в эпоху интернета мимолётна."' },
-                    { word: 'Resilience', trans: '/rɪˈzɪl.jəns/', rus: '[ри-зи-лйэнс]', meaning: 'Устойчивость', example: '"Her resilience helped her overcome all difficulties."', exampleRu: '"Её жизнестойкость помогла преодолеть трудности."' },
-                    { word: 'Eloquent', trans: '/ˈel.ə.kwənt/', rus: '[э-лэ-квэнт]', meaning: 'Красноречивый', example: '"He gave an eloquent speech about freedom."', exampleRu: '"Он произнёс красноречивую речь о свободе."' },
-                    { word: 'Mellifluous', trans: '/meˈlɪf.lu.əs/', rus: '[мэ-ли-флу-эс]', meaning: 'Медовый, плавный', example: '"She had a rich, mellifluous voice."', exampleRu: '"У неё был богатый, плавный голос."' },
-                    { word: 'Luminous', trans: '/ˈluː.mə.nəs/', rus: '[лу-мэ-нэс]', meaning: 'Светящийся', example: '"The luminous moon lit up the night sky."', exampleRu: '"Светящаяся луна осветила ночное небо."' },
-                    { word: 'Ethereal', trans: '/ɪˈθɪə.ri.əl/', rus: '[и-фиэ-ри-эл]', meaning: 'Небесный, воздушный', example: '"The ballet dancer moved with ethereal grace."', exampleRu: '"Балерина двигалась с небесной грацией."' },
-                    { word: 'Sonorous', trans: '/ˈsɒn.ər.əs/', rus: '[со-нэ-рэс]', meaning: 'Звучный', example: '"His sonorous voice filled the concert hall."', exampleRu: '"Его звучный голос наполнил концертный зал."' },
-                    { word: 'Effervescent', trans: '/ˌef.əˈves.ənt/', rus: '[э-фэ-вэ-сэнт]', meaning: 'Игристый, пузырящийся', example: '"Her effervescent personality lit up the room."', exampleRu: '"Её игривая личность осветила комнату."' },
-                    { word: 'Serene', trans: '/səˈriːn/', rus: '[сэ-рин]', meaning: 'Безмятежный', example: '"The lake was serene in the morning light."', exampleRu: '"Озеро было безмятежным в утреннем свете."' }
-                ]
-            },
-            {
-                id: 2,
-                name: 'Элементарный',
-                description: 'Простые слова',
-                words: [
-                    { word: 'Ineffable', trans: '/ɪnˈef.ə.bəl/', rus: '[ин-э-фэ-бл]', meaning: 'Невыразимый', example: '"The beauty of the sunset was ineffable."', exampleRu: '"Красота заката была невыразимой."' },
-                    { word: 'Hiraeth', trans: '/ˈhɪraɪθ/', rus: '[хи-райс]', meaning: 'Тоска по дому', example: '"She felt hiraeth for her childhood home."', exampleRu: '"Она чувствовала тоску по дому детства."' },
-                    { word: 'Petrichor', trans: '/ˈpet.rɪ.kɔːr/', rus: '[пе-три-кор]', meaning: 'Запах дождя', example: '"I love the smell of petrichor after summer rain."', exampleRu: '"Я люблю запах дождя после летнего дождя."' },
-                    { word: 'Limerence', trans: '/ˈlɪm.ər.əns/', rus: '[ли-мэ-ранс]', meaning: 'Влюблённость', example: '"His limerence for her was obvious to everyone."', exampleRu: '"Его влюблённость в неё была очевидна всем."' },
-                    { word: 'Sonder', trans: '/ˈsɒn.dər/', rus: '[сон-дэ]', meaning: 'Осознание чужих жизней', example: '"Sonder hit me as I watched the busy street."', exampleRu: '"Осознание чужих жизней поразило меня, когда я смотрел на оживлённую улицу."' },
-                    { word: 'Vellichor', trans: '/ˈvel.ɪ.kɔːr/', rus: '[ве-ли-кор]', meaning: 'Тоска по книжным магазинам', example: '"The vellichor of the old bookstore was comforting."', exampleRu: '"Тоска по старому книжному магазину была утешительной."' },
-                    { word: 'Aquiver', trans: '/əˈkwɪv.ər/', rus: '[э-кви-вэ]', meaning: 'Дрожащий', example: '"Her voice was aquiver with emotion."', exampleRu: '"Её голос дрожал от эмоций."' },
-                    { word: 'Nefarious', trans: '/nəˈfeə.ri.əs/', rus: '[ни-фэ-ри-эс]', meaning: 'Злодейский', example: '"The villain had a nefarious plan."', exampleRu: '"У злодея был злодейский план."' },
-                    { word: 'Somnambulist', trans: '/sɒmˈnæm.bjə.lɪst/', rus: '[сом-нэм-бью-лист]', meaning: 'Лунатик', example: '"The somnambulist walked in his sleep."', exampleRu: '"Лунатик ходил во сне."' },
-                    { word: 'Epoch', trans: '/ˈiː.pɒk/', rus: '[и-пок]', meaning: 'Эпоха', example: '"The invention marked a new epoch in history."', exampleRu: '"Изобретение ознаменовало новую эпоху в истории."' }
-                ]
-            },
-            {
-                id: 3,
-                name: 'Средний',
-                description: 'Слова средней сложности',
-                words: [
-                    { word: 'Komorebi', trans: '/ˌkəʊ.məˈreɪ.bi/', rus: '[ко-мо-рэй-би]', meaning: 'Свет сквозь листву', example: '"We sat in the komorebi of the forest."', exampleRu: '"Мы сидели в свете сквозь листву леса."' },
-                    { word: 'Defenestration', trans: '/diːˌfen.ɪˈstreɪ.ʃən/', rus: '[ди-фе-ни-стрэй-шн]', meaning: 'Выбрасывание из окна', example: '"The defenestration of Prague was a historical event."', exampleRu: '"Пражская дефенестрация была историческим событием."' },
-                    { word: 'Gossamer', trans: '/ˈɡɒs.ə.mər/', rus: '[го-сэ-мэ]', meaning: 'Паутинка', example: '"Gossamer threads sparkled in the morning dew."', exampleRu: '"Паутинка сверкала в утренней росе."' },
-                    { word: 'Halcyon', trans: '/ˈhæl.si.ən/', rus: '[хэл-си-эн]', meaning: 'Спокойный, безмятежный', example: '"Those were the halcyon days of youth."', exampleRu: '"То были безмятежные дни молодости."' },
-                    { word: 'Labyrinthine', trans: '/ˌlæb.əˈrɪn.θaɪn/', rus: '[лэ-бэ-рин-файн]', meaning: 'Запутанный', example: '"The old city had labyrinthine streets."', exampleRu: '"У старого города были запутанные улицы."' },
-                    { word: 'Susurrus', trans: '/ˈsuːs.ər.əs/', rus: '[су-сэ-рэс]', meaning: 'Шёпот', example: '"The susurrus of leaves calmed her."', exampleRu: '"Шёпот листьев успокоил её."' },
-                    { word: 'Phantasmagoria', trans: '/fænˌtæz.məˈɡɔː.ri.ə/', rus: '[фэн-тэз-мэ-го-ри-э]', meaning: 'Призрачные видения', example: '"The dream was a phantasmagoria of images."', exampleRu: '"Сон был призрачными видениями образов."' },
-                    { word: 'Incandescent', trans: '/ˌɪn.kænˈdes.ənt/', rus: '[ин-кэн-дэ-сэнт]', meaning: 'Раскалённый', example: '"Her incandescent smile lit up the room."', exampleRu: '"Её раскалённая улыбка осветила комнату."' },
-                    { word: 'Palimpsest', trans: '/ˈpæl.ɪm.psest/', rus: '[па-лим-псест]', meaning: 'Палимпсест, многослойность', example: '"The city is a palimpsest of different eras."', exampleRu: '"Город — это палимпсест разных эпох."' },
-                    { word: 'Syzygy', trans: '/ˈsɪz.ə.dʒi/', rus: '[си-зи-джи]', meaning: 'Соединение противоположностей', example: '"The syzygy of sun, earth and moon caused the eclipse."', exampleRu: '"Соединение солнца, земли и луны вызвало затмение."' }
-                ]
-            },
-            {
-                id: 4,
-                name: 'Продвинутый',
-                description: 'Сложные слова',
-                words: [
-                    { word: 'Sempiternal', trans: '/ˌsem.pɪˈtɜː.nəl/', rus: '[сэм-пи-тэ-нл]', meaning: 'Вечный', example: '"The sempiternal mountains stood unchanged."', exampleRu: '"Вечные горы стояли неизменными."' },
-                    { word: 'Efflorescence', trans: '/ˌef.ləˈres.əns/', rus: '[э-фло-рэ-сэнс]', meaning: 'Цветение', example: '"The efflorescence of the garden was beautiful."', exampleRu: '"Цветение сада было прекрасным."' },
-                    { word: 'Lugubrious', trans: '/luːˈɡuː.bri.əs/', rus: '[лу-гу-бри-эс]', meaning: 'Мрачный', example: '"His lugubrious expression worried everyone."', exampleRu: '"Его мрачное выражение тревожило всех."' },
-                    { word: 'Pulchritude', trans: '/ˈpʌl.krɪ.tjuːd/', rus: '[пал-кри-тюд]', meaning: 'Красота', example: '"The pulchritude of the landscape was breathtaking."', exampleRu: '"Красота пейзажа захватывала дух."' },
-                    { word: 'Sesquipedalian', trans: '/ˌses.kwɪ.pɪˈdeɪ.li.ən/', rus: '[сэс-кви-пи-дэй-ли-эн]', meaning: 'Многословный', example: '"His sesquipedalian speeches bored the audience."', exampleRu: '"Его многословные речи утомляли аудиторию."' },
-                    { word: 'Saudade', trans: '/saʊˈdɑː.deɪ/', rus: '[сау-да-дэй]', meaning: 'Ностальгия', example: '"Saudade for her childhood never left her."', exampleRu: '"Ностальгия по детству никогда не покидала её."' },
-                    { word: 'Trouvaille', trans: '/truːˈvaɪ/', rus: '[тру-вай]', meaning: 'Счастливая находка', example: '"The antique shop was full of trouvailles."', exampleRu: '"Антикварный магазин был полон счастливых находок."' },
-                    { word: 'Numinous', trans: '/ˈnjuː.mɪ.nəs/', rus: '[нью-мэ-нэс]', meaning: 'Божественный, священный', example: '"The numinous atmosphere of the cathedral impressed him."', exampleRu: '"Божественная атмосфера собора впечатлила его."' },
-                    { word: 'Meraki', trans: '/meˈræ.ki/', rus: '[ми-рэ-ки]', meaning: 'Делать что-то с душой', example: '"She cooked with meraki, putting her heart into every dish."', exampleRu: '"Она готовила с душой, вкладывая сердце в каждое блюдо."' },
-                    { word: 'Drapetomania', trans: '/ˌdræp.ɪ.təˈmeɪ.ni.ə/', rus: '[дрэ-пи-тэ-мэй-ни-э]', meaning: 'Стремление к свободе', example: '"His drapetomania led him to travel the world."', exampleRu: '"Его стремление к свободе привело его в путешествие по миру."' }
-                ]
-            },
-            {
-                id: 5,
-                name: 'Эксперт',
-                description: 'Самые сложные слова',
-                words: [
-                    { word: 'Quiddity', trans: '/ˈkwɪd.ɪ.ti/', rus: '[кви-ди-ти]', meaning: 'Суть, сущность', example: '"He grasped the quiddity of the problem instantly."', exampleRu: '"Он сразу ухватил суть проблемы."' },
-                    { word: 'Apricity', trans: '/ˈeɪ.prɪs.ɪ.ti/', rus: '[эй-при-си-ти]', meaning: 'Тепло зимнего солнца', example: '"She basked in the apricity of January."', exampleRu: '"Она грелась в тепле январского солнца."' },
-                    { word: 'Monachopsis', trans: '/ˌmɒn.əˈkɒp.sɪs/', rus: '[мо-на-коп-сис]', meaning: 'Тоска по незнакомому месту', example: '"Monachopsis overwhelmed him in the new city."', exampleRu: '"Тоска по незнакомому месту переполняла его в новом городе."' },
-                    { word: 'Lethologica', trans: '/ˌleθ.əˈlɒdʒ.ɪ.kə/', rus: '[ле-фо-ло-джи-ка]', meaning: 'Забывчивость', example: '"Lethologica struck when he needed the word most."', exampleRu: '"Забывчивость настигла его, когда он больше всего нуждался в слове."' },
-                    { word: 'Jouska', trans: '/ˈdʒuː.skə/', rus: '[джу-ска]', meaning: 'Воображаемый разговор', example: '"He often engaged in jouska while showering."', exampleRu: '"Он часто вёл воображаемые разговоры под душем."' },
-                    { word: 'Kenopsia', trans: '/keˈnɒp.si.ə/', rus: '[ки-ноп-си-э]', meaning: 'Тревога от пустых мест', example: '"The kenopsia of the abandoned mall disturbed him."', exampleRu: '"Тревога от пустого заброшенного мола тревожила его."' },
-                    { word: 'Chrysalism', trans: '/ˈkrɪs.ə.lɪz.əm/', rus: '[кри-са-ли-зэм]', meaning: 'Уют во время дождя', example: '"She enjoyed the chrysalism of her room."', exampleRu: '"Она наслаждалась уютом своей комнаты во время дождя."' },
-                    { word: 'Anecdoche', trans: '/əˈnek.də.keɪ/', rus: '[э-нэк-дэ-кэй]', meaning: 'Разговор, где никто не слушает', example: '"The meeting was just anecdoche."', exampleRu: '"Встреча была просто разговором, где никто не слушал."' },
-                    { word: 'Ellipsism', trans: '/ɪˈlɪp.sɪz.əm/', rus: '[и-лип-си-зэм]', meaning: 'Тоска по непрожитым моментам', example: '"Ellipsism haunted him in his old age."', exampleRu: '"Тоска по непрожитым моментам преследовала его в старости."' },
-                    { word: 'Mauerbauertraurigkeit', trans: '/ˈmaʊ.ər.baʊ.ərˈtraʊ.ər.ɪk.aɪt/', rus: '[мау-эр-бау-эр-трау-эр-икайт]', meaning: 'Желание построить стены', example: '"His mauerbauertraurigkeit kept everyone away."', exampleRu: '"Его желание построить стены отталкивало всех."' }
-                ]
-            }
-        ];
-        
-        let currentLevel = 0;
-        let currentCard = 0;
-        let showRusTrans = false;
-        let lessonStartTime = null;
-        let isFlipped = false;
-        
-        const STORAGE_KEY = 'linguaparrot_progress_v2';
-        
-        function haptic() {
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred('light');
-            }
-        }
-        
-        function getDefaultProgress() {
-            return {
-                dailyMinutes: 0,
-                wordsLearned: 0,
-                streak: 0,
-                lastVisit: new Date().toISOString(),
-                levels: levels.map(l => ({ id: l.id, completed: false, wordsLearned: 0 })),
-                currentLesson: null
-            };
-        }
-        
-        function saveProgress() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            const progress = saved ? JSON.parse(saved) : getDefaultProgress();
-            
-            progress.dailyMinutes = parseInt(document.getElementById('dailyProgress').textContent);
-            progress.wordsLearned = parseInt(document.getElementById('wordsCount').textContent);
-            progress.streak = parseInt(document.getElementById('streakCount').textContent);
-            progress.lastVisit = new Date().toISOString();
-            
-            if (progress.levels[currentLevel]) {
-                progress.levels[currentLevel].wordsLearned = currentCard;
-            }
-            
-            if (document.getElementById('lessonScreen').classList.contains('active')) {
-                progress.currentLesson = {
-                    levelIndex: currentLevel,
-                    cardIndex: currentCard,
-                    startTime: lessonStartTime
-                };
-            } else {
-                progress.currentLesson = null;
-            }
-            
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-            
-            tg.sendData(JSON.stringify({
-                action: 'save_progress',
-                data: progress
-            }));
-        }
-        
-        function loadProgress() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            const progress = saved ? JSON.parse(saved) : getDefaultProgress();
-            
-            document.getElementById('dailyProgress').textContent = progress.dailyMinutes || 0;
-            document.getElementById('wordsCount').textContent = progress.wordsLearned || 0;
-            document.getElementById('streakCount').textContent = progress.streak || 0;
-            document.getElementById('progressBar').style.width = Math.min(((progress.dailyMinutes || 0) / 15 * 100), 100) + '%';
-            
-            renderLevels(progress);
-            
-            if (progress.currentLesson && progress.currentLesson.levelIndex !== undefined) {
-                setTimeout(() => {
-                    if (confirm(`У вас есть незавершённый урок (Уровень ${progress.currentLesson.levelIndex + 1}, слово ${progress.currentLesson.cardIndex + 1}/${levels[progress.currentLesson.levelIndex].words.length}). Продолжить?`)) {
-                        resumeLesson(progress.currentLesson);
-                    }
-                }, 500);
-            }
-            
-            return progress;
-        }
-        
-        function renderLevels(progress) {
-            const grid = document.getElementById('levelGrid');
-            grid.innerHTML = '';
-            
-            levels.forEach((level, index) => {
-                const levelProgress = progress.levels[index] || { completed: false, wordsLearned: 0 };
-                const prevCompleted = index === 0 || (progress.levels[index - 1] && progress.levels[index - 1].completed);
-                const isLocked = !prevCompleted && !levelProgress.completed;
-                
-                const card = document.createElement('div');
-                card.className = `level-card ${levelProgress.completed ? 'active' : ''} ${isLocked ? 'locked' : ''}`;
-                card.onclick = () => !isLocked && selectLevel(index);
-                
-                card.innerHTML = `
-                    <div class="level-status">${levelProgress.completed ? '✅' : (isLocked ? '🔒' : '')}</div>
-                    <div class="level-number">${level.id}</div>
-                    <div class="level-name">${level.name}</div>
-                    <div class="level-progress">${levelProgress.wordsLearned}/${level.words.length} слов</div>
-                `;
-                
-                grid.appendChild(card);
-            });
-        }
-        
-        function selectLevel(index) {
-            haptic();
-            currentLevel = index;
-            currentCard = 0;
-            isFlipped = false;
-            lessonStartTime = Date.now();
-            updateCard();
-            generateDots();
-            document.getElementById('mainScreen').classList.remove('active');
-            document.getElementById('lessonScreen').classList.add('active');
-            tg.MainButton.setText('Проверить ✅');
-            tg.MainButton.hide();
-        }
-        
-        function resumeLesson(lessonData) {
-            currentLevel = lessonData.levelIndex;
-            currentCard = lessonData.cardIndex;
-            lessonStartTime = Date.now();
-            updateCard();
-            generateDots();
-            document.getElementById('mainScreen').classList.remove('active');
-            document.getElementById('lessonScreen').classList.add('active');
-            tg.MainButton.setText('Проверить ✅');
-            if (currentCard > 0) tg.MainButton.show();
-        }
-        
-        function generateDots() {
-            const container = document.getElementById('progressDots');
-            container.innerHTML = '';
-            const wordCount = levels[currentLevel].words.length;
-            
-            for (let i = 0; i < wordCount; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'dot';
-                container.appendChild(dot);
-            }
-        }
-        
-        function setMode(btn, mode) {
-            haptic();
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
-        
-        function openChat() {
-            haptic();
-            tg.sendData(JSON.stringify({ action: 'open_chat' }));
-            tg.showAlert('AI-репетитор скоро будет доступен! 🦜');
-        }
-        
-        function updateCard() {
-            const w = levels[currentLevel].words[currentCard];
-            document.getElementById('cardWord').textContent = w.word;
-            document.getElementById('cardTrans').textContent = w.trans;
-            document.getElementById('cardRusTrans').textContent = w.rus;
-            document.getElementById('cardMeaning').textContent = w.meaning;
-            document.getElementById('detailExample').textContent = w.example;
-            document.getElementById('detailTranslation').textContent = w.exampleRu;
-            
-            document.getElementById('flashcard').classList.remove('flipped');
-            document.getElementById('detailCard').classList.remove('show');
-            
-            const dots = document.querySelectorAll('.dot');
-            dots.forEach((d, i) => {
-                d.classList.remove('active', 'completed');
-                if (i < currentCard) d.classList.add('completed');
-                if (i === currentCard) d.classList.add('active');
-            });
-            
-            const isLast = currentCard >= levels[currentLevel].words.length - 1;
-            tg.MainButton.setText(isLast ? 'Завершить урок 🎉' : 'Следующее слово →');
-        }
-        
-        function flipCard() {
-            if (isFlipped) return;
-            haptic();
-            isFlipped = true;
-            document.getElementById('flashcard').classList.add('flipped');
-            saveProgress();
-            
-            setTimeout(() => {
-                document.getElementById('detailCard').classList.add('show');
-                tg.MainButton.show();
-            }, 300);
-        }
-        
-        function toggleTrans() {
-            haptic();
-            showRusTrans = !showRusTrans;
-            document.getElementById('transToggle').classList.toggle('active');
-            document.getElementById('cardRusTrans').style.display = showRusTrans ? 'block' : 'none';
-        }
-        
-        function closeLesson() {
-            haptic();
-            if (confirm('Прервать урок? Прогресс будет сохранён.')) {
-                saveProgress();
-                document.getElementById('lessonScreen').classList.remove('active');
-                document.getElementById('mainScreen').classList.add('active');
-                tg.MainButton.hide();
-                const progress = JSON.parse(localStorage.getItem(STORAGE_KEY));
-                renderLevels(progress);
-            }
-        }
-        
-        function finishLesson() {
-            haptic();
-            
-            // Обновляем общую статистику
-            const currentDaily = parseInt(document.getElementById('dailyProgress').textContent);
-            const newDaily = currentDaily + 5;
-            document.getElementById('dailyProgress').textContent = newDaily;
-            document.getElementById('progressBar').style.width = Math.min((newDaily / 15 * 100), 100) + '%';
-            
-            const currentWords = parseInt(document.getElementById('wordsCount').textContent);
-            const newWords = currentWords + levels[currentLevel].words.length;
-            document.getElementById('wordsCount').textContent = newWords;
-            
-            // Отмечаем уровень как пройденный
-            const saved = localStorage.getItem(STORAGE_KEY);
-            const progress = saved ? JSON.parse(saved) : getDefaultProgress();
-            progress.levels[currentLevel].completed = true;
-            progress.levels[currentLevel].wordsLearned = levels[currentLevel].words.length;
-            progress.dailyMinutes = newDaily;
-            progress.wordsLearned = newWords;
-            progress.currentLesson = null;
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-            
-            tg.sendData(JSON.stringify({
-                action: 'level_complete',
-                level: currentLevel + 1,
-                words: levels[currentLevel].words.length,
-                xp: 100 + (currentLevel * 20)
-            }));
-            
-            // Возвращаемся на главный экран
-            document.getElementById('resultScreen').classList.remove('active');
-            document.getElementById('mainScreen').classList.add('active');
-            tg.MainButton.hide();
-            renderLevels(progress);
-        }
-        
-        tg.MainButton.onClick(() => {
-            haptic();
-            if (!isFlipped) {
-                flipCard();
-                return;
-            }
-            
-            currentCard++;
-            saveProgress();
-            
-            if (currentCard >= levels[currentLevel].words.length) {
-                const timeSpent = Math.floor((Date.now() - lessonStartTime) / 1000);
-                const mins = Math.floor(timeSpent / 60);
-                const secs = timeSpent % 60;
-                document.getElementById('timeValue').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
-                document.getElementById('resultWords').textContent = levels[currentLevel].words.length;
-                document.getElementById('resultXP').textContent = `+${100 + (currentLevel * 20)} XP`;
-                document.getElementById('resultSubtitle').textContent = `Уровень "${levels[currentLevel].name}" пройден!`;
-                
-                document.getElementById('lessonScreen').classList.remove('active');
-                document.getElementById('resultScreen').classList.add('active');
-                tg.MainButton.hide();
-            } else {
-                isFlipped = false;
-                updateCard();
-                tg.MainButton.hide();
-            }
-        });
-        
-        window.addEventListener('beforeunload', () => {
-            if (document.getElementById('lessonScreen').classList.contains('active')) {
-                saveProgress();
-            }
-        });
+tg.ready();
+tg.expand();
 
-        document.addEventListener('DOMContentLoaded', () => {
-            loadProgress();
+// Data: Standard Levels (твои существующие уровни)
+const levels = [
+    // ... вставь сюда твои существующие 5 уровней ...
+    {
+        id: 1,
+        name: 'Новичок',
+        description: 'Базовые слова',
+        words: [
+            { word: 'Serendipity', trans: '/ˌser.ənˈdɪp.ə.ti/', rus: '[сэ-рэн-ди-пи-ти]', meaning: 'Счастливая случайность', example: '"Meeting her was pure serendipity."', exampleRu: '"Встреча с ней была чистой случайностью"' },
+            { word: 'Ephemeral', trans: '/ɪˈfem.ər.əl/', rus: '[и-фэ-мэ-рл]', meaning: 'Мимолётный', example: '"Fame in the internet age is ephemeral."', exampleRu: '"Слава в эпоху интернета мимолётна."' },
+            { word: 'Resilience', trans: '/rɪˈzɪl.jəns/', rus: '[ри-зи-лйэнс]', meaning: 'Устойчивость', example: '"Her resilience helped her overcome all difficulties."', exampleRu: '"Её жизнестойкость помогла преодолеть трудности."' },
+            { word: 'Eloquent', trans: '/ˈel.ə.kwənt/', rus: '[э-лэ-квэнт]', meaning: 'Красноречивый', example: '"He gave an eloquent speech about freedom."', exampleRu: '"Он произнёс красноречивую речь о свободе."' },
+            { word: 'Mellifluous', trans: '/meˈlɪf.lu.əs/', rus: '[мэ-ли-флу-эс]', meaning: 'Медовый, плавный', example: '"She had a rich, mellifluous voice."', exampleRu: '"У неё был богатый, плавный голос."' }
+        ]
+    }
+];
+
+// Data: Slang with Russian Transcription
+const slangData = {
+    oldschool: [
+        {
+            id: 'oldschool-1',
+            name: 'Old School Basics',
+            description: 'Классика 90-х',
+            words: [
+                { word: 'Dope', trans: '/dəʊp/', rus: '[дoup]', meaning: 'Крутой, классный', example: '"That beat is dope!"', exampleRu: '"Этот бит крутой!"', context: 'Одно из самых узнаваемых слов 90-х', origin: 'Изначально "наркотик", перешло в значение "круто"' },
+                { word: 'Fresh', trans: '/freʃ/', rus: '[фрэш]', meaning: 'Свежий, стильный', example: '"His style is so fresh."', exampleRu: '"Его стиль такой свежий."' },
+                { word: 'Word is bond', trans: '/wɜːd ɪz bɒnd/', rus: '[ворд из бонд]', meaning: 'Честное слово', example: '"Word is bond, I\'ll be there."', exampleRu: '"Честное слово, я буду там."' },
+                { word: 'Props', trans: '/prɒps/', rus: '[пропс]', meaning: 'Уважение, респект', example: '"Mad props to the DJ."', exampleRu: '"Огромный респект диджею."' },
+                { word: 'Def', trans: '/def/', rus: '[деф]', meaning: 'Отличный', example: '"That\'s def, man!"', exampleRu: '"Это круто, чувак!"' }
+            ]
+        },
+        {
+            id: 'oldschool-2',
+            name: 'Hip-Hop Culture',
+            description: 'Термины культуры',
+            words: [
+                { word: 'Cypher', trans: '/ˈsaɪ.fər/', rus: '[сай-фэ]', meaning: 'Круг рэперов, фристайл', example: '"They\'re having a cypher in the park."', exampleRu: '"Они устраивают фристайл-круг в парке."' },
+                { word: 'Flow', trans: '/fləʊ/', rus: '[флоу]', meaning: 'Подача, ритм речи', example: '"His flow is incredible."', exampleRu: '"Его подача невероятная."' },
+                { word: 'Diss', trans: '/dɪs/', rus: '[дис]', meaning: 'Оскорбление, задисить', example: '"He dissed his rival in the track."', exampleRu: '"Он задиссил своего соперника в треке."' },
+                { word: 'Beef', trans: '/biːf/', rus: '[биф]', meaning: 'Вражда, конфликт', example: '"There\'s beef between those rappers."', exampleRu: '"Между этими рэперами вражда."' },
+                { word: 'Mic', trans: '/maɪk/', rus: '[майк]', meaning: 'Микрофон', example: '"Pass the mic!"', exampleRu: '"Передай микрофон!"' }
+            ]
+        }
+    ],
+    modern: [
+        {
+            id: 'modern-1',
+            name: 'Modern Classics',
+            description: 'Сленг 2010-х',
+            words: [
+                { word: 'Lit', trans: '/lɪt/', rus: '[лит]', meaning: 'Зажигательно, весело', example: '"The party was lit!"', exampleRu: '"Вечеринка была огонь!"' },
+                { word: 'Savage', trans: '/ˈsæv.ɪdʒ/', rus: '[сэ-видж]', meaning: 'Жестокий, беспощадный', example: '"That comeback was savage."', exampleRu: '"Эта отповедь была беспощадной."' },
+                { word: 'Slay', trans: '/sleɪ/', rus: '[слэй]', meaning: 'Убить (в хорошем смысле)', example: '"You slay in that outfit!"', exampleRu: '"Ты убиваешь в этом наряде!"' },
+                { word: 'Goals', trans: '/ɡəʊlz/', rus: '[голз]', meaning: 'Цель, идеал', example: '"Their relationship is goals."', exampleRu: '"Их отношения — это цель."' },
+                { word: 'Tea', trans: '/tiː/', rus: '[ти]', meaning: 'Сплетни, новости', example: '"Spill the tea!"', exampleRu: '"Выдай сплетни!"' }
+            ]
+        },
+        {
+            id: 'modern-2',
+            name: 'Social Media',
+            description: 'Интернет-сленг',
+            words: [
+                { word: 'Flex', trans: '/fleks/', rus: '[флекс]', meaning: 'Хвастаться', example: '"He\'s always flexing on Instagram."', exampleRu: '"Он вечно хвастается в Инстаграме."' },
+                { word: 'Ghost', trans: '/ɡəʊst/', rus: '[гоуст]', meaning: 'Игнорить', example: '"She ghosted him after the date."', exampleRu: '"Она загоустила его после свидания."' },
+                { word: 'Clout', trans: '/klaʊt/', rus: '[клаут]', meaning: 'Влияние, хайп', example: '"He\'s chasing clout on TikTok."', exampleRu: '"Он гонится за хайпом в ТикТоке."' },
+                { word: 'Salty', trans: '/ˈsɔːl.ti/', rus: '[солти]', meaning: 'Злой, обиженный', example: '"Why are you so salty?"', exampleRu: '"Почему ты такой злой?"' },
+                { word: 'Thirsty', trans: '/ˈθɜːs.ti/', rus: '[фёрсти]', meaning: 'Отчаянно желающий', example: '"He\'s so thirsty for attention."', exampleRu: '"Он так отчаянно жаждет внимания."' }
+            ]
+        }
+    ],
+    trap: [
+        {
+            id: 'trap-1',
+            name: 'Trap Basics',
+            description: 'Основы трэпа',
+            words: [
+                { word: 'Drip', trans: '/drɪp/', rus: '[дрип]', meaning: 'Стиль, одежда', example: '"Check out my drip!"', exampleRu: '"Смотри на мой стиль!"' },
+                { word: 'Ice', trans: '/aɪs/', rus: '[айс]', meaning: 'Бриллианты, украшения', example: '"He\'s covered in ice."', exampleRu: '"Он весь в бриллиантах."' },
+                { word: 'No cap', trans: '/nəʊ kæp/', rus: '[но кэп]', meaning: 'Без шуток, честно', example: '"No cap, that was the best concert."', exampleRu: '"Без кэпа, это был лучший концерт."' },
+                { word: 'Bussin', trans: '/ˈbʌs.ɪn/', rus: '[бассин]', meaning: 'Очень вкусный', example: '"This food is bussin!"', exampleRu: '"Эта еда бомба!"' },
+                { word: 'Bet', trans: '/bet/', rus: '[бэт]', meaning: 'Договорились, окей', example: '"You coming tonight?" "Bet!"', exampleRu: '"Ты придёшь сегодня?" "Бет!"' }
+            ]
+        },
+        {
+            id: 'trap-2',
+            name: 'Trap Life',
+            description: 'Уличная жизнь',
+            words: [
+                { word: 'Opp', trans: '/ɒp/', rus: '[оп]', meaning: 'Враг, противник', example: '"Watch out for the opps."', exampleRu: '"Берегись врагов."' },
+                { word: 'Shorty', trans: '/ˈʃɔː.ti/', rus: '[шорти]', meaning: 'Девушка, подруга', example: '"That\'s my shorty right there."', exampleRu: '"Вот моя девушка."' },
+                { word: 'Whip', trans: '/wɪp/', rus: '[уип]', meaning: 'Машина', example: '"Look at that new whip!"', exampleRu: '"Смотри на эту новую тачку!"' },
+                { word: 'Bands', trans: '/bændz/', rus: '[бэндз]', meaning: 'Пачки денег', example: '"He\'s making bands."', exampleRu: '"Он зарабатывает кучу денег."' },
+                { word: 'Plug', trans: '/plʌɡ/', rus: '[плаг]', meaning: 'Поставщик, связь', example: '"I know a plug for tickets."', exampleRu: '"Я знаю человека для билетов."' }
+            ]
+        }
+    ]
+};
+
+// Data: Tracks with Russian Transcription
+const defaultTracks = [
+    {
+        id: 'track-1',
+        artist: 'Travis Scott',
+        title: 'Sicko Mode',
+        emoji: '🌵',
+        difficulty: 'medium',
+        preview: 'https://example.com/sicko-mode-preview.mp3',
+        lyrics: [
+            {
+                original: "Made this here with all the ice on in the booth",
+                rusTrans: "[Мэйд зис хиа уиз ол зи айс он ин зи буф]",
+                clean: "Made this here with all the diamonds/jewelry on in the recording studio",
+                russian: "Сделал это здесь, весь в бриллиантах, в студии",
+                slang: [
+                    { word: "ice", rusTrans: "[айс]", meaning: "бриллианты, украшения", explanation: "В хип-хопе 'ice' означает дорогие украшения с бриллиантами. Это часть культуры 'flex' — демонстрации богатства." }
+                ]
+            },
+            {
+                original: "At the gate outside, when they pull up, they get me loose",
+                rusTrans: "[Эт зи гейт аутсайд, уэн зей пул ап, зей гет ми лус]",
+                clean: "At the entrance outside, when they arrive in their cars, they get me excited/hyped",
+                russian: "У входа снаружи, когда они подъезжают, они взбадривают меня",
+                slang: [
+                    { word: "pull up", rusTrans: "[пул ап]", meaning: "подъехать, прибыть", explanation: "Разговорное выражение о прибытии на машине, часто внезапно или эффектно." },
+                    { word: "get me loose", rusTrans: "[гет ми лус]", meaning: "раскрепостить, взбодрить", explanation: "В контексте трека — когда музыка или атмосфера настолько крутые, что ты расслабляешься и кайфуешь." }
+                ]
+            },
+            {
+                original: "Yeah, Jump Out boys, that's Nike boys, hoppin' out coupes",
+                rusTrans: "[Йеа, Джамп Аут бойз, зэтс Найки бойз, хопин аут купс]",
+                clean: "Yeah, guys who jump out of cars, wearing Nike, getting out of two-door cars",
+                russian: "Да, парни выпрыгивают, в Найке, выходят из купе",
+                slang: [
+                    { word: "Jump Out boys", rusTrans: "[джамп аут бойз]", meaning: "парни, которые выпрыгивают из машин", explanation: "Отсылка к культуре, где команда приезжает на тачках и эффектно выходит." },
+                    { word: "coupes", rusTrans: "[купс]", meaning: "двухдверные машины, купе", explanation: "Спортивные двухдверные автомобили, часто дорогие и стильные." }
+                ]
+            }
+        ]
+    },
+    {
+        id: 'track-2',
+        artist: 'Drake',
+        title: 'God\'s Plan',
+        emoji: '🦉',
+        difficulty: 'easy',
+        preview: 'https://example.com/gods-plan-preview.mp3',
+        lyrics: [
+            {
+                original: "She say, 'Do you love me?' I tell her, 'Only partly'",
+                rusTrans: "[Ши сей, 'Ду ю лав ми?' Ай тел хэ, 'Оунли партли']",
+                clean: "She asks if I love her, I tell her only partially",
+                russian: "Она спрашивает 'Ты меня любишь?' Я говорю ей 'Только отчасти'",
+                slang: [],
+                explanation: "Игра слов и честность о невозможности полной отдачи в отношениях из-за образа жизни."
+            },
+            {
+                original: "I only love my bed and my momma, I'm sorry",
+                rusTrans: "[Ай оунли лав май бэд энд май мама, айм сори]",
+                clean: "I only love my bed and my mother, I'm sorry",
+                russian: "Я люблю только свою кровать и свою маму, извини",
+                slang: [],
+                explanation: "Знаковая строка о приоритетах: комфорт (кровать) и семья (мама) важнее романтики."
+            }
+        ]
+    },
+    {
+        id: 'track-3',
+        artist: 'Kendrick Lamar',
+        title: 'HUMBLE.',
+        emoji: '🦋',
+        difficulty: 'hard',
+        preview: 'https://example.com/humble-preview.mp3',
+        lyrics: [
+            {
+                original: "Sit down, be humble",
+                rusTrans: "[Сит даун, би хамбл]",
+                clean: "Be modest and respectful",
+                russian: "Сядь, будь скромным",
+                slang: [],
+                explanation: "Главный посыл трека — напоминание о важности скромности даже при успехе."
+            },
+            {
+                original: "Bitch, sit down, be humble",
+                rusTrans: "[Бич, сит даун, би хамбл]",
+                clean: "(aggressive) Be modest and respectful",
+                russian: "Сядь, будь скромным",
+                slang: [
+                    { word: "bitch", rusTrans: "[бич]", meaning: "пренебрежительное обращение", explanation: "В контексте трека используется как усилитель эмоции, не обязательно буквально." }
+                ]
+            },
+            {
+                original: "My left stroke just went viral",
+                rusTrans: "[Май лефт строук джаст уэнт вайрал]",
+                clean: "My left-sided approach/song became extremely popular",
+                russian: "Мой левый ход стал вирусным",
+                slang: [
+                    { word: "stroke", rusTrans: "[строук]", meaning: "удар, ход", explanation: "Двусмысленность: 'удар' как в спорте/боксе и 'ход' как стратегия." },
+                    { word: "viral", rusTrans: "[вайрал]", meaning: "вирусный, популярный", explanation: "Из интернет-сленга — когда контент быстро распространяется." }
+                ]
+            }
+        ]
+    }
+];
+
+// State
+let currentMode = 'calm';
+let currentCategory = 'oldschool';
+let currentTrack = null;
+let isPlaying = false;
+let playInterval = null;
+let currentPlayTime = 0;
+let streetCred = 0;
+let isStreetLesson = false;
+let currentTrackSection = 'all';
+let currentDifficultyFilter = 'all';
+let favorites = [];
+let customTracks = [];
+let searchQuery = '';
+
+const STORAGE_KEY = 'linguaparrot_progress_v3';
+
+// Init
+function init() {
+    loadData();
+    renderLevels();
+    updateStreetStats();
+}
+
+function loadData() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+        const data = JSON.parse(saved);
+        streetCred = data.streetCred || 0;
+        favorites = data.favorites || [];
+        customTracks = data.customTracks || [];
+    }
+}
+
+function saveData() {
+    const data = {
+        streetCred: streetCred,
+        favorites: favorites,
+        customTracks: customTracks,
+        lastVisit: new Date().toISOString()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+// Haptic
+function haptic() {
+    if (tg.HapticFeedback) {
+        tg.HapticFeedback.impactOccurred('light');
+    }
+}
+
+// Mode Switching
+function setMode(btn, mode) {
+    haptic();
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentMode = mode;
+    
+    if (mode === 'street') {
+        document.body.classList.add('street-mode');
+        renderSlangGrid();
+        renderTrackList();
+        updateStreetStats();
+    } else {
+        document.body.classList.remove('street-mode');
+    }
+}
+
+// Tab Navigation
+function setTab(tab) {
+    haptic();
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    
+    event.target.classList.add('active');
+    document.getElementById(tab + 'Tab').classList.add('active');
+    
+    if (tab === 'tracks') {
+        renderTrackList();
+    }
+}
+
+// Track Sections
+function setTrackSection(section) {
+    haptic();
+    currentTrackSection = section;
+    
+    document.querySelectorAll('.section-tab').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    const filterSection = document.getElementById('tracksFilterSection');
+    const uploadSection = document.getElementById('uploadSection');
+    const customForm = document.getElementById('customTrackForm');
+    
+    if (section === 'custom') {
+        filterSection.style.display = 'none';
+        uploadSection.style.display = 'block';
+        customForm.style.display = 'none';
+        document.getElementById('tracksListTitle').textContent = 'Мои треки';
+    } else {
+        filterSection.style.display = 'block';
+        uploadSection.style.display = 'none';
+        customForm.style.display = 'none';
+        document.getElementById('tracksListTitle').textContent = section === 'favorites' ? 'Избранное' : 'Все треки';
+    }
+    
+    renderTrackList();
+}
+
+// Search and Filter
+function filterTracks() {
+    searchQuery = document.getElementById('trackSearch').value.toLowerCase();
+    renderTrackList();
+}
+
+function setDifficultyFilter(diff) {
+    haptic();
+    currentDifficultyFilter = diff;
+    
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    renderTrackList();
+}
+
+// Render Track List
+function renderTrackList() {
+    const list = document.getElementById('trackList');
+    list.innerHTML = '';
+    
+    let tracksToShow = [];
+    
+    if (currentTrackSection === 'all') {
+        tracksToShow = [...defaultTracks, ...customTracks];
+    } else if (currentTrackSection === 'favorites') {
+        tracksToShow = [...defaultTracks, ...customTracks].filter(t => favorites.includes(t.id));
+    } else {
+        tracksToShow = customTracks;
+    }
+    
+    // Apply difficulty filter
+    if (currentDifficultyFilter !== 'all') {
+        tracksToShow = tracksToShow.filter(t => t.difficulty === currentDifficultyFilter);
+    }
+    
+    // Apply search
+    if (searchQuery) {
+        tracksToShow = tracksToShow.filter(t => 
+            t.title.toLowerCase().includes(searchQuery) || 
+            t.artist.toLowerCase().includes(searchQuery)
+        );
+    }
+    
+    if (tracksToShow.length === 0) {
+        list.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">🎵</div>
+                <div>Треков не найдено</div>
+            </div>
+        `;
+        return;
+    }
+    
+    tracksToShow.forEach(track => {
+        const card = document.createElement('div');
+        card.className = 'track-card';
+        
+        const isFav = favorites.includes(track.id);
+        const diffClass = 'difficulty-' + track.difficulty;
+        
+        card.innerHTML = `
+            <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${track.id}')">
+                ${isFav ? '⭐' : '☆'}
+            </button>
+            <div class="track-art">${track.emoji}</div>
+            <div class="track-info">
+                <div class="track-title">${track.title}</div>
+                <div class="track-artist">${track.artist}</div>
+                <div class="track-tags">
+                    <span class="track-tag ${diffClass}">${track.difficulty}</span>
+                    ${track.isCustom ? '<span class="track-tag">📤 Мой</span>' : ''}
+                </div>
+            </div>
+            <button class="play-btn" onclick="event.stopPropagation(); quickPlay('${track.id}')">▶</button>
+        `;
+        
+        card.onclick = () => openTrackAnalysis(track);
+        list.appendChild(card);
+    });
+}
+
+// Favorites
+function toggleFavorite(trackId) {
+    haptic();
+    const index = favorites.indexOf(trackId);
+    if (index > -1) {
+        favorites.splice(index, 1);
+    } else {
+        favorites.push(trackId);
+    }
+    saveData();
+    renderTrackList();
+}
+
+// Custom Track Upload
+function showUploadForm() {
+    haptic();
+    document.getElementById('uploadSection').style.display = 'none';
+    document.getElementById('customTrackForm').classList.add('active');
+}
+
+function hideUploadForm() {
+    document.getElementById('uploadSection').style.display = 'block';
+    document.getElementById('customTrackForm').classList.remove('active');
+}
+
+function saveCustomTrack() {
+    haptic();
+    
+    const artist = document.getElementById('customArtist').value.trim();
+    const title = document.getElementById('customTitle').value.trim();
+    const difficulty = document.getElementById('customDifficulty').value;
+    const lyricsText = document.getElementById('customLyrics').value.trim();
+    
+    if (!artist || !title || !lyricsText) {
+        tg.showAlert('Заполни все поля!');
+        return;
+    }
+    
+    // Parse lyrics and auto-detect slang
+    const lines = lyricsText.split('\n').filter(l => l.trim());
+    const parsedLyrics = lines.map(line => {
+        const detectedSlang = detectSlangInLine(line);
+        return {
+            original: line,
+            rusTrans: generateRusTrans(line),
+            clean: line,
+            russian: 'Добавьте перевод вручную',
+            slang: detectedSlang
+        };
+    });
+    
+    const newTrack = {
+        id: 'custom-' + Date.now(),
+        artist: artist,
+        title: title,
+        emoji: '🎵',
+        difficulty: difficulty,
+        preview: null,
+        lyrics: parsedLyrics,
+        isCustom: true
+    };
+    
+    customTracks.push(newTrack);
+    saveData();
+    
+    // Reset form
+    document.getElementById('customArtist').value = '';
+    document.getElementById('customTitle').value = '';
+    document.getElementById('customLyrics').value = '';
+    
+    hideUploadForm();
+    renderTrackList();
+    
+    tg.showPopup({
+        title: '✅ Трек добавлен!',
+        message: 'Твой трек сохранён в "Мои треки"',
+        buttons: [{type: 'ok'}]
+    });
+    
+    addStreetCred(50);
+}
+
+// Auto-detect slang in text
+function detectSlangInLine(text) {
+    const detected = [];
+    const allSlang = [];
+    
+    // Collect all slang words
+    Object.values(slangData).forEach(cat => {
+        cat.forEach(subcat => {
+            subcat.words.forEach(word => {
+                allSlang.push({
+                    word: word.word,
+                    rusTrans: word.rus,
+                    meaning: word.meaning,
+                    explanation: word.context || word.origin || 'Сленговое выражение'
+                });
+            });
         });
+    });
+    
+    allSlang.forEach(slang => {
+        const regex = new RegExp(`\\b${slang.word}\\b`, 'i');
+        if (regex.test(text)) {
+            detected.push(slang);
+        }
+    });
+    
+    return detected;
+}
+
+// Simple mock transcription generator
+function generateRusTrans(englishText) {
+    // This is a simplified mock - in real app you'd use a proper transcription service
+    return '[' + englishText.split('').map(c => {
+        const trans = {
+            'a': 'э', 'b': 'б', 'c': 'к', 'd': 'д', 'e': 'и', 'f': 'ф',
+            'g': 'г', 'h': 'х', 'i': 'ай', 'j': 'дж', 'k': 'к', 'l': 'л',
+            'm': 'м', 'n': 'н', 'o': 'о', 'p': 'п', 'q': 'к', 'r': 'р',
+            's': 'с', 't': 'т', 'u': 'у', 'v': 'в', 'w': 'у', 'x': 'кс',
+            'y': 'ай', 'z': 'з', ' ': ' ', '\'': ''
+        };
+        return trans[c.toLowerCase()] || c;
+    }).join('') + ']';
+}
+
+// Track Analysis
+function openTrackAnalysis(track) {
+    haptic();
+    currentTrack = track;
+    currentPlayTime = 0;
+    isPlaying = false;
+    
+    document.getElementById('analysisTitle').textContent = track.artist + ' - ' + track.title;
+    document.getElementById('trackVisual').textContent = track.emoji;
+    document.getElementById('difficultyBadge').textContent = track.difficulty;
+    document.getElementById('difficultyBadge').className = 'difficulty-badge difficulty-' + track.difficulty;
+    document.getElementById('lyricsTitle').textContent = track.title;
+    
+    // Generate lyrics with Russian transcription
+    const lyricsContainer = document.getElementById('lyricsContent');
+    lyricsContainer.innerHTML = '';
+    
+    track.lyrics.forEach((line, index) => {
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'lyrics-line';
+        
+        let originalHTML = line.original;
+        if (line.slang && line.slang.length > 0) {
+            line.slang.forEach(s => {
+                const regex = new RegExp(`\\b${s.word}\\b`, 'gi');
+                originalHTML = originalHTML.replace(regex, `<span class="slang-word" onclick="showSlangExplanation('${s.word}', '${s.rusTrans}', '${s.meaning}', '${s.explanation}')">${s.word}</span>`);
+            });
+        }
+        
+        lineDiv.innerHTML = `
+            <div class="original-line">${originalHTML}</div>
+            <div class="rus-trans-block">
+                <div class="rus-trans-title">🗣 Произношение</div>
+                <div class="rus-trans-text">${line.rusTrans}</div>
+            </div>
+            <div class="clean-line">${line.clean}</div>
+            <div class="translation-line">${line.russian}</div>
+            ${line.explanation ? `<div style="margin-top: 12px; font-size: 13px; color: rgba(255,255,255,0.5); font-style: italic;">💡 ${line.explanation}</div>` : ''}
+        `;
+        
+        lyricsContainer.appendChild(lineDiv);
+    });
+    
+    document.getElementById('mainScreen').classList.remove('active');
+    document.getElementById('trackAnalysisScreen').classList.add('active');
+}
+
+function showSlangExplanation(word, rusTrans, meaning, explanation) {
+    haptic();
+    
+    // Remove existing explanations
+    document.querySelectorAll('.explanation-box').forEach(e => e.remove());
+    
+    const box = document.createElement('div');
+    box.className = 'explanation-box show';
+    box.innerHTML = `
+        <div class="explanation-title">🔥 ${word} <span style="opacity: 0.7; font-size: 14px;">${rusTrans}</span></div>
+        <div style="color: #F7C59F; margin-bottom: 8px; font-weight: 600;">${meaning}</div>
+        <div class="explanation-text">${explanation}</div>
+    `;
+    
+    event.target.closest('.lyrics-line').appendChild(box);
+}
+
+// Player controls (same as before)
+function togglePlay() {
+    haptic();
+    isPlaying = !isPlaying;
+    const btn = document.getElementById('playBtn');
+    const visualizer = document.getElementById('visualizer');
+    
+    if (isPlaying) {
+        btn.textContent = '⏸';
+        visualizer.classList.remove('paused');
+        startPlayProgress();
+    } else {
+        btn.textContent = '▶';
+        visualizer.classList.add('paused');
+        stopPlayProgress();
+    }
+}
+
+function startPlayProgress() {
+    playInterval = setInterval(() => {
+        currentPlayTime += 0.1;
+        if (currentPlayTime >= 30) {
+            currentPlayTime = 0;
+        }
+        updateProgressBar();
+    }, 100);
+}
+
+function stopPlayProgress() {
+    clearInterval(playInterval);
+}
+
+function updateProgressBar() {
+    const percent = (currentPlayTime / 30) * 100;
+    document.getElementById('trackProgress').style.width = percent + '%';
+    document.getElementById('currentTime').textContent = formatTime(currentPlayTime);
+}
+
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return mins + ':' + secs.toString().padStart(2, '0');
+}
+
+function skipBackward() {
+    haptic();
+    currentPlayTime = Math.max(0, currentPlayTime - 5);
+    updateProgressBar();
+}
+
+function skipForward() {
+    haptic();
+    currentPlayTime = Math.min(30, currentPlayTime + 5);
+    updateProgressBar();
+}
+
+function stopPlay() {
+    isPlaying = false;
+    document.getElementById('playBtn').textContent = '▶';
+    document.getElementById('visualizer').classList.add('paused');
+    stopPlayProgress();
+}
+
+function showAnalysis() {
+    haptic();
+    stopPlay();
+    document.getElementById('trackPlayer').style.display = 'none';
+    document.getElementById('lyricsContainer').classList.add('active');
+    addStreetCred(50);
+}
+
+function backToPlayer() {
+    haptic();
+    document.getElementById('trackPlayer').style.display = 'block';
+    document.getElementById('lyricsContainer').classList.remove('active');
+}
+
+function closeTrackAnalysis() {
+    haptic();
+    stopPlay();
+    document.getElementById('trackAnalysisScreen').classList.remove('active');
+    document.getElementById('mainScreen').classList.add('active');
+    document.getElementById('trackPlayer').style.display = 'block';
+    document.getElementById('lyricsContainer').classList.remove('active');
+}
+
+function quickPlay(trackId) {
+    haptic();
+    const track = [...defaultTracks, ...customTracks].find(t => t.id === trackId);
+    if (track) {
+        openTrackAnalysis(track);
+        setTimeout(() => togglePlay(), 300);
+    }
+}
+
+// Slang Lessons (same as before)
+function selectCategory(category, element) {
+    haptic();
+    document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
+    element.classList.add('active');
+    currentCategory = category;
+    renderSlangGrid();
+}
+
+function renderSlangGrid() {
+    const grid = document.getElementById('slangGrid');
+    grid.innerHTML = '';
+    
+    const categories = slangData[currentCategory];
+    categories.forEach((cat, index) => {
+        const card = document.createElement('div');
+        card.className = 'level-card';
+        card.onclick = () => startSlangLesson(index);
+        
+        card.innerHTML = `
+            <div class="level-number">${index + 1}</div>
+            <div class="level-name">${cat.name}</div>
+            <div class="level-progress">${cat.words.length} слов</div>
+        `;
+        
+        grid.appendChild(card);
+    });
+}
+
+function startSlangLesson(categoryIndex) {
+    haptic();
+    isStreetLesson = true;
+    const category = slangData[currentCategory][categoryIndex];
+    currentLevel = { words: category.words, name: category.name, isStreet: true };
+    currentCard = 0;
+    isFlipped = false;
+    lessonStartTime = Date.now();
+    
+    document.getElementById('flashcard').classList.add('street-card');
+    updateStreetCard();
+    generateDots();
+    
+    document.getElementById('mainScreen').classList.remove('active');
+    document.getElementById('lessonScreen').classList.add('active');
+    tg.MainButton.setText('Проверить ✅');
+    tg.MainButton.hide();
+}
+
+function updateStreetCard() {
+    const w = currentLevel.words[currentCard];
+    document.getElementById('cardWord').textContent = w.word;
+    document.getElementById('cardTrans').textContent = w.trans;
+    document.getElementById('cardRusTrans').textContent = w.rus;
+    document.getElementById('cardMeaning').innerHTML = `
+        <div class="street-badge">${currentCategory}</div>
+        <div>${w.meaning}</div>
+    `;
+    document.getElementById('detailExample').textContent = w.example;
+    document.getElementById('detailTranslation').innerHTML = `
+        <div>${w.exampleRu}</div>
+        ${w.context ? `<div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,107,53,0.3);"><strong>Контекст:</strong> ${w.context}</div>` : ''}
+        ${w.origin ? `<div style="margin-top: 8px;"><strong>Происхождение:</strong> ${w.origin}</div>` : ''}
+    `;
+    
+    document.getElementById('flashcard').classList.remove('flipped');
+    document.getElementById('detailCard').classList.remove('show');
+    
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((d, i) => {
+        d.classList.remove('active', 'completed');
+        if (i < currentCard) d.classList.add('completed');
+        if (i === currentCard) d.classList.add('active');
+    });
+    
+    const isLast = currentCard >= currentLevel.words.length - 1;
+    tg.MainButton.setText(isLast ? 'Завершить урок 🎉' : 'Следующее слово →');
+}
+
+// Standard lesson functions
+function selectLevel(index) {
+    haptic();
+    isStreetLesson = false;
+    currentLevel = levels[index];
+    currentCard = 0;
+    isFlipped = false;
+    lessonStartTime = Date.now();
+    updateCard();
+    generateDots();
+    document.getElementById('mainScreen').classList.remove('active');
+    document.getElementById('lessonScreen').classList.add('active');
+    tg.MainButton.setText('Проверить ✅');
+    tg.MainButton.hide();
+}
+
+function updateCard() {
+    const w = currentLevel.words[currentCard];
+    document.getElementById('cardWord').textContent = w.word;
+    document.getElementById('cardTrans').textContent = w.trans;
+    document.getElementById('cardRusTrans').textContent = w.rus;
+    document.getElementById('cardMeaning').textContent = w.meaning;
+    document.getElementById('detailExample').textContent = w.example;
+    document.getElementById('detailTranslation').textContent = w.exampleRu;
+    
+    document.getElementById('flashcard').classList.remove('flipped');
+    document.getElementById('detailCard').classList.remove('show');
+    
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((d, i) => {
+        d.classList.remove('active', 'completed');
+        if (i < currentCard) d.classList.add('completed');
+        if (i === currentCard) d.classList.add('active');
+    });
+    
+    const isLast = currentCard >= currentLevel.words.length - 1;
+    tg.MainButton.setText(isLast ? 'Завершить урок 🎉' : 'Следующее слово →');
+}
+
+function generateDots() {
+    const container = document.getElementById('progressDots');
+    container.innerHTML = '';
+    const wordCount = currentLevel.words.length;
+    
+    for (let i = 0; i < wordCount; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        container.appendChild(dot);
+    }
+}
+
+function flipCard() {
+    if (isFlipped) return;
+    haptic();
+    isFlipped = true;
+    document.getElementById('flashcard').classList.add('flipped');
+    
+    setTimeout(() => {
+        document.getElementById('detailCard').classList.add('show');
+        tg.MainButton.show();
+    }, 300);
+}
+
+function toggleTrans() {
+    haptic();
+    showRusTrans = !showRusTrans;
+    document.getElementById('transToggle').classList.toggle('active');
+    document.getElementById('cardRusTrans').style.display = showRusTrans ? 'block' : 'none';
+}
+
+function closeLesson() {
+    haptic();
+    if (confirm('Прервать урок?')) {
+        document.getElementById('lessonScreen').classList.remove('active');
+        document.getElementById('mainScreen').classList.add('active');
+        tg.MainButton.hide();
+        document.getElementById('flashcard').classList.remove('street-card');
+        isStreetLesson = false;
+    }
+}
+
+// Street Cred
+function addStreetCred(amount) {
+    streetCred += amount;
+    updateStreetStats();
+    saveData();
+}
+
+function updateStreetStats() {
+    document.getElementById('streetCred').textContent = streetCred;
+    const level = Math.floor(streetCred / 100) + 1;
+    const nextLevel = level * 100;
+    const progress = (streetCred % 100);
+    
+    document.getElementById('streetLevel').textContent = level;
+    document.getElementById('streetNext').textContent = nextLevel - streetCred;
+    document.getElementById('streetProgress').style.width = progress + '%';
+}
+
+// Finish lesson
+function finishLesson() {
+    haptic();
+    
+    if (isStreetLesson) {
+        addStreetCred(100);
+        
+        const timeSpent = Math.floor((Date.now() - lessonStartTime) / 1000);
+        const mins = Math.floor(timeSpent / 60);
+        const secs = timeSpent % 60;
+        
+        document.getElementById('timeValue').textContent = mins + ':' + secs.toString().padStart(2, '0');
+        document.getElementById('resultWords').textContent = currentLevel.words.length;
+        document.getElementById('resultXP').textContent = '+100 STREET CRED';
+        document.getElementById('xpLabel').textContent = 'Street Cred';
+        document.getElementById('resultSubtitle').textContent = 'Уровень "' + currentLevel.name + '" пройден!';
+        
+        document.getElementById('resultScreen').classList.add('active');
+        document.getElementById('lessonScreen').classList.remove('active');
+        tg.MainButton.hide();
+        
+        isStreetLesson = false;
+        document.getElementById('flashcard').classList.remove('street-card');
+    } else {
+        // Standard finish
+        document.getElementById('resultScreen').classList.remove('active');
+        document.getElementById('mainScreen').classList.add('active');
+        tg.MainButton.hide();
+    }
+}
+
+// Render levels
+function renderLevels() {
+    const grid = document.getElementById('levelGrid');
+    grid.innerHTML = '';
+    
+    levels.forEach((level, index) => {
+        const card = document.createElement('div');
+        card.className = 'level-card';
+        card.onclick = () => selectLevel(index);
+        
+        card.innerHTML = `
+            <div class="level-number">${level.id}</div>
+            <div class="level-name">${level.name}</div>
+            <div class="level-progress">${level.words.length} слов</div>
+        `;
+        
+        grid.appendChild(card);
+    });
+}
+
+// Chat
+function openChat() {
+    haptic();
+    tg.showAlert('AI-репетитор скоро будет доступен! 🦜');
+}
+
+// Main button handler
+tg.MainButton.onClick(() => {
+    haptic();
+    if (!isFlipped) {
+        flipCard();
+        return;
+    }
+    
+    currentCard++;
+    
+    if (currentCard >= currentLevel.words.length) {
+        const timeSpent = Math.floor((Date.now() - lessonStartTime) / 1000);
+        const mins = Math.floor(timeSpent / 60);
+        const secs = timeSpent % 60;
+        document.getElementById('timeValue').textContent = mins + ':' + secs.toString().padStart(2, '0');
+        document.getElementById('resultWords').textContent = currentLevel.words.length;
+        document.getElementById('resultXP').textContent = isStreetLesson ? '+100 STREET CRED' : '+100 XP';
+        document.getElementById('resultSubtitle').textContent = 'Уровень "' + currentLevel.name + '" пройден!';
+        
+        document.getElementById('lessonScreen').classList.remove('active');
+        document.getElementById('resultScreen').classList.add('active');
+        tg.MainButton.hide();
+    } else {
+        isFlipped = false;
+        if (isStreetLesson) {
+            updateStreetCard();
+        } else {
+            updateCard();
+        }
+        tg.MainButton.hide();
+    }
+});
+
+// Init
+let currentCard = 0;
+let isFlipped = false;
+let showRusTrans = false;
+let lessonStartTime = null;
+let currentLevel = null;
+
+document.addEventListener('DOMContentLoaded', init);
+
     </script>
 </body>
 </html>
