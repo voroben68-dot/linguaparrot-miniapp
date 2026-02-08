@@ -35,7 +35,6 @@
         
         .app-container { max-width: 430px; margin: 0 auto; min-height: 100vh; position: relative; padding: 16px; }
         
-        /* TG Header */
         .tg-header {
             position: sticky;
             top: 0;
@@ -64,7 +63,6 @@
             color: var(--tg-hint);
         }
         
-        /* Main Button (TG style) */
         .tg-main-btn {
             position: fixed;
             bottom: 0;
@@ -82,11 +80,8 @@
             transition: transform 0.3s ease;
         }
         
-        .tg-main-btn.show {
-            transform: translateY(0);
-        }
+        .tg-main-btn.show { transform: translateY(0); }
         
-        /* Cards */
         .card {
             background: var(--tg-theme-secondary-bg-color, #FFFFFF);
             border-radius: 16px;
@@ -95,7 +90,6 @@
             box-shadow: var(--shadow);
         }
         
-        /* Daily Goal */
         .daily-goal {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             border-radius: 20px;
@@ -112,7 +106,6 @@
         .progress-bar { height: 6px; background: rgba(255,255,255,0.3); border-radius: 3px; overflow: hidden; }
         .progress-fill { height: 100%; background: white; border-radius: 3px; transition: width 0.5s ease; width: 0%; }
         
-        /* Mode Toggle */
         .mode-toggle {
             display: flex;
             background: var(--tg-theme-secondary-bg-color, #FFFFFF);
@@ -136,12 +129,8 @@
             transition: all 0.2s ease;
         }
         
-        .mode-btn.active {
-            background: var(--primary);
-            color: white;
-        }
+        .mode-btn.active { background: var(--primary); color: white; }
         
-        /* AI Tutor */
         .tutor-card {
             display: flex;
             align-items: center;
@@ -185,47 +174,55 @@
         
         .arrow { color: var(--tg-hint); font-size: 20px; }
         
-        /* Stats Grid */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .stat-card { text-align: center; padding: 20px 16px; }
         .stat-value { font-size: 32px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
         .stat-label { font-size: 13px; color: var(--tg-hint); font-weight: 600; }
         
-        /* Lessons */
         .section-title { font-size: 17px; font-weight: 700; margin-bottom: 12px; margin-top: 8px; }
         
-        .lesson-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px;
+        .level-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .level-card {
             background: var(--tg-theme-secondary-bg-color, #FFFFFF);
-            border-radius: 12px;
-            margin-bottom: 12px;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
             cursor: pointer;
             box-shadow: var(--shadow);
             transition: all 0.2s ease;
+            border: 2px solid transparent;
+            position: relative;
         }
         
-        .lesson-item:active { transform: scale(0.98); }
+        .level-card:active { transform: scale(0.98); }
+        .level-card.active { border-color: var(--primary); }
+        .level-card.locked { opacity: 0.5; pointer-events: none; }
         
-        .lesson-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(45, 122, 95, 0.1);
-            border-radius: 12px;
+        .level-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
+            font-weight: 800;
+            font-size: 18px;
+            margin: 0 auto 12px;
         }
         
-        .lesson-info { flex: 1; }
-        .lesson-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
-        .lesson-meta { font-size: 13px; color: var(--tg-hint); }
+        .level-card.locked .level-number { background: var(--tg-hint); }
+        .level-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+        .level-progress { font-size: 13px; color: var(--tg-hint); }
+        .level-status { position: absolute; top: 8px; right: 8px; font-size: 20px; }
         
-        /* Lesson Screen */
         .lesson-screen {
             display: none;
             position: fixed;
@@ -271,7 +268,6 @@
         .dot.active { background: var(--primary); opacity: 1; width: 20px; border-radius: 3px; }
         .dot.completed { background: var(--success); opacity: 1; }
         
-        /* Flashcard */
         .flashcard-container { padding: 20px 16px 100px; }
         
         .flashcard {
@@ -291,7 +287,6 @@
         }
         
         .flashcard.flipped { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; }
-        
         .flashcard-word { font-size: 32px; font-weight: 800; margin-bottom: 16px; }
         .flashcard-trans { font-size: 15px; opacity: 0.6; margin-bottom: 8px; font-family: monospace; }
         .flashcard-rus-trans { font-size: 16px; color: var(--accent); margin-bottom: 20px; font-weight: 600; display: none; }
@@ -311,7 +306,6 @@
             border-radius: 20px;
         }
         
-        /* Detail Card */
         .detail-card {
             background: rgba(45, 122, 95, 0.08);
             border-radius: 16px;
@@ -328,7 +322,6 @@
         .detail-example { font-size: 16px; font-style: italic; margin-bottom: 8px; padding: 16px; background: var(--tg-theme-secondary-bg-color, #FFFFFF); border-radius: 12px; }
         .detail-translation { font-size: 14px; color: var(--tg-hint); padding-left: 12px; border-left: 3px solid var(--accent); }
         
-        /* Transcription Toggle */
         .trans-toggle {
             display: flex;
             align-items: center;
@@ -367,7 +360,6 @@
         }
         .toggle-switch.active::after { left: 26px; }
         
-        /* Result Screen */
         .result-screen {
             display: none;
             position: fixed;
@@ -403,13 +395,11 @@
         .result-value { font-weight: 800; color: var(--primary); }
         .result-value.xp { color: var(--accent); }
         
-        /* Haptic feedback */
         .haptic:active { opacity: 0.7; }
     </style>
 </head>
 <body>
     <div class="app-container" id="app">
-        <!-- Main Screen -->
         <div class="screen active" id="mainScreen">
             <div class="tg-header">
                 <div class="tg-header-title">🦜 LinguaParrot</div>
@@ -443,56 +433,23 @@
             
             <div class="stats-grid">
                 <div class="card stat-card">
-                    <div class="stat-value" id="wordsCount">248</div>
+                    <div class="stat-value" id="wordsCount">0</div>
                     <div class="stat-label">Слов изучено</div>
                 </div>
                 <div class="card stat-card">
-                    <div class="stat-value" id="streakCount">12</div>
+                    <div class="stat-value" id="streakCount">0</div>
                     <div class="stat-label">Дней подряд</div>
                 </div>
             </div>
             
-            <div class="section-title">Уроки на сегодня</div>
-            
-            <div class="lesson-item haptic" onclick="startLesson()">
-                <div class="lesson-icon">📖</div>
-                <div class="lesson-info">
-                    <div class="lesson-title">Словарный запас</div>
-                    <div class="lesson-meta">5 слов • ~5 минут</div>
-                </div>
-                <div class="arrow">›</div>
-            </div>
-            
-            <div class="lesson-item haptic" onclick="startLesson()">
-                <div class="lesson-icon">📝</div>
-                <div class="lesson-info">
-                    <div class="lesson-title">Грамматика</div>
-                    <div class="lesson-meta">Present Perfect • ~5 минут</div>
-                </div>
-                <div class="arrow">›</div>
-            </div>
-            
-            <div class="lesson-item haptic" onclick="startLesson()">
-                <div class="lesson-icon">🗣️</div>
-                <div class="lesson-info">
-                    <div class="lesson-title">Разговорная практика</div>
-                    <div class="lesson-meta">AI-диалог • ~5 минут</div>
-                </div>
-                <div class="arrow">›</div>
-            </div>
+            <div class="section-title">Выберите уровень</div>
+            <div class="level-grid" id="levelGrid"></div>
         </div>
         
-        <!-- Lesson Screen -->
         <div class="lesson-screen" id="lessonScreen">
             <div class="lesson-header">
                 <button class="back-btn haptic" onclick="closeLesson()">←</button>
-                <div class="progress-dots">
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
+                <div class="progress-dots" id="progressDots"></div>
                 <div style="width: 36px;"></div>
             </div>
             
@@ -503,39 +460,38 @@
                 </div>
                 
                 <div class="flashcard" id="flashcard" onclick="flipCard()">
-                    <div class="flashcard-word" id="cardWord">Serendipity</div>
-                    <div class="flashcard-trans" id="cardTrans">/ˌser.ənˈdɪp.ə.ti/</div>
-                    <div class="flashcard-rus-trans" id="cardRusTrans">[сэ-рэн-ди-пи-ти]</div>
-                    <div class="flashcard-meaning" id="cardMeaning">Счастливая случайность</div>
+                    <div class="flashcard-word" id="cardWord"></div>
+                    <div class="flashcard-trans" id="cardTrans"></div>
+                    <div class="flashcard-rus-trans" id="cardRusTrans"></div>
+                    <div class="flashcard-meaning" id="cardMeaning"></div>
                     <div class="flip-hint">Нажми, чтобы перевернуть</div>
                 </div>
                 
                 <div class="detail-card" id="detailCard">
                     <div class="detail-title">💡 Пример использования</div>
-                    <div class="detail-example" id="detailExample">"Meeting her was pure serendipity."</div>
-                    <div class="detail-translation" id="detailTranslation">"Встреча с ней была чистой случайностью"</div>
+                    <div class="detail-example" id="detailExample"></div>
+                    <div class="detail-translation" id="detailTranslation"></div>
                 </div>
             </div>
         </div>
         
-        <!-- Result Screen -->
         <div class="result-screen" id="resultScreen">
             <div class="result-emoji">🎉</div>
-            <div class="result-title">Отлично!</div>
-            <div class="result-subtitle">Урок завершён</div>
+            <div class="result-title">Уровень пройден!</div>
+            <div class="result-subtitle" id="resultSubtitle"></div>
             
             <div class="result-stats">
                 <div class="result-row">
                     <span>Изучено слов</span>
-                    <span class="result-value">5</span>
+                    <span class="result-value" id="resultWords">10</span>
                 </div>
                 <div class="result-row">
                     <span>Время</span>
-                    <span class="result-value" id="timeValue">4:32</span>
+                    <span class="result-value" id="timeValue">0:00</span>
                 </div>
                 <div class="result-row">
                     <span>Опыт</span>
-                    <span class="result-value xp">+50 XP</span>
+                    <span class="result-value xp" id="resultXP">+100 XP</span>
                 </div>
             </div>
             
@@ -544,117 +500,235 @@
     </div>
 
     <script>
-        // Telegram WebApp init
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
-// Load saved progress
-loadProgress();
-
         
-        // Data
-        const words = [
-    // BEGINNER (10 слов)
-    { word: 'Hello', trans: '/həˈloʊ/', rus: '[хэ-лоу]', meaning: 'Привет', example: '"Hello, how are you?"', exampleRu: '"Привет, как дела?"' },
-    { word: 'Thank you', trans: '/ˈθæŋk juː/', rus: '[сэнк ю]', meaning: 'Спасибо', example: '"Thank you very much!"', exampleRu: '"Большое спасибо!"' },
-    { word: 'Please', trans: '/pliːz/', rus: '[плииз]', meaning: 'Пожалуйста', example: '"Could you help me, please?"', exampleRu: '"Не могли бы вы мне помочь, пожалуйста?"' },
-    { word: 'Sorry', trans: '/ˈsɔːri/', rus: '[со-ри]', meaning: 'Извините', example: '"I am sorry for being late."', exampleRu: '"Извините, что опоздал."' },
-    { word: 'Goodbye', trans: '/ˌɡʊdˈbaɪ/', rus: '[гуд-бай]', meaning: 'До свидания', example: '"Goodbye! See you tomorrow!"', exampleRu: '"До свидания! Увидимся завтра!"' },
-    { word: 'Love', trans: '/lʌv/', rus: '[лав]', meaning: 'Любовь', example: '"I love this song!"', exampleRu: '"Я люблю эту песню!"' },
-    { word: 'Friend', trans: '/frend/', rus: '[фрэнд]', meaning: 'Друг', example: '"He is my best friend."', exampleRu: '"Он мой лучший друг."' },
-    { word: 'Family', trans: '/ˈfæməli/', rus: '[фэ-ми-ли]', meaning: 'Семья', example: '"Family is very important to me."', exampleRu: '"Семья очень важна для меня."' },
-    { word: 'Happy', trans: '/ˈhæpi/', rus: '[хэ-пи]', meaning: 'Счастливый', example: '"I am so happy today!"', exampleRu: '"Я так счастлив сегодня!"' },
-    { word: 'Beautiful', trans: '/ˈbjuːtɪfl/', rus: '[бью-ти-фл]', meaning: 'Красивый', example: '"What a beautiful day!"', exampleRu: '"Какой красивый день!"' },
-    
-    // ELEMENTARY (10 слов)
-    { word: 'Adventure', trans: '/ədˈventʃər/', rus: '[эд-вэн-чэр]', meaning: 'Приключение', example: '"Life is either a daring adventure or nothing."', exampleRu: '"Жизнь — это либо отважное приключение, либо ничто."' },
-    { word: 'Dream', trans: '/driːm/', rus: '[дрим]', meaning: 'Мечта', example: '"Never give up on your dreams."', exampleRu: '"Никогда не сдавайся и не отказывайся от своих мечт."' },
-    { word: 'Journey', trans: '/ˈdʒɜːrni/', rus: '[джё-ни]', meaning: 'Путешествие', example: '"Life is a journey, not a destination."', exampleRu: '"Жизнь — это путешествие, а не пункт назначения."' },
-    { word: 'Smile', trans: '/smaɪl/', rus: '[смайл]', meaning: 'Улыбка', example: '"Your smile brightens my day."', exampleRu: '"Твоя улыбка освещает мой день."' },
-    { word: 'Sunshine', trans: '/ˈsʌnʃaɪn/', rus: '[сан-шайн]', meaning: 'Солнечный свет', example: '"You are my sunshine!"', exampleRu: '"Ты моё солнышко!"' },
-    { word: 'Wonderful', trans: '/ˈwʌndərfl/', rus: '[ван-дэ-фл]', meaning: 'Чудесный', example: '"We had a wonderful time!"', exampleRu: '"Мы прекрасно провели время!"' },
-    { word: 'Believe', trans: '/bɪˈliːv/', rus: '[би-лив]', meaning: 'Верить', example: '"Believe in yourself!"', exampleRu: '"Верь в себя!"' },
-    { word: 'Freedom', trans: '/ˈfriːdəm/', rus: '[фри-дэм]', meaning: 'Свобода', example: '"Freedom is not worth having if it does not include the freedom to make mistakes."', exampleRu: '"Свобода не стоит того, чтобы её иметь, если она не включает свободу совершать ошибки."' },
-    { word: 'Knowledge', trans: '/ˈnɒlɪdʒ/', rus: '[но-лидж]', meaning: 'Знание', example: '"Knowledge is power."', exampleRu: '"Знание — сила."' },
-    { word: 'Wisdom', trans: '/ˈwɪzdəm/', rus: '[виз-дэм]', meaning: 'Мудрость', example: '"With age comes wisdom."', exampleRu: '"С возрастом приходит мудрость."' },
-    
-    // INTERMEDIATE (15 слов)
-    { word: 'Serendipity', trans: '/ˌser.ənˈdɪp.ə.ti/', rus: '[сэ-рэн-ди-пи-ти]', meaning: 'Счастливая случайность', example: '"Meeting her was pure serendipity."', exampleRu: '"Встреча с ней была чистой случайностью."' },
-    { word: 'Ephemeral', trans: '/ɪˈfem.ər.əl/', rus: '[и-фэ-мэ-рл]', meaning: 'Мимолётный', example: '"Fame in the internet age is ephemeral."', exampleRu: '"Слава в эпоху интернета мимолётна."' },
-    { word: 'Resilience', trans: '/rɪˈzɪl.jəns/', rus: '[ри-зи-лйэнс]', meaning: 'Устойчивость', example: '"Her resilience helped her overcome all difficulties."', exampleRu: '"Её жизнестойкость помогла преодолеть трудности."' },
-    { word: 'Eloquent', trans: '/ˈel.ə.kwənt/', rus: '[э-лэ-квэнт]', meaning: 'Красноречивый', example: '"He gave an eloquent speech about freedom."', exampleRu: '"Он произнёс красноречивую речь о свободе."' },
-    { word: 'Mellifluous', trans: '/meˈlɪf.lu.əs/', rus: '[мэ-ли-флу-эс]', meaning: 'Медовый, плавный', example: '"She had a rich, mellifluous voice."', exampleRu: '"У неё был богатый, плавный голос."' },
-    { word: 'Petrichor', trans: '/ˈpet.rɪ.kɔːr/', rus: '[пэ-три-кор]', meaning: 'Запах дождя', example: '"I love the petrichor after summer rain."', exampleRu: '"Я люблю запах дождя после летнего ливня."' },
-    { word: 'Luminous', trans: '/ˈluː.mɪ.nəs/', rus: '[лу-ми-нэс]', meaning: 'Светящийся', example: '"The room was filled with luminous colors."', exampleRu: '"Комната была наполнена светящимися красками."' },
-    { word: 'Solitude', trans: '/ˈsɒl.ɪ.tjuːd/', rus: '[со-ли-тьюд]', meaning: 'Уединение', example: '"He enjoyed the peace and solitude of the woods."', exampleRu: '"Он наслаждался покоем и уединением леса."' },
-    { word: 'Euphoria', trans: '/juːˈfɔː.ri.ə/', rus: '[ю-фо-ри-э]', meaning: 'Эйфория', example: '"There was a sense of euphoria after the victory."', exampleRu: '"После победы было чувство эйфории."' },
-    { word: 'Melancholy', trans: '/ˈmel.ən.kɒl.i/', rus: '[мэ-лан-ко-ли]', meaning: 'Меланхолия', example: '"A deep melancholy settled over the city."', exampleRu: '"Глубокая меланхолия охватила город."' },
-    { word: 'Serene', trans: '/səˈriːn/', rus: '[сэ-рин]', meaning: 'Безмятежный', example: '"The lake was calm and serene."', exampleRu: '"Озеро было спокойным и безмятежным."' },
-    { word: 'Vibrant', trans: '/ˈvaɪ.brənt/', rus: '[вай-брэнт]', meaning: 'Яркий, живой', example: '"The city is vibrant with energy."', exampleRu: '"Город яркий и полон энергии."' },
-    { word: 'Whimsical', trans: '/ˈwɪm.zɪ.kəl/', rus: '[вим-зи-кл]', meaning: 'Причудливый', example: '"She has a whimsical sense of humor."', exampleRu: '"У неё причудливое чувство юмора."' },
-    { word: 'Epiphany', trans: '/ɪˈpɪf.ə.ni/', rus: '[и-пи-фэ-ни]', meaning: 'Озарение', example: '"I had an epiphany about my career."', exampleRu: '"У меня было озарение насчёт моей карьеры."' },
-    { word: 'Nostalgia', trans: '/nɒsˈtæl.dʒə/', rus: '[нос-тэл-джэ]', meaning: 'Ностальгия', example: '"Photos of my childhood fill me with nostalgia."', exampleRu: '"Фотографии моего детства наполняют меня ностальгией."' },
-    
-    // ADVANCED (15 слов)
-    { word: 'Sonder', trans: '/ˈsɒn.dər/', rus: '[сон-дэр]', meaning: 'Осознание, что каждый имеет сложную жизнь', example: '"Walking through the crowd, I was struck by sonder."', exampleRu: '"Идя сквозь толпу, я был поражён осознанием, что у каждого своя сложная жизнь."' },
-    { word: 'Petrichor', trans: '/ˈpet.rɪ.kɔːr/', rus: '[пэ-три-кор]', meaning: 'Запах дождя по земле', example: '"The petrichor after the storm was intoxicating."', exampleRu: '"Запах дождя после грозы был опьяняющим."' },
-    { word: 'Ineffable', trans: '/ɪnˈef.ə.bəl/', rus: '[ин-э-фэ-бл]', meaning: 'Невыразимый', example: '"The beauty of the sunset was ineffable."', exampleRu: '"Красота заката была невыразимой."' },
-    { word: 'Hiraeth', trans: '/ˈhɪraɪθ/', rus: '[хи-райс]', meaning: 'Тоска по дому, которого нет', example: '"There is a word for it: hiraeth, a longing for home."', exampleRu: '"Есть слово для этого: хираэт, тоска по дому."' },
-    { word: 'Saudade', trans: '/sauˈdɑː.də/', rus: '[сау-да-дэ]', meaning: 'Грустная тоска по чему-то потерянному', example: '"Saudade is a deep emotional state of nostalgic longing."', exampleRu: '"Саудáде — это глубокое эмоциональное состояние ностальгической тоски."' },
-    { word: 'Komorebi', trans: '/ko.mo.ɾe.bi/', rus: '[ко-мо-рэ-би]', meaning: 'Свет, пробивающийся сквозь листья', example: '"The komorebi in the forest was magical."', exampleRu: '"Свет, пробивающийся сквозь листья в лесу, был волшебным."' },
-    { word: 'Mudita', trans: '/muːˈdiː.tə/', rus: '[му-ди-тэ]', meaning: 'Счастье от чужого счастья', example: '"Mudita is finding joy in the happiness of others."', exampleRu: '"Мудита — это находить радость в счастье других."' },
-    { word: 'Gigil', trans: '/ˈɡiː.ɡɪl/', rus: '[ги-гил]', meaning: 'Непреодолимое желание что-то сжать (от умиления)', example: '"The puppy was so cute I felt gigil."', exampleRu: '"Щенок был таким милым, что мне захотелось его сжать."' },
-    { word: 'Forelsket', trans: '/fɔːˈrɛlskət/', rus: '[фо-рэл-скэт]', meaning: 'Предвкушение любви', example: '"Forelsket describes the euphoria of beginning to fall in love."', exampleRu: '"Форельскет описывает эйфорию начала влюблённости."' },
-    { word: 'Dépaysement', trans: '/de.peɪz.mɑ̃/', rus: '[дэ-пэйз-мон]', meaning: 'Чувство дезориентации в чужой стране', example: '"The dépaysement of arriving in Tokyo was overwhelming."', exampleRu: '"Чувство дезориентации при прибытии в Токио было ошеломляющим."' },
-    { word: 'Limerence', trans: '/ˈlɪm.ər.əns/', rus: '[ли-мэ-рэнс]', meaning: 'Состояние влюблённости', example: '"Limerence is an involuntary interpersonal state."', exampleRu: '"Лимеренс — это непроизвольное межличностное состояние."' },
-    { word: 'Vellichor', trans: '/ˈvɛl.ɪ.kɔːr/', rus: '[вэ-ли-кор]', meaning: 'Тоска по старым книгам', example: '"The vellichor of the used bookstore was comforting."', exampleRu: '"Тоска по старым книгам в букинистическом магазине была утешительной."' },
-    { word: 'Chrysalism', trans: '/ˈkrɪs.ə.lɪz.əm/', rus: '[кри-за-ли-зэм]', meaning: 'Уют в помещении во время дождя', example: '"I love the chrysalism of reading by the window on a rainy day."', exampleRu: '"Я люблю уют чтения у окна в дождливый день."' },
-    { word: 'Monachopsis', trans: '/ˌmɒn.əˈkɒp.sɪs/', rus: '[мо-на-коп-сис]', meaning: 'Тонкое чувство неуместности', example: '"Monachopsis is the subtle but persistent feeling of being out of place."', exampleRu: '"Монахопсис — это тонкое, но постоянное чувство неуместности."' },
-    { word: 'Ethereal', trans: '/ɪˈθɪə.ri.əl/', rus: '[и-фиэ-ри-эл]', meaning: 'Небесный, воздушный', example: '"The ethereal beauty of the aurora left us speechless."', exampleRu: '"Небесная красота северного сияния оставила нас безмолвными."' }
-];
-// Cloud Storage functions
-function saveProgress() {
-    const progress = {
-        wordsLearned: currentCard,
-        totalWords: words.length,
-        xp: currentCard * 10,
-        lastVisit: new Date().toISOString()
-    };
-    tg.CloudStorage.setItem('linguaparrot_progress', JSON.stringify(progress));
-}
-
-function loadProgress() {
-    tg.CloudStorage.getItem('linguaparrot_progress', (error, value) => {
-        if (!error && value) {
-            const progress = JSON.parse(value);
-            currentCard = progress.wordsLearned || 0;
-            updateStats();
-        }
-    });
-}
-
-function updateStats() {
-    document.getElementById('wordsCount').textContent = currentCard;
-    document.getElementById('dailyProgress').textContent = Math.min(currentCard, 15);
-    document.getElementById('progressBar').style.width = Math.min((currentCard / 15 * 100), 100) + '%';
-}
-
-            
-            
-            
-            
-
+        const levels = [
+            {
+                id: 1,
+                name: 'Новичок',
+                description: 'Базовые слова',
+                words: [
+                    { word: 'Serendipity', trans: '/ˌser.ənˈdɪp.ə.ti/', rus: '[сэ-рэн-ди-пи-ти]', meaning: 'Счастливая случайность', example: '"Meeting her was pure serendipity."', exampleRu: '"Встреча с ней была чистой случайностью"' },
+                    { word: 'Ephemeral', trans: '/ɪˈfem.ər.əl/', rus: '[и-фэ-мэ-рл]', meaning: 'Мимолётный', example: '"Fame in the internet age is ephemeral."', exampleRu: '"Слава в эпоху интернета мимолётна."' },
+                    { word: 'Resilience', trans: '/rɪˈzɪl.jəns/', rus: '[ри-зи-лйэнс]', meaning: 'Устойчивость', example: '"Her resilience helped her overcome all difficulties."', exampleRu: '"Её жизнестойкость помогла преодолеть трудности."' },
+                    { word: 'Eloquent', trans: '/ˈel.ə.kwənt/', rus: '[э-лэ-квэнт]', meaning: 'Красноречивый', example: '"He gave an eloquent speech about freedom."', exampleRu: '"Он произнёс красноречивую речь о свободе."' },
+                    { word: 'Mellifluous', trans: '/meˈlɪf.lu.əs/', rus: '[мэ-ли-флу-эс]', meaning: 'Медовый, плавный', example: '"She had a rich, mellifluous voice."', exampleRu: '"У неё был богатый, плавный голос."' },
+                    { word: 'Luminous', trans: '/ˈluː.mə.nəs/', rus: '[лу-мэ-нэс]', meaning: 'Светящийся', example: '"The luminous moon lit up the night sky."', exampleRu: '"Светящаяся луна осветила ночное небо."' },
+                    { word: 'Ethereal', trans: '/ɪˈθɪə.ri.əl/', rus: '[и-фиэ-ри-эл]', meaning: 'Небесный, воздушный', example: '"The ballet dancer moved with ethereal grace."', exampleRu: '"Балерина двигалась с небесной грацией."' },
+                    { word: 'Sonorous', trans: '/ˈsɒn.ər.əs/', rus: '[со-нэ-рэс]', meaning: 'Звучный', example: '"His sonorous voice filled the concert hall."', exampleRu: '"Его звучный голос наполнил концертный зал."' },
+                    { word: 'Effervescent', trans: '/ˌef.əˈves.ənt/', rus: '[э-фэ-вэ-сэнт]', meaning: 'Игристый, пузырящийся', example: '"Her effervescent personality lit up the room."', exampleRu: '"Её игривая личность осветила комнату."' },
+                    { word: 'Serene', trans: '/səˈriːn/', rus: '[сэ-рин]', meaning: 'Безмятежный', example: '"The lake was serene in the morning light."', exampleRu: '"Озеро было безмятежным в утреннем свете."' }
+                ]
+            },
+            {
+                id: 2,
+                name: 'Элементарный',
+                description: 'Простые слова',
+                words: [
+                    { word: 'Ineffable', trans: '/ɪnˈef.ə.bəl/', rus: '[ин-э-фэ-бл]', meaning: 'Невыразимый', example: '"The beauty of the sunset was ineffable."', exampleRu: '"Красота заката была невыразимой."' },
+                    { word: 'Hiraeth', trans: '/ˈhɪraɪθ/', rus: '[хи-райс]', meaning: 'Тоска по дому', example: '"She felt hiraeth for her childhood home."', exampleRu: '"Она чувствовала тоску по дому детства."' },
+                    { word: 'Petrichor', trans: '/ˈpet.rɪ.kɔːr/', rus: '[пе-три-кор]', meaning: 'Запах дождя', example: '"I love the smell of petrichor after summer rain."', exampleRu: '"Я люблю запах дождя после летнего дождя."' },
+                    { word: 'Limerence', trans: '/ˈlɪm.ər.əns/', rus: '[ли-мэ-ранс]', meaning: 'Влюблённость', example: '"His limerence for her was obvious to everyone."', exampleRu: '"Его влюблённость в неё была очевидна всем."' },
+                    { word: 'Sonder', trans: '/ˈsɒn.dər/', rus: '[сон-дэ]', meaning: 'Осознание чужих жизней', example: '"Sonder hit me as I watched the busy street."', exampleRu: '"Осознание чужих жизней поразило меня, когда я смотрел на оживлённую улицу."' },
+                    { word: 'Vellichor', trans: '/ˈvel.ɪ.kɔːr/', rus: '[ве-ли-кор]', meaning: 'Тоска по книжным магазинам', example: '"The vellichor of the old bookstore was comforting."', exampleRu: '"Тоска по старому книжному магазину была утешительной."' },
+                    { word: 'Aquiver', trans: '/əˈkwɪv.ər/', rus: '[э-кви-вэ]', meaning: 'Дрожащий', example: '"Her voice was aquiver with emotion."', exampleRu: '"Её голос дрожал от эмоций."' },
+                    { word: 'Nefarious', trans: '/nəˈfeə.ri.əs/', rus: '[ни-фэ-ри-эс]', meaning: 'Злодейский', example: '"The villain had a nefarious plan."', exampleRu: '"У злодея был злодейский план."' },
+                    { word: 'Somnambulist', trans: '/sɒmˈnæm.bjə.lɪst/', rus: '[сом-нэм-бью-лист]', meaning: 'Лунатик', example: '"The somnambulist walked in his sleep."', exampleRu: '"Лунатик ходил во сне."' },
+                    { word: 'Epoch', trans: '/ˈiː.pɒk/', rus: '[и-пок]', meaning: 'Эпоха', example: '"The invention marked a new epoch in history."', exampleRu: '"Изобретение ознаменовало новую эпоху в истории."' }
+                ]
+            },
+            {
+                id: 3,
+                name: 'Средний',
+                description: 'Слова средней сложности',
+                words: [
+                    { word: 'Komorebi', trans: '/ˌkəʊ.məˈreɪ.bi/', rus: '[ко-мо-рэй-би]', meaning: 'Свет сквозь листву', example: '"We sat in the komorebi of the forest."', exampleRu: '"Мы сидели в свете сквозь листву леса."' },
+                    { word: 'Defenestration', trans: '/diːˌfen.ɪˈstreɪ.ʃən/', rus: '[ди-фе-ни-стрэй-шн]', meaning: 'Выбрасывание из окна', example: '"The defenestration of Prague was a historical event."', exampleRu: '"Пражская дефенестрация была историческим событием."' },
+                    { word: 'Gossamer', trans: '/ˈɡɒs.ə.mər/', rus: '[го-сэ-мэ]', meaning: 'Паутинка', example: '"Gossamer threads sparkled in the morning dew."', exampleRu: '"Паутинка сверкала в утренней росе."' },
+                    { word: 'Halcyon', trans: '/ˈhæl.si.ən/', rus: '[хэл-си-эн]', meaning: 'Спокойный, безмятежный', example: '"Those were the halcyon days of youth."', exampleRu: '"То были безмятежные дни молодости."' },
+                    { word: 'Labyrinthine', trans: '/ˌlæb.əˈrɪn.θaɪn/', rus: '[лэ-бэ-рин-файн]', meaning: 'Запутанный', example: '"The old city had labyrinthine streets."', exampleRu: '"У старого города были запутанные улицы."' },
+                    { word: 'Susurrus', trans: '/ˈsuːs.ər.əs/', rus: '[су-сэ-рэс]', meaning: 'Шёпот', example: '"The susurrus of leaves calmed her."', exampleRu: '"Шёпот листьев успокоил её."' },
+                    { word: 'Phantasmagoria', trans: '/fænˌtæz.məˈɡɔː.ri.ə/', rus: '[фэн-тэз-мэ-го-ри-э]', meaning: 'Призрачные видения', example: '"The dream was a phantasmagoria of images."', exampleRu: '"Сон был призрачными видениями образов."' },
+                    { word: 'Incandescent', trans: '/ˌɪn.kænˈdes.ənt/', rus: '[ин-кэн-дэ-сэнт]', meaning: 'Раскалённый', example: '"Her incandescent smile lit up the room."', exampleRu: '"Её раскалённая улыбка осветила комнату."' },
+                    { word: 'Palimpsest', trans: '/ˈpæl.ɪm.psest/', rus: '[па-лим-псест]', meaning: 'Палимпсест, многослойность', example: '"The city is a palimpsest of different eras."', exampleRu: '"Город — это палимпсест разных эпох."' },
+                    { word: 'Syzygy', trans: '/ˈsɪz.ə.dʒi/', rus: '[си-зи-джи]', meaning: 'Соединение противоположностей', example: '"The syzygy of sun, earth and moon caused the eclipse."', exampleRu: '"Соединение солнца, земли и луны вызвало затмение."' }
+                ]
+            },
+            {
+                id: 4,
+                name: 'Продвинутый',
+                description: 'Сложные слова',
+                words: [
+                    { word: 'Sempiternal', trans: '/ˌsem.pɪˈtɜː.nəl/', rus: '[сэм-пи-тэ-нл]', meaning: 'Вечный', example: '"The sempiternal mountains stood unchanged."', exampleRu: '"Вечные горы стояли неизменными."' },
+                    { word: 'Efflorescence', trans: '/ˌef.ləˈres.əns/', rus: '[э-фло-рэ-сэнс]', meaning: 'Цветение', example: '"The efflorescence of the garden was beautiful."', exampleRu: '"Цветение сада было прекрасным."' },
+                    { word: 'Lugubrious', trans: '/luːˈɡuː.bri.əs/', rus: '[лу-гу-бри-эс]', meaning: 'Мрачный', example: '"His lugubrious expression worried everyone."', exampleRu: '"Его мрачное выражение тревожило всех."' },
+                    { word: 'Pulchritude', trans: '/ˈpʌl.krɪ.tjuːd/', rus: '[пал-кри-тюд]', meaning: 'Красота', example: '"The pulchritude of the landscape was breathtaking."', exampleRu: '"Красота пейзажа захватывала дух."' },
+                    { word: 'Sesquipedalian', trans: '/ˌses.kwɪ.pɪˈdeɪ.li.ən/', rus: '[сэс-кви-пи-дэй-ли-эн]', meaning: 'Многословный', example: '"His sesquipedalian speeches bored the audience."', exampleRu: '"Его многословные речи утомляли аудиторию."' },
+                    { word: 'Saudade', trans: '/saʊˈdɑː.deɪ/', rus: '[сау-да-дэй]', meaning: 'Ностальгия', example: '"Saudade for her childhood never left her."', exampleRu: '"Ностальгия по детству никогда не покидала её."' },
+                    { word: 'Trouvaille', trans: '/truːˈvaɪ/', rus: '[тру-вай]', meaning: 'Счастливая находка', example: '"The antique shop was full of trouvailles."', exampleRu: '"Антикварный магазин был полон счастливых находок."' },
+                    { word: 'Numinous', trans: '/ˈnjuː.mɪ.nəs/', rus: '[нью-мэ-нэс]', meaning: 'Божественный, священный', example: '"The numinous atmosphere of the cathedral impressed him."', exampleRu: '"Божественная атмосфера собора впечатлила его."' },
+                    { word: 'Meraki', trans: '/meˈræ.ki/', rus: '[ми-рэ-ки]', meaning: 'Делать что-то с душой', example: '"She cooked with meraki, putting her heart into every dish."', exampleRu: '"Она готовила с душой, вкладывая сердце в каждое блюдо."' },
+                    { word: 'Drapetomania', trans: '/ˌdræp.ɪ.təˈmeɪ.ni.ə/', rus: '[дрэ-пи-тэ-мэй-ни-э]', meaning: 'Стремление к свободе', example: '"His drapetomania led him to travel the world."', exampleRu: '"Его стремление к свободе привело его в путешествие по миру."' }
+                ]
+            },
+            {
+                id: 5,
+                name: 'Эксперт',
+                description: 'Самые сложные слова',
+                words: [
+                    { word: 'Quiddity', trans: '/ˈkwɪd.ɪ.ti/', rus: '[кви-ди-ти]', meaning: 'Суть, сущность', example: '"He grasped the quiddity of the problem instantly."', exampleRu: '"Он сразу ухватил суть проблемы."' },
+                    { word: 'Apricity', trans: '/ˈeɪ.prɪs.ɪ.ti/', rus: '[эй-при-си-ти]', meaning: 'Тепло зимнего солнца', example: '"She basked in the apricity of January."', exampleRu: '"Она грелась в тепле январского солнца."' },
+                    { word: 'Monachopsis', trans: '/ˌmɒn.əˈkɒp.sɪs/', rus: '[мо-на-коп-сис]', meaning: 'Тоска по незнакомому месту', example: '"Monachopsis overwhelmed him in the new city."', exampleRu: '"Тоска по незнакомому месту переполняла его в новом городе."' },
+                    { word: 'Lethologica', trans: '/ˌleθ.əˈlɒdʒ.ɪ.kə/', rus: '[ле-фо-ло-джи-ка]', meaning: 'Забывчивость', example: '"Lethologica struck when he needed the word most."', exampleRu: '"Забывчивость настигла его, когда он больше всего нуждался в слове."' },
+                    { word: 'Jouska', trans: '/ˈdʒuː.skə/', rus: '[джу-ска]', meaning: 'Воображаемый разговор', example: '"He often engaged in jouska while showering."', exampleRu: '"Он часто вёл воображаемые разговоры под душем."' },
+                    { word: 'Kenopsia', trans: '/keˈnɒp.si.ə/', rus: '[ки-ноп-си-э]', meaning: 'Тревога от пустых мест', example: '"The kenopsia of the abandoned mall disturbed him."', exampleRu: '"Тревога от пустого заброшенного мола тревожила его."' },
+                    { word: 'Chrysalism', trans: '/ˈkrɪs.ə.lɪz.əm/', rus: '[кри-са-ли-зэм]', meaning: 'Уют во время дождя', example: '"She enjoyed the chrysalism of her room."', exampleRu: '"Она наслаждалась уютом своей комнаты во время дождя."' },
+                    { word: 'Anecdoche', trans: '/əˈnek.də.keɪ/', rus: '[э-нэк-дэ-кэй]', meaning: 'Разговор, где никто не слушает', example: '"The meeting was just anecdoche."', exampleRu: '"Встреча была просто разговором, где никто не слушал."' },
+                    { word: 'Ellipsism', trans: '/ɪˈlɪp.sɪz.əm/', rus: '[и-лип-си-зэм]', meaning: 'Тоска по непрожитым моментам', example: '"Ellipsism haunted him in his old age."', exampleRu: '"Тоска по непрожитым моментам преследовала его в старости."' },
+                    { word: 'Mauerbauertraurigkeit', trans: '/ˈmaʊ.ər.baʊ.ərˈtraʊ.ər.ɪk.aɪt/', rus: '[мау-эр-бау-эр-трау-эр-икайт]', meaning: 'Желание построить стены', example: '"His mauerbauertraurigkeit kept everyone away."', exampleRu: '"Его желание построить стены отталкивало всех."' }
+                ]
+            }
+        ];
         
-        
+        let currentLevel = 0;
         let currentCard = 0;
         let showRusTrans = false;
         let lessonStartTime = null;
         let isFlipped = false;
         
-        // Haptic feedback helper
+        const STORAGE_KEY = 'linguaparrot_progress_v2';
+        
         function haptic() {
             if (tg.HapticFeedback) {
                 tg.HapticFeedback.impactOccurred('light');
+            }
+        }
+        
+        function getDefaultProgress() {
+            return {
+                dailyMinutes: 0,
+                wordsLearned: 0,
+                streak: 0,
+                lastVisit: new Date().toISOString(),
+                levels: levels.map(l => ({ id: l.id, completed: false, wordsLearned: 0 })),
+                currentLesson: null
+            };
+        }
+        
+        function saveProgress() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            const progress = saved ? JSON.parse(saved) : getDefaultProgress();
+            
+            progress.dailyMinutes = parseInt(document.getElementById('dailyProgress').textContent);
+            progress.wordsLearned = parseInt(document.getElementById('wordsCount').textContent);
+            progress.streak = parseInt(document.getElementById('streakCount').textContent);
+            progress.lastVisit = new Date().toISOString();
+            
+            if (progress.levels[currentLevel]) {
+                progress.levels[currentLevel].wordsLearned = currentCard;
+            }
+            
+            if (document.getElementById('lessonScreen').classList.contains('active')) {
+                progress.currentLesson = {
+                    levelIndex: currentLevel,
+                    cardIndex: currentCard,
+                    startTime: lessonStartTime
+                };
+            } else {
+                progress.currentLesson = null;
+            }
+            
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            
+            tg.sendData(JSON.stringify({
+                action: 'save_progress',
+                data: progress
+            }));
+        }
+        
+        function loadProgress() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            const progress = saved ? JSON.parse(saved) : getDefaultProgress();
+            
+            document.getElementById('dailyProgress').textContent = progress.dailyMinutes || 0;
+            document.getElementById('wordsCount').textContent = progress.wordsLearned || 0;
+            document.getElementById('streakCount').textContent = progress.streak || 0;
+            document.getElementById('progressBar').style.width = Math.min(((progress.dailyMinutes || 0) / 15 * 100), 100) + '%';
+            
+            renderLevels(progress);
+            
+            if (progress.currentLesson && progress.currentLesson.levelIndex !== undefined) {
+                setTimeout(() => {
+                    if (confirm(`У вас есть незавершённый урок (Уровень ${progress.currentLesson.levelIndex + 1}, слово ${progress.currentLesson.cardIndex + 1}/${levels[progress.currentLesson.levelIndex].words.length}). Продолжить?`)) {
+                        resumeLesson(progress.currentLesson);
+                    }
+                }, 500);
+            }
+            
+            return progress;
+        }
+        
+        function renderLevels(progress) {
+            const grid = document.getElementById('levelGrid');
+            grid.innerHTML = '';
+            
+            levels.forEach((level, index) => {
+                const levelProgress = progress.levels[index] || { completed: false, wordsLearned: 0 };
+                const prevCompleted = index === 0 || (progress.levels[index - 1] && progress.levels[index - 1].completed);
+                const isLocked = !prevCompleted && !levelProgress.completed;
+                
+                const card = document.createElement('div');
+                card.className = `level-card ${levelProgress.completed ? 'active' : ''} ${isLocked ? 'locked' : ''}`;
+                card.onclick = () => !isLocked && selectLevel(index);
+                
+                card.innerHTML = `
+                    <div class="level-status">${levelProgress.completed ? '✅' : (isLocked ? '🔒' : '')}</div>
+                    <div class="level-number">${level.id}</div>
+                    <div class="level-name">${level.name}</div>
+                    <div class="level-progress">${levelProgress.wordsLearned}/${level.words.length} слов</div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+        
+        function selectLevel(index) {
+            haptic();
+            currentLevel = index;
+            currentCard = 0;
+            isFlipped = false;
+            lessonStartTime = Date.now();
+            updateCard();
+            generateDots();
+            document.getElementById('mainScreen').classList.remove('active');
+            document.getElementById('lessonScreen').classList.add('active');
+            tg.MainButton.setText('Проверить ✅');
+            tg.MainButton.hide();
+        }
+        
+        function resumeLesson(lessonData) {
+            currentLevel = lessonData.levelIndex;
+            currentCard = lessonData.cardIndex;
+            lessonStartTime = Date.now();
+            updateCard();
+            generateDots();
+            document.getElementById('mainScreen').classList.remove('active');
+            document.getElementById('lessonScreen').classList.add('active');
+            tg.MainButton.setText('Проверить ✅');
+            if (currentCard > 0) tg.MainButton.show();
+        }
+        
+        function generateDots() {
+            const container = document.getElementById('progressDots');
+            container.innerHTML = '';
+            const wordCount = levels[currentLevel].words.length;
+            
+            for (let i = 0; i < wordCount; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                container.appendChild(dot);
             }
         }
         
@@ -666,30 +740,12 @@ function updateStats() {
         
         function openChat() {
             haptic();
-            // Send data to bot
             tg.sendData(JSON.stringify({ action: 'open_chat' }));
             tg.showAlert('AI-репетитор скоро будет доступен! 🦜');
         }
         
-        function startLesson() {
-            haptic();
-            currentCard = 0;
-            isFlipped = false;
-            lessonStartTime = Date.now();
-            updateCard();
-            document.getElementById('mainScreen').classList.remove('active');
-            document.getElementById('lessonScreen').classList.add('active');
-            
-            // Set TG main button
-            tg.MainButton.setText('Проверить ✅');
-            tg.MainButton.hide(); 
-      saveProgress();
-
-
-        }
-        
         function updateCard() {
-            const w = words[currentCard];
+            const w = levels[currentLevel].words[currentCard];
             document.getElementById('cardWord').textContent = w.word;
             document.getElementById('cardTrans').textContent = w.trans;
             document.getElementById('cardRusTrans').textContent = w.rus;
@@ -700,7 +756,6 @@ function updateStats() {
             document.getElementById('flashcard').classList.remove('flipped');
             document.getElementById('detailCard').classList.remove('show');
             
-            // Update dots
             const dots = document.querySelectorAll('.dot');
             dots.forEach((d, i) => {
                 d.classList.remove('active', 'completed');
@@ -708,8 +763,8 @@ function updateStats() {
                 if (i === currentCard) d.classList.add('active');
             });
             
-            // Update main button
-            tg.MainButton.setText(currentCard < words.length - 1 ? 'Следующее слово →' : 'Завершить урок 🎉');
+            const isLast = currentCard >= levels[currentLevel].words.length - 1;
+            tg.MainButton.setText(isLast ? 'Завершить урок 🎉' : 'Следующее слово →');
         }
         
         function flipCard() {
@@ -717,6 +772,8 @@ function updateStats() {
             haptic();
             isFlipped = true;
             document.getElementById('flashcard').classList.add('flipped');
+            saveProgress();
+            
             setTimeout(() => {
                 document.getElementById('detailCard').classList.add('show');
                 tg.MainButton.show();
@@ -733,37 +790,52 @@ function updateStats() {
         function closeLesson() {
             haptic();
             if (confirm('Прервать урок? Прогресс будет сохранён.')) {
+                saveProgress();
                 document.getElementById('lessonScreen').classList.remove('active');
                 document.getElementById('mainScreen').classList.add('active');
                 tg.MainButton.hide();
+                const progress = JSON.parse(localStorage.getItem(STORAGE_KEY));
+                renderLevels(progress);
             }
         }
         
         function finishLesson() {
             haptic();
-            const timeSpent = Math.floor((Date.now() - lessonStartTime) / 1000);
-            const mins = Math.floor(timeSpent / 60);
-            const secs = timeSpent % 60;
             
-            document.getElementById('timeValue').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+            // Обновляем общую статистику
+            const currentDaily = parseInt(document.getElementById('dailyProgress').textContent);
+            const newDaily = currentDaily + 5;
+            document.getElementById('dailyProgress').textContent = newDaily;
+            document.getElementById('progressBar').style.width = Math.min((newDaily / 15 * 100), 100) + '%';
+            
+            const currentWords = parseInt(document.getElementById('wordsCount').textContent);
+            const newWords = currentWords + levels[currentLevel].words.length;
+            document.getElementById('wordsCount').textContent = newWords;
+            
+            // Отмечаем уровень как пройденный
+            const saved = localStorage.getItem(STORAGE_KEY);
+            const progress = saved ? JSON.parse(saved) : getDefaultProgress();
+            progress.levels[currentLevel].completed = true;
+            progress.levels[currentLevel].wordsLearned = levels[currentLevel].words.length;
+            progress.dailyMinutes = newDaily;
+            progress.wordsLearned = newWords;
+            progress.currentLesson = null;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            
+            tg.sendData(JSON.stringify({
+                action: 'level_complete',
+                level: currentLevel + 1,
+                words: levels[currentLevel].words.length,
+                xp: 100 + (currentLevel * 20)
+            }));
+            
+            // Возвращаемся на главный экран
             document.getElementById('resultScreen').classList.remove('active');
             document.getElementById('mainScreen').classList.add('active');
-            
-            // Update progress
-            const current = parseInt(document.getElementById('dailyProgress').textContent);
-            document.getElementById('dailyProgress').textContent = current + 5;
-            document.getElementById('progressBar').style.width = Math.min(((current + 5) / 15 * 100), 100) + '%';
-            
-            // Send result to bot
-            tg.sendData(JSON.stringify({
-                action: 'lesson_complete',
-                words: 5,
-                time: timeSpent,
-                xp: 50
-            }));
+            tg.MainButton.hide();
+            renderLevels(progress);
         }
         
-        // TG Main Button handler
         tg.MainButton.onClick(() => {
             haptic();
             if (!isFlipped) {
@@ -772,8 +844,17 @@ function updateStats() {
             }
             
             currentCard++;
-            if (currentCard >= words.length) {
-                // Show results
+            saveProgress();
+            
+            if (currentCard >= levels[currentLevel].words.length) {
+                const timeSpent = Math.floor((Date.now() - lessonStartTime) / 1000);
+                const mins = Math.floor(timeSpent / 60);
+                const secs = timeSpent % 60;
+                document.getElementById('timeValue').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+                document.getElementById('resultWords').textContent = levels[currentLevel].words.length;
+                document.getElementById('resultXP').textContent = `+${100 + (currentLevel * 20)} XP`;
+                document.getElementById('resultSubtitle').textContent = `Уровень "${levels[currentLevel].name}" пройден!`;
+                
                 document.getElementById('lessonScreen').classList.remove('active');
                 document.getElementById('resultScreen').classList.add('active');
                 tg.MainButton.hide();
@@ -784,8 +865,15 @@ function updateStats() {
             }
         });
         
-        // Init
-        document.getElementById('progressBar').style.width = '0%';
+        window.addEventListener('beforeunload', () => {
+            if (document.getElementById('lessonScreen').classList.contains('active')) {
+                saveProgress();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+        });
     </script>
 </body>
 </html>
