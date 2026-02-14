@@ -544,7 +544,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Game Screen -->
         <div class="game-screen" id="gameScreen">
             <div class="lesson-header">
@@ -1785,7 +1784,7 @@
         tg.ready();
         tg.expand();
 
-        // ==================== STRICT MODE: РАСШИРЕННЫЕ УРОВНИ С КАТЕГОРИЯМИ И КАРТИНКАМИ ====================
+        // ==================== STRICT MODE: РАСШИРЕННЫЕ УРОВНИ ====================
         const strictLevels = [
             {
                 id: 1,
@@ -1796,6 +1795,64 @@
                     { word: 'Serendipity', trans: '/ˌser.ənˈdɪp.ə.ti/', rus: '[сэ-рэн-ди-пи-ти]', meaning: 'Счастливая случайность', emoji: '🍀', example: '"Meeting her was pure serendipity."', exampleRu: '"Встреча с ней была чистой случайностью"', context: 'Когда что-то хорошее происходит неожиданно' },
                     { word: 'Ephemeral', trans: '/ɪˈfem.ər.əl/', rus: '[и-фэ-мэ-рл]', meaning: 'Мимолётный', emoji: '🌸', example: '"Fame in the internet age is ephemeral."', exampleRu: '"Слава в эпоху интернета мимолётна."', context: 'Как цветение сакуры — красиво, но недолго' },
                     { word: 'Resilience', trans: '/rɪˈzɪl.jəns/', rus: '[ри-зи-лйэнс]', meaning: 'Устойчивость', emoji: '🌱', example: '"Her resilience helped her overcome all difficulties."', exampleRu: '"Её жизнестойкость помогла преодолеть трудности."', context: 'Как дерево, гнущееся на ветру, но не ломающееся' },
+                    { word: 'Eloquent', trans: '/ˈel.ə.kwənt/', rus: '[э-лэ-квэнт]', meaning: 'Красноречивый', emoji: '🎤', example: '"He gave an eloquent speech about freedom."', exampleRu: '"Он произнёс красноречивую речь о свободе."', context: 'Умение красиво выражать мысли' },
+                    { word: 'Mellifluous', trans: '/meˈlɪf.lu.əs/', rus: '[мэ-ли-флу-эс]', meaning: 'Медовый, плавный', emoji: '🍯', example: '"She had a rich, mellifluous voice."', exampleRu: '"У неё был богатый, плавный голос."', context: 'Как текущий мёд — сладко и плавно' }
+                ]
+            },
+            {
+                id: 2,
+                name: 'Повседневная жизнь',
+                description: 'Слова для everyday life',
+                category: 'daily',
+                words: [
+                    { word: 'Ubiquitous', trans: '/juːˈbɪk.wɪ.təs/', rus: '[ю-би-кви-тэс]', meaning: 'Вездесущий', emoji: '📱', example: '"Smartphones are now ubiquitous."', exampleRu: '"Смартфоны теперь вездесущи."', context: 'Как воздух — везде вокруг' },
+                    { word: 'Pragmatic', trans: '/præɡˈmæt.ɪk/', rus: '[праг-мэ-тик]', meaning: 'Прагматичный', emoji: '🛠️', example: '"We need a pragmatic solution."', exampleRu: '"Нам нужно прагматичное решение."', context: 'Практичный подход к делу' },
+                    { word: 'Aesthetic', trans: '/esˈθet.ɪk/', rus: '[эс-θэ-тик]', meaning: 'Эстетический', emoji: '🎨', example: '"The aesthetic appeal of the design."', exampleRu: '"Эстетическая привлекательность дизайна."', context: 'Красота и гармония в искусстве' },
+                    { word: 'Nostalgia', trans: '/nɒsˈtæl.dʒə/', rus: '[нос-таль-джэ]', meaning: 'Ностальгия', emoji: '📷', example: '"A wave of nostalgia washed over him."', exampleRu: '"Волна ностальгии накрыла его."', context: 'Тёплые воспоминания о прошлом' },
+                    { word: 'Euphoria', trans: '/juːˈfɔː.ri.ə/', rus: '[ю-фо-ри-э]', meaning: 'Эйфория', emoji: '🎉', example: '"The team was in a state of euphoria."', exampleRu: '"Команда была в состоянии эйфории."', context: 'Пик счастья и радости' }
+                ]
+            },
+            {
+                id: 3,
+                name: 'Наука и мышление',
+                description: 'Академические термины',
+                category: 'academic',
+                words: [
+                    { word: 'Paradigm', trans: '/ˈpær.ə.daɪm/', rus: '[пэ-рэ-дайм]', meaning: 'Парадигма', emoji: '🔄', example: '"A new paradigm in science."', exampleRu: '"Новая парадигма в науке."', context: 'Фундаментальная модель мышления' },
+                    { word: 'Dichotomy', trans: '/daɪˈkɒt.ə.mi/', rus: '[дай-ко-тэ-ми]', meaning: 'Дихотомия', emoji: '⚖️', example: '"The dichotomy between good and evil."', exampleRu: '"Дихотомия между добром и злом."', context: 'Разделение на две противоположности' },
+                    { word: 'Empirical', trans: '/ɪmˈpɪr.ɪ.kəl/', rus: '[им-пи-ри-кэл]', meaning: 'Эмпирический', emoji: '🔬', example: '"Empirical evidence supports the theory."', exampleRu: '"Эмпирические данные подтверждают теорию."', context: 'Основано на опыте и наблюдениях' },
+                    { word: 'Ambiguous', trans: '/æmˈbɪɡ.ju.əs/', rus: '[эм-би-гью-эс]', meaning: 'Двусмысленный', emoji: '🤔', example: '"The instructions were ambiguous."', exampleRu: '"Инструкции были двусмысленными."', context: 'Когда смысл неясен, можно понять по-разному' },
+                    { word: 'Coherent', trans: '/kəʊˈhɪə.rənt/', rus: '[коу-хи-рэнт]', meaning: 'Последовательный', emoji: '🧩', example: '"A coherent argument."', exampleRu: '"Последовательный аргумент."', context: 'Когда все части логически связаны' }
+                ]
+            },
+            {
+                id: 4,
+                name: 'Философия',
+                description: 'Глубокие понятия',
+                category: 'philosophy',
+                words: [
+                    { word: 'Epistemology', trans: '/ɪˌpɪs.əˈmɒl.ə.dʒi/', rus: '[и-пи-стэ-мо-ло-джи]', meaning: 'Эпистемология', emoji: '🧠', example: '"The epistemology of science."', exampleRu: '"Эпистемология науки."', context: 'Учение о природе знания' },
+                    { word: 'Existential', trans: '/ˌɪɡ.zɪˈsten.ʃəl/', rus: '[иг-зи-стен-шэл]', meaning: 'Экзистенциальный', emoji: '🌌', example: '"An existential crisis."', exampleRu: '"Экзистенциальный кризис."', context: 'Связано с существованием и смыслом жизни' },
+                    { word: 'Meticulous', trans: '/məˈtɪk.jə.ləs/', rus: '[мэ-ти-кью-лэс]', meaning: 'Метикулезный', emoji: '🔍', example: '"He was meticulous in his work."', exampleRu: '"Он был метикулезен в работе."', context: 'Крайняя внимательность к деталям' },
+                    { word: 'Pragmatism', trans: '/ˈpræɡ.mə.tɪ.zəm/', rus: '[праг-мэ-ти-зэм]', meaning: 'Прагматизм', emoji: '⚙️', example: '"American pragmatism in philosophy."', exampleRu: '"Американский прагматизм в философии."', context: 'Оценка идей по их практической пользе' },
+                    { word: 'Solipsism', trans: '/ˈsɒl.ɪp.sɪ.zəm/', rus: '[со-лип-си-зэм]', meaning: 'Солипсизм', emoji: '👤', example: '"The problem of solipsism."', exampleRu: '"Проблема солипсизма."', context: 'Философская идея: только я существую' }
+                ]
+            },
+            {
+                id: 5,
+                name: 'Характер и поведение',
+                description: 'Описание личности',
+                category: 'character',
+                words: [
+                    { word: 'Quintessential', trans: '/ˌkwɪn.tɪˈsen.ʃəl/', rus: '[квин-ти-сен-шэл]', meaning: 'Квинтэссенция', emoji: '💎', example: '"He is the quintessential gentleman."', exampleRu: '"Он — квинтэссенция джентльмена."', context: 'Самая чистая форма чего-то' },
+                    { word: 'Alacrity', trans: '/əˈlæk.rə.ti/', rus: '[э-лэ-кри-ти]', meaning: 'Готовность, рвение', emoji: '⚡', example: '"She accepted with alacrity."', exampleRu: '"Она приняла с рвением."', context: 'Быстрое и радостное согласие' },
+                    { word: 'Capricious', trans: '/kəˈprɪʃ.əs/', rus: '[кэ-при-шэс]', meaning: 'Капризный', emoji: '🌦️', example: '"The capricious weather."', exampleRu: '"Капризная погода."', context: 'Непредсказуемый, как погода' },
+                    { word: 'Esoteric', trans: '/ˌes.əˈter.ɪk/', rus: '[э-сэ-те-рик]', meaning: 'Эзотерический', emoji: '📿', example: '"Esoteric knowledge."', exampleRu: '"Эзотерические знания."', context: 'Тайное знание для посвящённых' },
+                    { word: 'Sycophant', trans: '/ˈsɪk.ə.fənt/', rus: '[си-ко-фэнт]', meaning: 'Подхалим', emoji: '🐍', example: '"A sycophant seeking favor."', exampleRu: '"Подхалим, ищущий благосклонности."', context: 'Льстец ради выгоды' }
+                ]
+            },
+            {
+                id:естойкость помогла преодолеть трудности."', context: 'Как дерево, гнущееся на ветру, но не ломающееся' },
                     { word: 'Eloquent', trans: '/ˈel.ə.kwənt/', rus: '[э-лэ-квэнт]', meaning: 'Красноречивый', emoji: '🎤', example: '"He gave an eloquent speech about freedom."', exampleRu: '"Он произнёс красноречивую речь о свободе."', context: 'Умение красиво выражать мысли' },
                     { word: 'Mellifluous', trans: '/meˈlɪf.lu.əs/', rus: '[мэ-ли-флу-эс]', meaning: 'Медовый, плавный', emoji: '🍯', example: '"She had a rich, mellifluous voice."', exampleRu: '"У неё был богатый, плавный голос."', context: 'Как текущий мёд — сладко и плавно' }
                 ]
@@ -1919,9 +1976,8 @@
             }
         ];
 
-        // ==================== GAME MODE: РАСШИРЕННЫЕ СЛОВА С КАТЕГОРИЯМИ ====================
+        // ==================== GAME MODE: РАСШИРЕННЫЕ СЛОВА ====================
         const gameWords = [
-            // Эмоции и чувства
             { word: 'Hello', trans: '/həˈləʊ/', rus: '[хэ-лоу]', meaning: 'Привет', emoji: '👋', category: 'greetings' },
             { word: 'Love', trans: '/lʌv/', rus: '[лав]', meaning: 'Любовь', emoji: '❤️', category: 'emotions' },
             { word: 'Dream', trans: '/driːm/', rus: '[дрим]', meaning: 'Мечта', emoji: '💭', category: 'mind' },
@@ -1929,54 +1985,8 @@
             { word: 'Ocean', trans: '/ˈəʊ.ʃən/', rus: '[оу-шэн]', meaning: 'Океан', emoji: '🌊', category: 'nature' },
             { word: 'Freedom', trans: '/ˈfriː.dəm/', rus: '[фри-дэм]', meaning: 'Свобода', emoji: '🕊️', category: 'concepts' },
             { word: 'Wisdom', trans: '/ˈwɪz.dəm/', rus: '[уиз-дэм]', meaning: 'Мудрость', emoji: '🦉', category: 'mind' },
-            { word: 'Courage', trans: '/ˈkʌr.ɪdʒ/', rus: '[кэ-ридж]', meaning: 'Смелость', emoji: '🦁', category: 'character' },
-            { word: 'Journey', trans: '/ˈdʒɜː.ni/', rus: '[джё-ни]', meaning: 'Путешествие', emoji: '🚀', category: 'travel' },
-            { word: 'Rainbow', trans: '/ˈreɪn.bəʊ/', rus: '[рэйн-боу]', meaning: 'Радуга', emoji: '🌈', category: 'nature' },
-            { word: 'Butterfly', trans: '/ˈbʌt.ə.flaɪ/', rus: '[ба-тэ-флай]', meaning: 'Бабочка', emoji: '🦋', category: 'animals' },
-            { word: 'Adventure', trans: '/ədˈven.tʃər/', rus: '[эд-вен-чэ]', meaning: 'Приключение', emoji: '🗺️', category: 'travel' },
-            { word: 'Beautiful', trans: '/ˈbjuː.tɪ.fəl/', rus: '[бью-ти-фэл]', meaning: 'Красивый', emoji: '✨', category: 'description' },
-            { word: 'Sunshine', trans: '/ˈsʌn.ʃaɪn/', rus: '[сан-шайн]', meaning: 'Солнечный свет', emoji: '☀️', category: 'nature' },
-            { word: 'Mystery', trans: '/ˈmɪs.tər.i/', rus: '[мис-тэ-ри]', meaning: 'Тайна', emoji: '🔮', category: 'concepts' },
-            { word: 'Treasure', trans: '/ˈtreʒ.ər/', rus: '[трэ-жэ]', meaning: 'Сокровище', emoji: '💎', category: 'objects' },
-            { word: 'Eternity', trans: '/ɪˈtɜː.nə.ti/', rus: '[и-тё-ни-ти]', meaning: 'Вечность', emoji: '⏳', category: 'time' },
-            { word: 'Galaxy', trans: '/ˈɡæl.ək.si/', rus: '[гэ-лэк-си]', meaning: 'Галактика', emoji: '🌌', category: 'space' },
-            { word: 'Phoenix', trans: '/ˈfiː.nɪks/', rus: '[фи-никс]', meaning: 'Феникс', emoji: '🔥', category: 'mythology' },
-            { word: 'Dragon', trans: '/ˈdræɡ.ən/', rus: '[дрэ-гэн]', meaning: 'Дракон', emoji: '🐉', category: 'mythology' },
-            { word: 'Wizard', trans: '/ˈwɪz.əd/', rus: '[уи-зэд]', meaning: 'Волшебник', emoji: '🧙', category: 'fantasy' },
-            { word: 'Castle', trans: '/ˈkɑː.səl/', rus: '[ка-сэл]', meaning: 'Замок', emoji: '🏰', category: 'places' },
-            { word: 'Victory', trans: '/ˈvɪk.tər.i/', rus: '[вик-тэ-ри]', meaning: 'Победа', emoji: '🏆', category: 'success' },
-            { word: 'Champion', trans: '/ˈtʃæm.pi.ən/', rus: '[чэм-ни-эн]', meaning: 'Чемпион', emoji: '🥇', category: 'success' },
-            { word: 'Legend', trans: '/ˈledʒ.ənd/', rus: '[ле-джэнд]', meaning: 'Легенда', emoji: '👑', category: 'success' },
-            { word: 'Master', trans: '/ˈmɑː.stər/', rus: '[ма-стэ]', meaning: 'Мастер', emoji: '🥋', category: 'skills' },
-            { word: 'Warrior', trans: '/ˈwɒr.i.ər/', rus: '[во-ри-э]', meaning: 'Воин', emoji: '⚔️', category: 'character' },
-            { word: 'Unicorn', trans: '/ˈjuː.nɪ.kɔːn/', rus: '[ью-ни-кон]', meaning: 'Единорог', emoji: '🦄', category: 'mythology' },
-            { word: 'Mermaid', trans: '/ˈmɜː.meɪd/', rus: '[мё-мэйд]', meaning: 'Русалка', emoji: '🧜', category: 'mythology' },
-            { word: 'Pirate', trans: '/ˈpaɪ.rət/', rus: '[пай-рэт]', meaning: 'Пират', emoji: '🏴‍☠️', category: 'character' },
-            { word: 'Ninja', trans: '/ˈnɪn.dʒə/', rus: '[нин-джэ]', meaning: 'Ниндзя', emoji: '🥷', category: 'character' },
-            { word: 'Robot', trans: '/ˈrəʊ.bɒt/', rus: '[роу-бот]', meaning: 'Робот', emoji: '🤖', category: 'technology' },
-            { word: 'Diamond', trans: '/ˈdaɪə.mənd/', rus: '[дай-э-мэнд]', meaning: 'Бриллиант', emoji: '💎', category: 'objects' },
-            { word: 'Crystal', trans: '/ˈkrɪs.təl/', rus: '[кри-стэл]', meaning: 'Кристалл', emoji: '💠', category: 'objects' },
-            { word: 'Thunder', trans: '/ˈθʌn.dər/', rus: '[фан-дэ]', meaning: 'Гром', emoji: '⚡', category: 'nature' },
-            { word: 'Blizzard', trans: '/ˈblɪz.əd/', rus: '[бли-зэд]', meaning: 'Метель', emoji: '❄️', category: 'nature' },
-            { word: 'Volcano', trans: '/vɒlˈkeɪ.nəʊ/', rus: '[вол-кэй-ноу]', meaning: 'Вулкан', emoji: '🌋', category: 'nature' },
-            { word: 'Miracle', trans: '/ˈmɪr.ə.kəl/', rus: '[ми-рэ-кэл]', meaning: 'Чудо', emoji: '✨', category: 'concepts' },
-            { word: 'Destiny', trans: '/ˈdes.tɪ.ni/', rus: '[дэс-ти-ни]', meaning: 'Судьба', emoji: '🎯', category: 'concepts' },
-            { word: 'Harmony', trans: '/ˈhɑː.mə.ni/', rus: '[ха-мэ-ни]', meaning: 'Гармония', emoji: '☯️', category: 'concepts' },
-            { word: 'Symphony', trans: '/ˈsɪm.fə.ni/', rus: '[сим-фэ-ни]', meaning: 'Симфония', emoji: '🎼', category: 'art' },
-            { word: 'Melody', trans: '/ˈmel.ə.di/', rus: '[ме-лэ-ди]', meaning: 'Мелодия', emoji: '🎵', category: 'art' },
-            { word: 'Infinity', trans: '/ɪnˈfɪn.ə.ti/', rus: '[ин-фи-ни-ти]', meaning: 'Бесконечность', emoji: '∞', category: 'concepts' },
-            { word: 'Eclipse', trans: '/ɪˈklɪps/', rus: '[и-клипс]', meaning: 'Затмение', emoji: '🌑', category: 'space' },
-            { word: 'Supernova', trans: '/ˌsuː.pəˈnəʊ.və/', rus: '[су-пэ-ноу-вэ]', meaning: 'Сверхновая', emoji: '💥', category: 'space' },
-            { word: 'Nebula', trans: '/ˈneb.jə.lə/', rus: '[не-бью-лэ]', meaning: 'Туманность', emoji: '🌠', category: 'space' },
-            { word: 'Cosmos', trans: '/ˈkɒz.mɒs/', rus: '[ко-змос]', meaning: 'Космос', emoji: '🌌', category: 'space' },
-            { word: 'Friend', trans: '/frend/', rus: '[фрэнд]', meaning: 'Друг', emoji: '🤝', category: 'people' },
-            { word: 'Family', trans: '/ˈfæm.ə.li/', rus: '[фэ-ми-ли]', meaning: 'Семья', emoji: '👨‍👩‍👧‍👦', category: 'people' },
-            { word: 'Happiness', trans: '/ˈhæp.i.nəs/', rus: '[хэ-пи-нэс]', meaning: 'Счастье', emoji: '😊', category: 'emotions' },
-            { word: 'Knowledge', trans: '/ˈnɒl.ɪdʒ/', rus: '[но-лидж]', meaning: 'Знание', emoji: '📚', category: 'mind' },
-            { word: 'Imagination', trans: '/ɪˌmædʒ.ɪˈneɪ.ʃən/', rus: '[и-мэ-джи-нэй-шэн]', meaning: 'Воображение', emoji: '🌈', category: 'mind' }
-        ];
-
-        // Organize game words into levels with categories
+            { word: 'Courage', trans: '/ˈkʌr.ɪdʒ/', rus: '[кэ-ридж]', meaning: 'Смелость', emoji: '🦁
+        // Organize game words into levels
         const gameLevels = [];
         const categories = ['emotions', 'nature', 'space', 'mythology', 'success', 'mind', 'character'];
         
@@ -1992,436 +2002,7 @@
                 words: levelWords.length > 0 ? levelWords : gameWords.slice(i * 5, (i + 1) * 5)
             });
         }
-        // ==================== STREET MODE: РАСШИРЕННЫЙ СЛЕНГ-СЛОВАРЬ ====================
-        const slangData = {
-            oldschool: [
-                {
-                    id: 'oldschool-1',
-                    name: 'Old School Basics',
-                    description: 'Классика 90-х',
-                    words: [
-                        { word: 'Dope', trans: '/dəʊp/', rus: '[дoup]', meaning: 'Крутой, классный', emoji: '🔥', example: '"That beat is dope!"', exampleRu: '"Этот бит крутой!"', context: 'Одно из самых узнаваемых слов 90-х', origin: 'Изначально "наркотик", перешло в значение "круто"' },
-                        { word: 'Fresh', trans: '/freʃ/', rus: '[фрэш]', meaning: 'Свежий, стильный', emoji: '✨', example: '"His style is so fresh."', exampleRu: '"Его стиль такой свежий."', context: 'Новое, модное, неизбитое', origin: 'От "fresh" — свежий' },
-                        { word: 'Word is bond', trans: '/wɜːd ɪz bɒnd/', rus: '[ворд из бонд]', meaning: 'Честное слово', emoji: '🤝', example: '"Word is bond, I\'ll be there."', exampleRu: '"Честное слово, я буду там."', context: 'Серьёзное обещание', origin: 'От "my word is my bond" — моё слово моя облигация' },
-                        { word: 'Props', trans: '/prɒps/', rus: '[пропс]', meaning: 'Уважение, респект', emoji: '🙌', example: '"Mad props to the DJ."', exampleRu: '"Огромный респект диджею."', context: 'Выражение уважения', origin: 'От "proper respect" — надлежащий респект' },
-                        { word: 'Def', trans: '/def/', rus: '[деф]', meaning: 'Отличный', emoji: '💯', example: '"That\'s def, man!"', exampleRu: '"Это круто, чувак!"', context: 'Высшая степень одобрения', origin: 'Сокращение от "definite" или "definitive"' }
-                    ]
-                },
-                {
-                    id: 'oldschool-2',
-                    name: 'Hip-Hop Culture',
-                    description: 'Термины культуры',
-                    words: [
-                        { word: 'Cypher', trans: '/ˈsaɪ.fər/', rus: '[сай-фэ]', meaning: 'Круг рэперов, фристайл', emoji: '⭕', example: '"They\'re having a cypher in the park."', exampleRu: '"Они устраивают фристайл-круг в парке."', context: 'Импровизационная битва рэперов', origin: 'От круга (cipher) — форма баттла' },
-                        { word: 'Flow', trans: '/fləʊ/', rus: '[флоу]', meaning: 'Подача, ритм речи', emoji: '🌊', example: '"His flow is incredible."', exampleRu: '"Его подача невероятная."', context: 'Манера читать рэп', origin: 'От "flow" — поток' },
-                        { word: 'Diss', trans: '/dɪs/', rus: '[дис]', meaning: 'Оскорбление, задисить', emoji: '💥', example: '"He dissed his rival in the track."', exampleRu: '"Он задиссил своего соперника в треке."', context: 'Публичное оскорбление в тексте', origin: 'От "disrespect" — неуважение' },
-                        { word: 'Beef', trans: '/biːf/', rus: '[биф]', meaning: 'Вражда, конфликт', emoji: '⚔️', example: '"There\'s beef between those rappers."', exampleRu: '"Между этими рэперами вражда."', context: 'Серьёзный конфликт', origin: 'От фразы "what\'s your beef?" — в чём претензия?' },
-                        { word: 'Mic', trans: '/maɪk/', rus: '[майк]', meaning: 'Микрофон', emoji: '🎤', example: '"Pass the mic!"', exampleRu: '"Передай микрофон!"', context: 'Инструмент рэпера', origin: 'Сокращение от microphone' }
-                    ]
-                },
-                {
-                    id: 'oldschool-3',
-                    name: 'Golden Era',
-                    description: 'Золотая эра 90-х',
-                    words: [
-                        { word: 'Ill', trans: '/ɪl/', rus: '[ил]', meaning: 'Крутой, офигенный', emoji: '😎', example: '"That track is ill!"', exampleRu: '"Этот трек офигенный!"', context: 'Высшая степень крутости', origin: 'Инверсия "ill" (больной) в положительное' },
-                        { word: 'Wack', trans: '/wæk/', rus: '[вэк]', meaning: 'Отстой, плохой', emoji: '👎', example: '"That song is wack."', exampleRu: '"Эта песня отстой."', context: 'Полное отрицание', origin: 'От "wacky" — странный, не такой' },
-                        { word: 'Boom bap', trans: '/buːm bæp/', rus: '[бум бэп]', meaning: 'Классический хип-хоп бит', emoji: '🥁', example: '"I love that boom bap sound."', exampleRu: '"Обожаю этот классический хип-хоп звук."', context: 'Звук бочки и малый барабан', origin: 'Ономатопея звука барабанов' },
-                        { word: 'Represent', trans: '/ˌrep.rɪˈzent/', rus: '[рэ-при-зэнт]', meaning: 'Представлять, чтить', emoji: '🏘️', example: '"I represent my hood."', exampleRu: '"Я представляю свой район."', context: 'Гордость за своё происхождение', origin: 'Стандартное слово в хип-хоп контексте' },
-                        { word: 'Cipher', trans: '/ˈsaɪ.fər/', rus: '[сай-фэ]', meaning: 'Круг, фристайл', emoji: '🔄', example: '"Let\'s form a cipher."', exampleRu: '"Давайте образуем круг."', context: 'Совместное чтение рэпа', origin: 'То же что и cypher' }
-                    ]
-                }
-            ],
-            modern: [
-                {
-                    id: 'modern-1',
-                    name: 'Modern Classics',
-                    description: 'Сленг 2010-х',
-                    words: [
-                        { word: 'Lit', trans: '/lɪt/', rus: '[лит]', meaning: 'Зажигательно, весело', emoji: '🔥', example: '"The party was lit!"', exampleRu: '"Вечеринка была огонь!"', context: 'Высокая энергия, крутая атмосфера', origin: 'От "lit" — зажжённый, в огне' },
-                        { word: 'Savage', trans: '/ˈsæv.ɪdʒ/', rus: '[сэ-видж]', meaning: 'Жестокий, беспощадный', emoji: '🐆', example: '"That comeback was savage."', exampleRu: '"Эта отповедь была беспощадной."', context: 'Безжалостная эффективность', origin: 'От "savage" — дикий, необузданный' },
-                        { word: 'Slay', trans: '/sleɪ/', rus: '[слэй]', meaning: 'Убить (в хорошем смысле)', emoji: '💅', example: '"You slay in that outfit!"', exampleRu: '"Ты убиваешь в этом наряде!"', context: 'Выглядеть потрясающе', origin: 'От "slay" — убивать, поражать' },
-                        { word: 'Goals', trans: '/ɡəʊlz/', rus: '[голз]', meaning: 'Цель, идеал', emoji: '🎯', example: '"Their relationship is goals."', exampleRu: '"Их отношения — это цель."', context: 'Желаемый идеал', origin: 'Стандартное слово в новом контексте' },
-                        { word: 'Tea', trans: '/tiː/', rus: '[ти]', meaning: 'Сплетни, новости', emoji: '☕', example: '"Spill the tea!"', exampleRu: '"Выдай сплетни!"', context: 'Интересная информация', origin: 'От "T" — truth, или чайная культура' }
-                    ]
-                },
-                {
-                    id: 'modern-2',
-                    name: 'Social Media',
-                    description: 'Интернет-сленг',
-                    words: [
-                        { word: 'Flex', trans: '/fleks/', rus: '[флекс]', meaning: 'Хвастаться', emoji: '💪', example: '"He\'s always flexing on Instagram."', exampleRu: '"Он вечно хвастается в Инстаграме."', context: 'Демонстрация достатка', origin: 'От "flex" — напрягать мышцы' },
-                        { word: 'Ghost', trans: '/ɡəʊst/', rus: '[гоуст]', meaning: 'Игнорить', emoji: '👻', example: '"She ghosted him after the date."', exampleRu: '"Она загоустила его после свидания."', context: 'Резкое прекращение общения', origin: 'От "ghost" — призрак, исчезнуть' },
-                        { word: 'Clout', trans: '/klaʊt/', rus: '[клаут]', meaning: 'Влияние, хайп', emoji: '📈', example: '"He\'s chasing clout on TikTok."', exampleRu: '"Он гонится за хайпом в ТикТоке."', context: 'Социальный капитал', origin: 'От "clout" — влияние, удар' },
-                        { word: 'Salty', trans: '/ˈsɔːl.ti/', rus: '[солти]', meaning: 'Злой, обиженный', emoji: '🧂', example: '"Why are you so salty?"', exampleRu: '"Почему ты такой злой?"', context: 'Раздражение и обида', origin: 'От "salty" — солёный, горький' },
-                        { word: 'Thirsty', trans: '/ˈθɜːs.ti/', rus: '[фёрсти]', meaning: 'Отчаянно желающий', emoji: '😰', example: '"He\'s so thirsty for attention."', exampleRu: '"Он так отчаянно жаждет внимания."', context: 'Навязчивая потребность', origin: 'От "thirsty" — жаждущий' }
-                    ]
-                },
-                {
-                    id: 'modern-3',
-                    name: 'Gen Z',
-                    description: 'Сленг поколения Z',
-                    words: [
-                        { word: 'Bet', trans: '/bet/', rus: '[бэт]', meaning: 'Договорились, окей', emoji: '✅', example: '"You coming?" "Bet!"', exampleRu: '"Ты идёшь?" "Бет!"', context: 'Подтверждение согласия', origin: 'От "you bet" — ты можешь быть уверен' },
-                        { word: 'Cap', trans: '/kæp/', rus: '[кэп]', meaning: 'Ложь, брехня', emoji: '🧢', example: '"No cap, that was amazing."', exampleRu: '"Без кэпа, это было потрясающе."', context: 'Обозначение правды/лжи', origin: 'От "to cap" — врать (возможно от "Kappa")' },
-                        { word: 'Bussin', trans: '/ˈbʌs.ɪn/', rus: '[бассин]', meaning: 'Очень вкусный', emoji: '😋', example: '"This food is bussin!"', exampleRu: '"Эта еда бомба!"', context: 'Высшая оценка еды', origin: 'От "busting" — взрываться, бомба' },
-                        { word: 'Mid', trans: '/mɪd/', rus: '[мид]', meaning: 'Посредственный', emoji: '😐', example: '"That restaurant is mid."', exampleRu: '"Тот ресторан посредственный."', context: 'Ни хорошо ни плохо', origin: 'От "middle" — средний' },
-                        { word: 'Rizz', trans: '/rɪz/', rus: '[риз]', meaning: 'Обаяние, харизма', emoji: '✨', example: '"He\'s got mad rizz."', exampleRu: '"У него крутое обаяние."', context: 'Умение нравиться', origin: 'От "charisma" — харизма' }
-                    ]
-                }
-            ],
-            trap: [
-                {
-                    id: 'trap-1',
-                    name: 'Trap Basics',
-                    description: 'Основы трэпа',
-                    words: [
-                        { word: 'Drip', trans: '/drɪp/', rus: '[дрип]', meaning: 'Стиль, одежда', emoji: '💧', example: '"Check out my drip!"', exampleRu: '"Смотри на мой стиль!"', context: 'Мода и аксессуары', origin: 'От "drip" — капать, сочиться стилем' },
-                        { word: 'Ice', trans: '/aɪs/', rus: '[айс]', meaning: 'Бриллианты, украшения', emoji: '💎', example: '"He\'s covered in ice."', exampleRu: '"Он весь в бриллиантах."', context: 'Драгоценности', origin: 'От "ice" — лёд, блеск камней' },
-                        { word: 'No cap', trans: '/nəʊ kæp/', rus: '[но кэп]', meaning: 'Без шуток, честно', emoji: '🤞', example: '"No cap, that was the best concert."', exampleRu: '"Без кэпа, это был лучший концерт."', context: 'Подтверждение правдивости', origin: 'Усиление "cap" — ложь' },
-                        { word: 'Bussin', trans: '/ˈbʌs.ɪn/', rus: '[бассин]', meaning: 'Очень вкусный', emoji: '🔥', example: '"This food is bussin!"', exampleRu: '"Эта еда бомба!"', context: 'Вкусная еда или крутая вещь', origin: 'То же что и в modern' },
-                        { word: 'Bet', trans: '/bet/', rus: '[бэт]', meaning: 'Договорились, окей', emoji: '🤙', example: '"You coming tonight?" "Bet!"', exampleRu: '"Ты придёшь сегодня?" "Бет!"', context: 'Согласие на планы', origin: 'То же что и в modern' }
-                    ]
-                },
-                {
-                    id: 'trap-2',
-                    name: 'Trap Life',
-                    description: 'Уличная жизнь',
-                    words: [
-                        { word: 'Opp', trans: '/ɒp/', rus: '[оп]', meaning: 'Враг, противник', emoji: '⚔️', example: '"Watch out for the opps."', exampleRu: '"Берегись врагов."', context: 'Опасные противники', origin: 'Сокращение от "opposition" или "opponent"' },
-                        { word: 'Shorty', trans: '/ˈʃɔː.ti/', rus: '[шорти]', meaning: 'Девушка, подруга', emoji: '👩', example: '"That\'s my shorty right there."', exampleRu: '"Вот моя девушка."', context: 'Девушка или близкий человек', origin: 'От "shorty" — невысокий, молодой' },
-                        { word: 'Whip', trans: '/wɪp/', rus: '[уип]', meaning: 'Машина', emoji: '🚗', example: '"Look at that new whip!"', exampleRu: '"Смотри на эту новую тачку!"', context: 'Автомобиль', origin: 'От "whip" — хлыст, управлять' },
-                        { word: 'Bands', trans: '/bændz/', rus: '[бэндз]', meaning: 'Пачки денег', emoji: '💵', example: '"He\'s making bands."', exampleRu: '"Он зарабатывает кучу денег."', context: 'Большие деньги', origin: 'От резинок на пачках денег' },
-                        { word: 'Plug', trans: '/plʌɡ/', rus: '[плаг]', meaning: 'Поставщик, связь', emoji: '🔌', example: '"I know a plug for tickets."', exampleRu: '"Я знаю человека для билетов."', context: 'Источник чего-либо', origin: 'От "plug" — вилка, подключение' }
-                    ]
-                },
-                {
-                    id: 'trap-3',
-                    name: 'Trap Money',
-                    description: 'Деньги и успех',
-                    words: [
-                        { word: 'Racks', trans: '/ræks/', rus: '[рэкс]', meaning: 'Тысячи долларов', emoji: '💰', example: '"I\'m making racks."', exampleRu: '"Я зарабатываю тысячи."', context: 'Большой доход', origin: 'От "rack" — стойка, много денег' },
-                        { word: 'Guap', trans: '/ɡwɒp/', rus: '[гвоп]', meaning: 'Деньги, бабки', emoji: '🤑', example: '"He\'s got that guap."', exampleRu: '"У него есть бабки."', context: 'Богатство', origin: 'Возможно от "wampum" или "guapo"' },
-                        { word: 'Check', trans: '/tʃek/', rus: '[чек]', meaning: 'Чек, доход', emoji: '💳', example: '"I got a big check coming."', exampleRu: '"У меня большой чек на подходе."', context: 'Предстоящий доход', origin: 'Стандартное слово в новом контексте' },
-                        { word: 'Bag', trans: '/bæɡ/', rus: '[бэг]', meaning: 'Мешок денег', emoji: '💼', example: '"Secure the bag."', exampleRu: '"Забери мешок (заработай)." ', context: 'Заработок денег', origin: 'От "bag" — мешок с деньгами' },
-                        { word: 'M\'s', trans: '/emz/', rus: '[эмз]', meaning: 'Миллионы', emoji: '🏦', example: '"He made 5 M\'s this year."', exampleRu: '"Он заработал 5 миллионов в этом году."', context: 'Миллионы долларов', origin: 'Сокращение от millions' }
-                    ]
-                }
-            ],
-            drill: [
-                {
-                    id: 'drill-1',
-                    name: 'Drill Basics',
-                    description: 'Основы дрилла',
-                    words: [
-                        { word: 'Drill', trans: '/drɪl/', rus: '[дрил]', meaning: 'Дрилл (жанр и образ жизни)', emoji: '🎵', example: '"He\'s about that drill life."', exampleRu: '"Он про ту дрилл жизнь."', context: 'Жанр музыки и уличная жизнь', origin: 'От "drill" — сверлить, долбить' },
-                        { word: 'Slide', trans: '/slaɪd/', rus: '[слайд]', meaning: 'Приехать, подъехать', emoji: '🚗', example: '"We gonna slide through."', exampleRu: '"Мы подъедем."', context: 'Прибыть на место', origin: 'От "slide" — скользить, проезжать' },
-                        { word: 'Spin', trans: '/spɪn/', rus: '[спин]', meaning: 'Проехаться, крутиться', emoji: '🔄', example: '"Let\'s do a spin."', exampleRu: '"Давай проедемся."', context: 'Проехать по району', origin: 'От "spin" — крутиться' },
-                        { word: 'Lack', trans: '/læk/', rus: '[лэк]', meaning: 'Быть безоружным, слабым', emoji: '😰', example: '"He\'s lacking."', exampleRu: '"Он слаб (беззащитен)."', context: 'Уязвимое положение', origin: 'От "lack" — недостаток' },
-                        { word: 'Pack', trans: '/pæk/', rus: '[пэк]', meaning: 'Пачка, блок', emoji: '📦', example: '"He\'s smoking on that pack."', exampleRu: '"Он курит ту пачку."', context: 'Пачка сигарет или другого', origin: 'От "pack" — пачка, упаковка' }
-                    ]
-                },
-                {
-                    id: 'drill-2',
-                    name: 'UK Drill',
-                    description: 'Британский дрилл',
-                    words: [
-                        { word: 'Cheffed', trans: '/tʃeft/', rus: '[чэфт]', meaning: 'Порезанный, зарезанный', emoji: '🔪', example: '"He got cheffed."', exampleRu: '"Его порезали."', context: 'Ножевое ранение', origin: 'От "chef" — повар, ножевые навыки' },
-                        { word: 'Splash', trans: '/splæʃ/', rus: '[сплэш]', meaning: 'Порезать, ударить', emoji: '💦', example: '"I\'m gonna splash him."', exampleRu: '"Я его порежу."', context: 'Нападение с ножом', origin: 'От "splash" — брызгать, разбрызгивать' },
-                        { word: 'Mazza', trans: '/ˈmæz.ə/', rus: '[мэ-зэ]', meaning: 'Мачете, нож', emoji: '🗡️', example: '"He\'s got a mazza."', exampleRu: '"У него есть мачете."', context: 'Холодное оружие', origin: 'От "machete" — мачете' },
-                        { word: 'Skeng', trans: '/skeŋ/', rus: '[скэнг]', meaning: 'Оружие, пистолет', emoji: '🔫', example: '"He\'s holding a skeng."', exampleRu: '"У него пистолет."', context: 'Огнестрельное оружие', origin: 'От "skeng" — ямайский сленг для оружия' },
-                        { word: 'Dinger', trans: '/ˈdɪŋ.ər/', rus: '[дин-гэ]', meaning: 'Угнанная машина', emoji: '🚙', example: '"We\'re in a dinger."', exampleRu: '"Мы на угнанной тачке."', context: 'Угнанный автомобиль', origin: 'От "ding" — вмятина, повреждённая машина' }
-                    ]
-                }
-            ],
-            phonk: [
-                {
-                    id: 'phonk-1',
-                    name: 'Phonk Culture',
-                    description: 'Фонк культура',
-                    words: [
-                        { word: 'Phonk', trans: '/fɒŋk/', rus: '[фонк]', meaning: 'Фонк (жанр музыки)', emoji: '🎵', example: '"I love phonk music."', exampleRu: '"Обожаю фонк."', context: 'Жанр музыки с сэмплами', origin: 'От "funk" — фанк + phonk (ономатопея)' },
-                        { word: 'Drift', trans: '/drɪft/', rus: '[дрифт]', meaning: 'Дрифт', emoji: '🏎️', example: '"That drift was clean."', exampleRu: '"Этот дрифт был чистым."', context: 'Автомобильный дрифт', origin: 'От "drift" — дрифтовать' },
-                        { word: 'Cowbell', trans: '/ˈkaʊ.bel/', rus: '[кау-бэл]', meaning: 'Ковбелл (звук)', emoji: '🔔', example: '"That cowbell hit different."', exampleRu: '"Этот ковбелл зашёл по-другому."', context: 'Характерный звук в фонке', origin: 'От "cowbell" — коровий колокольчик' },
-                        { word: 'Memphis', trans: '/ˈmem.fɪs/', rus: '[мэм-фис]', meaning: 'Мемфис (родина фонка)', emoji: '🏙️', example: '"Old Memphis sound."', exampleRu: '"Старый мемфис звук."', context: 'Город Мемфис, родина жанра', origin: 'От города Memphis, Tennessee' },
-                        { word: 'Slowed', trans: '/sləʊd/', rus: '[слоуд]', meaning: 'Замедленный', emoji: '🐌', example: '"Slowed + reverb."', exampleRu: '"Замедлено + реверб."', context: 'Замедленная версия трека', origin: 'От "slowed" — замедленный' }
-                    ]
-                }
-            ],
-            uk: [
-                {
-                    id: 'uk-1',
-                    name: 'UK Slang',
-                    description: 'Британский сленг',
-                    words: [
-                        { word: 'Mate', trans: '/meɪt/', rus: '[мэйт]', meaning: 'Друг, приятель', emoji: '🤝', example: '"Alright, mate?"', exampleRu: '"Как дела, приятель?"', context: 'Универсальное обращение', origin: 'Стандартное британское слово' },
-                        { word: 'Bloke', trans: '/bləʊk/', rus: '[блоук]', meaning: 'Парень, мужик', emoji: '👨', example: '"He\'s a nice bloke."', exampleRu: '"Он хороший парень."', context: 'Обычный мужчина', origin: 'Классическое британское слово' },
-                        { word: 'Cheeky', trans: '/ˈtʃiː.ki/', rus: '[чи-ки]', meaning: 'Наглый, дерзкий', emoji: '😏', example: '"A cheeky pint."', exampleRu: '"Дерзкая пинта (пиво)."', context: 'Игривая дерзость', origin: 'От "cheek" — щека, наглость' },
-                        { word: 'Gutted', trans: '/ˈɡʌt.ɪd/', rus: '[га-тид]', meaning: 'Разочарованный', emoji: '😞', example: '"I\'m gutted."', exampleRu: '"Я разочарован."', context: 'Сильное разочарование', origin: 'От "gut" — кишка, вырезать внутренности' },
-                        { word: 'Knackered', trans: '/ˈnæk.əd/', rus: '[нэ-кэд]', meaning: 'Уставший', emoji: '😴', example: '"I\'m absolutely knackered."', exampleRu: '"Я совершенно вымотан."', context: 'Полная усталость', origin: 'От "knacker" — убойщик лошадей' }
-                    ]
-                },
-                {
-                    id: 'uk-2',
-                    name: 'Roadman',
-                    description: 'Роудмен сленг',
-                    words: [
-                        { word: 'Peng', trans: '/peŋ/', rus: '[пэнг]', meaning: 'Крутой, красивый', emoji: '🔥', example: '"She\'s peng."', exampleRu: '"Она красивая."', context: 'Высокая привлекательность', origin: 'Возможно от "peng" — китайское блюдо или имитация звука' },
-                        { word: 'Peak', trans: '/piːk/', rus: '[пик]', meaning: 'Плохо, жалко', emoji: '📉', example: '"That\'s peak for you."', exampleRu: '"Тебе плохо (жаль тебя)."', context: 'Невезение или жалость', origin: 'От "peak" — пик, вершина, переносно — плохо' },
-                        { word: 'Bare', trans: '/beər/', rus: '[бэа]', meaning: 'Много', emoji: '📊', example: '"There\'s bare people here."', exampleRu: '"Тут много народу."', context: 'Большое количество', origin: 'От "bare" — голый, простой, много' },
-                        { word: 'Ends', trans: '/endz/', rus: '[эндз]', meaning: 'Район, квартал', emoji: '🏘️', example: '"I\'m from the ends."', exampleRu: '"Я с района."', context: 'Место проживания', origin: 'От "ends" — концы, район' },
-                        { word: 'Allow', trans: '/əˈlaʊ/', rus: '[э-лау]', meaning: 'Оставить, забить', emoji: '🚫', example: '"Allow it."', exampleRu: '"Забей (оставь)."', context: 'Прекратить делать что-то', origin: 'От "allow" — позволять, оставлять' }
-                    ]
-                }
-            ]
-        };
-        // ==================== TRACKS DATA: РАСШИРЕННАЯ БАЗА ====================
-        const defaultTracks = [
-            {
-                id: 'track-1',
-                artist: 'Travis Scott',
-                title: 'Sicko Mode',
-                emoji: '🌵',
-                difficulty: 'medium',
-                telegramLink: 'https://t.me/DeezerMusicBot?start=Travis%20Scott%20Sicko%20Mode',
-                lyrics: [
-                    {
-                        original: "Made this here with all the ice on in the booth",
-                        rusTrans: "[Мэйд зис хиа уиз ол зи айс он ин зи буф]",
-                        clean: "Made this here with all the diamonds/jewelry on in the recording studio",
-                        russian: "Сделал это здесь, весь в бриллиантах, в студии",
-                        slang: [
-                            { word: "ice", rusTrans: "[айс]", meaning: "бриллианты, украшения", explanation: "В хип-хопе 'ice' означает дорогие украшения с бриллиантами." }
-                        ]
-                    },
-                    {
-                        original: "At the gate outside, when they pull up, they get me loose",
-                        rusTrans: "[Эт зи гейт аутсайд, уэн зей пул ап, зей гет ми лус]",
-                        clean: "At the entrance outside, when they arrive in their cars, they get me excited",
-                        russian: "У входа снаружи, когда они подъезжают, они взбадривают меня",
-                        slang: [
-                            { word: "pull up", rusTrans: "[пул ап]", meaning: "подъехать, прибыть", explanation: "Разговорное выражение о прибытии на машине." },
-                            { word: "get me loose", rusTrans: "[гет ми лус]", meaning: "раскрепостить, взбодрить", explanation: "Когда музыка или атмосфера настолько крутые, что ты расслабляешься." }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'track-2',
-                artist: 'Drake',
-                title: 'God\'s Plan',
-                emoji: '🦉',
-                difficulty: 'easy',
-                telegramLink: 'https://t.me/DeezerMusicBot?start=Drake%20Gods%20Plan',
-                lyrics: [
-                    {
-                        original: "She say, 'Do you love me?' I tell her, 'Only partly'",
-                        rusTrans: "[Ши сей, 'Ду ю лав ми?' Ай тел хэ, 'Оунли партли']",
-                        clean: "She asks if I love her, I tell her only partially",
-                        russian: "Она спрашивает 'Ты меня любишь?' Я говорю ей 'Только отчасти'",
-                        slang: [],
-                        explanation: "Игра слов о невозможности полной отдачи в отношениях."
-                    },
-                    {
-                        original: "I only love my bed and my momma, I'm sorry",
-                        rusTrans: "[Ай оунли лав май бэд энд май мама, айм сори]",
-                        clean: "I only love my bed and my mother, I'm sorry",
-                        russian: "Я люблю только свою кровать и свою маму, извини",
-                        slang: [],
-                        explanation: "Знаковая строка о приоритетах: комфорт и семья важнее романтики."
-                    }
-                ]
-            },
-            {
-                id: 'track-3',
-                artist: 'Kendrick Lamar',
-                title: 'HUMBLE.',
-                emoji: '🦋',
-                difficulty: 'hard',
-                telegramLink: 'https://t.me/DeezerMusicBot?start=Kendrick%20Lamar%20HUMBLE',
-                lyrics: [
-                    {
-                        original: "Sit down, be humble",
-                        rusTrans: "[Сит даун, би хамбл]",
-                        clean: "Be modest and respectful",
-                        russian: "Сядь, будь скромным",
-                        slang: [],
-                        explanation: "Главный посыл трека — напоминание о важности скромности."
-                    },
-                    {
-                        original: "My left stroke just went viral",
-                        rusTrans: "[Май лефт строук джаст уэнт вайрал]",
-                        clean: "My left-sided approach/song became extremely popular",
-                        russian: "Мой левый ход стал вирусным",
-                        slang: [
-                            { word: "stroke", rusTrans: "[строук]", meaning: "удар, ход", explanation: "Двусмысленность: 'удар' как в боксе и 'ход' как стратегия." },
-                            { word: "viral", rusTrans: "[вайрал]", meaning: "вирусный, популярный", explanation: "Из интернет-сленга — когда контент быстро распространяется." }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'track-4',
-                artist: 'Pop Smoke',
-                title: 'Dior',
-                emoji: '💫',
-                difficulty: 'medium',
-                telegramLink: 'https://t.me/DeezerMusicBot?start=Pop%20Smoke%20Dior',
-                lyrics: [
-                    {
-                        original: "She like the way that I dance, she like the way that I move",
-                        rusTrans: "[Ши лайк зи уэй зэт ай данс, ши лайк зи уэй зэт ай мув]",
-                        clean: "She likes the way I dance, she likes the way I move",
-                        russian: "Ей нравится, как я танцую, ей нравится, как я двигаюсь",
-                        slang: [],
-                        explanation: "Популярная строка о танцевальном стиле."
-                    }
-                ]
-            },
-            {
-                id: 'track-5',
-                artist: 'Central Cee',
-                title: 'Doja',
-                emoji: '🐱',
-                difficulty: 'hard',
-                telegramLink: 'https://t.me/DeezerMusicBot?start=Central%20Cee%20Doja',
-                lyrics: [
-                    {
-                        original: "How can I be homophobic? My bitch is gay",
-                        rusTrans: "[Хау кэн ай би хоу-моу-фоу-бик? Май бич из гэй]",
-                        clean: "How can I be prejudiced against gay people? My girlfriend is bisexual",
-                        russian: "Как я могу быть гомофобом? Моя девушка бисексуальна",
-                        slang: [
-                            { word: "bitch", rusTrans: "[бич]", meaning: "девушка (в разговорной речи)", explanation: "В контексте трека используется как 'девушка', не оскорбление." }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'track-6',
-                artist: 'Eminem',
-                title: 'Lose Yourself',
-                emoji: '🎤',
-                difficulty: 'hard',
-                telegramLink: 'https://t.me/DeezerMusicBot?start=Eminem%20Lose%20Yourself',
-                lyrics: [
-                    {
-                        original: "His palms are sweaty, knees weak, arms are heavy",
-                        rusTrans: "[Хиз памз ар свэти, нис уик, армз ар хэви]",
-                        clean: "His palms are sweaty, knees weak, arms are heavy",
-                        russian: "Его ладони потные, колени слабые, руки тяжёлые",
-                        slang: [],
-                        explanation: "Культовые строки о волнении перед выступлением."
-                    },
-                    {
-                        original: "There\'s vomit on his sweater already, mom\'s spaghetti",
-                        rusTrans: "[Зеарз вомит он хиз свэтар олрэди, момз спагетти]",
-                        clean: "There's vomit on his sweater already, mom's spaghetti",
-                        russian: "На его свитере уже рвота, мамина спагетти",
-                        slang: [],
-                        explanation: "Знаменитая строка ставшая мемом."
-                    }
-                ]
-            },
-            {
-                id: 'track-7',
-                artist: 'Snoop Dogg',
-                title: 'Gin and Juice',
-                emoji: '🍸',
-                difficulty: 'easy',
-                telegramLink: 'https://t.me/DeezerMusicBot?start=Snoop%20Dogg%20Gin%20and%20Juice',
-                lyrics: [
-                    {
-                        original: "Rollin\' down the street in my six-fo",
-                        rusTrans: "[Роулин даун зи стрит ин май сикс-фоу]",
-                        clean: "Rolling down the street in my 1964 Impala",
-                        russian: "Еду по улице в моей шестьдесят четвёртой",
-                        slang: [
-                            { word: "six-fo", rusTrans: "[сикс-фоу]", meaning: "Chevrolet Impala 1964", explanation: "Культовая машина в хип-хоп культуре, 'six-fo' = 64." },
-                            { word: "rollin\'", rusTrans: "[роулин]", meaning: "ездить, кататься", explanation: "Разговорное 'rolling' — ехать в машине." }
-                        ]
-                    }
-                ]
-            }
-        ];
 
-        // ==================== GAME TYPES ====================
-        const gameTypes = [
-            {
-                id: 'flashcard-speed',
-                name: 'Скоростные карточки',
-                description: 'Успей перевести за 3 секунды!',
-                emoji: '⚡',
-                color: '#F39C12'
-            },
-            {
-                id: 'quiz',
-                name: 'Викторина',
-                description: 'Выбери правильный перевод',
-                emoji: '❓',
-                color: '#3498DB'
-            },
-            {
-                id: 'match',
-                name: 'Найди пару',
-                description: 'Соедини слово и перевод',
-                emoji: '🔗',
-                color: '#9B59B6'
-            },
-            {
-                id: 'scramble',
-                name: 'Анаграммы',
-                description: 'Собери слово из букв',
-                emoji: '🧩',
-                color: '#E74C3C'
-            },
-            {
-                id: 'listening',
-                name: 'Аудирование',
-                description: 'Услышь и напиши',
-                emoji: '👂',
-                color: '#1ABC9C'
-            },
-            {
-                id: 'spelling',
-                name: 'Правописание',
-                description: 'Напиши слово правильно',
-                emoji: '✍️',
-                color: '#34495E'
-            }
-        ];
-        
-        // ==================== STATE VARIABLES ====================
-        let currentMode = 'strict';
-        let currentCategory = 'oldschool';
-        let currentTrack = null;
-        let currentGame = null;
-        let isPlaying = false;
-        let playInterval = null;
-        let currentPlayTime = 0;
-        let streetCred = 0;
-        let gameScore = 0;
-        let gameLevel = 1;
-        let isStreetLesson = false;
-        let currentTrackSection = 'all';
-        let currentDifficultyFilter = 'all';
-        let favorites = [];
-        let customTracks = [];
-        let searchQuery = '';
-        let currentCard = 0;
-        let isFlipped = false;
-        let showRusTrans = false;
-        let lessonStartTime = null;
-        let currentLevel = null;
-        let learnedWords = 0;
-        let streak = 0;
-        let gameCombo = 0;
-        let maxCombo = 0;
-        let gameCorrect = 0;
-        let practiceWords = [];
-        let currentPracticeIndex = 0;
-
-        const STORAGE_KEY = 'linguaparrot_progress_v5';
         // ==================== CLOUD STORAGE ====================
         function loadData() {
             try {
@@ -2808,469 +2389,333 @@
                 isFlipped = false;
             }
         }
-
-        // ==================== STREET MODE: SLANG ====================
-        function setTab(tab) {
-            haptic();
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById(tab + 'Tab').classList.add('active');
-            
-            if (tab === 'tracks') {
-                renderTrackList();
-            }
-        }
-
-        function selectCategory(category, element) {
-            haptic();
-            document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
-            element.classList.add('active');
-            currentCategory = category;
-            renderSlangGrid();
-        }
-
-        function renderSlangGrid() {
-            const grid = document.getElementById('slangGrid');
-            if (!grid) return;
-            
-            grid.innerHTML = '';
-            
-            const categories = slangData[currentCategory];
-            if (!categories) return;
-            
-            categories.forEach((cat, index) => {
-                const card = document.createElement('div');
-                card.className = 'level-card';
-                card.onclick = () => startSlangLesson(index);
-                
-                card.innerHTML = `
-                    <div class="level-number">${index + 1}</div>
-                    <div class="level-name">${cat.name}</div>
-                    <div class="level-progress">${cat.words.length} слов</div>
-                `;
-                
-                grid.appendChild(card);
-            });
-        }
-
-        function startSlangLesson(categoryIndex) {
-            haptic();
-            isStreetLesson = true;
-            const category = slangData[currentCategory][categoryIndex];
-            // ИСПРАВЛЕНО: было cat.name, стало category.name
-            currentLevel = { words: category.words, name: category.name, isStreet: true };
-            currentCard = 0;
-            isFlipped = false;
-            lessonStartTime = Date.now();
-            
-            practiceWords = [...currentLevel.words].sort(() => Math.random() - 0.5);
-            currentPracticeIndex = 0;
-            
-            document.getElementById('flashcard').classList.add('street-card');
-            updateStreetCard();
-            generateDots();
-            
-            document.getElementById('mainScreen').classList.remove('active');
-            document.getElementById('lessonScreen').classList.add('active');
-            tg.MainButton.setText('Проверить ✅');
-            tg.MainButton.hide();
-        }
-
-        function updateStreetCard() {
-            if (!currentLevel || !currentLevel.words[currentCard]) return;
-            
-            const w = currentLevel.words[currentCard];
-            document.getElementById('cardWord').textContent = w.word;
-            document.getElementById('cardTrans').textContent = w.trans;
-            document.getElementById('cardRusTrans').textContent = w.rus;
-            document.getElementById('cardMeaning').innerHTML = `
-                <div class="street-badge">${currentCategory}</div>
-                <div>${w.meaning}</div>
-            `;
-            
-            const imgEl = document.getElementById('cardImage');
-            if (imgEl) {
-                imgEl.textContent = w.emoji || '🔥';
-            }
-            
-            document.getElementById('detailExample').textContent = w.example;
-            document.getElementById('detailTranslation').innerHTML = `
-                <div>${w.exampleRu}</div>
-                ${w.context ? `<div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,107,53,0.3);"><strong>💡 Контекст:</strong> ${w.context}</div>` : ''}
-                ${w.origin ? `<div style="margin-top: 8px;"><strong>📖 Происхождение:</strong> ${w.origin}</div>` : ''}
-            `;
-            
-            document.getElementById('flashcard').classList.remove('flipped');
-            document.getElementById('detailCard').classList.remove('show');
-            
-            const dots = document.querySelectorAll('#progressDots .dot');
-            dots.forEach((d, i) => {
-                d.classList.remove('active', 'completed');
-                if (i < currentCard) d.classList.add('completed');
-                if (i === currentCard) d.classList.add('active');
-            });
-            
-            const isLast = currentCard >= currentLevel.words.length - 1;
-            tg.MainButton.setText(isLast ? 'Завершить урок 🎉' : 'Следующее слово →');
-        }
-
-        // ==================== STREET MODE: TRACKS ====================
-        function setTrackSection(section) {
-            haptic();
-            currentTrackSection = section;
-            
-            document.querySelectorAll('.section-tab').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            const filterSection = document.getElementById('tracksFilterSection');
-            const uploadSection = document.getElementById('uploadSection');
-            const customForm = document.getElementById('customTrackForm');
-            
-            if (section === 'custom') {
-                filterSection.style.display = 'none';
-                uploadSection.style.display = 'block';
-                customForm.classList.remove('active');
-                document.getElementById('tracksListTitle').textContent = 'Мои треки';
-            } else {
-                filterSection.style.display = 'block';
-                uploadSection.style.display = 'none';
-                customForm.classList.remove('active');
-                document.getElementById('tracksListTitle').textContent = section === 'favorites' ? 'Избранное' : 'Все треки';
-            }
-            
-            renderTrackList();
-        }
-
-        function filterTracks() {
-            searchQuery = document.getElementById('trackSearch').value.toLowerCase();
-            renderTrackList();
-        }
-
-        function setDifficultyFilter(diff) {
-            haptic();
-            currentDifficultyFilter = diff;
-            
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            renderTrackList();
-        }
-
-        function renderTrackList() {
-            const list = document.getElementById('trackList');
-            if (!list) return;
-            
-            list.innerHTML = '';
-            
-            let tracksToShow = [];
-            
-            if (currentTrackSection === 'all') {
-                tracksToShow = [...defaultTracks, ...customTracks];
-            } else if (currentTrackSection === 'favorites') {
-                tracksToShow = [...defaultTracks, ...customTracks].filter(t => favorites.includes(t.id));
-            } else {
-                tracksToShow = customTracks;
-            }
-            
-            if (currentDifficultyFilter !== 'all') {
-                tracksToShow = tracksToShow.filter(t => t.difficulty === currentDifficultyFilter);
-            }
-            
-            if (searchQuery) {
-                tracksToShow = tracksToShow.filter(t => 
-                    t.title.toLowerCase().includes(searchQuery) || 
-                    t.artist.toLowerCase().includes(searchQuery)
-                );
-            }
-            
-            if (tracksToShow.length === 0) {
-                list.innerHTML = '<div class="empty-state"><div class="empty-icon">🎵</div><div>Треков не найдено</div></div>';
-                return;
-            }
-            
-            tracksToShow.forEach(track => {
-                const card = document.createElement('div');
-                card.className = 'track-card';
-                
-                const isFav = favorites.includes(track.id);
-                const diffClass = 'difficulty-' + track.difficulty;
-                
-                card.innerHTML = `
-                    <button class="favorite-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${track.id}')">
-                        ${isFav ? '⭐' : '☆'}
-                    </button>
-                    <div class="track-art">${track.emoji}</div>
-                    <div class="track-info">
-                        <div class="track-title">${track.title}</div>
-                        <div class="track-artist">${track.artist}</div>
-                        <div class="track-tags">
-                            <span class="track-tag ${diffClass}">${track.difficulty}</span>
-                            ${track.isCustom ? '<span class="track-tag">📤 Мой</span>' : ''}
-                        </div>
-                    </div>
-                    <button class="play-btn" onclick="event.stopPropagation(); openTrackAnalysis('${track.id}')">▶</button>
-                `;
-                
-                card.onclick = () => openTrackAnalysis(track.id);
-                list.appendChild(card);
-            });
-        }
-
-        function toggleFavorite(trackId) {
-            haptic();
-            const index = favorites.indexOf(trackId);
-            if (index > -1) {
-                favorites.splice(index, 1);
-            } else {
-                favorites.push(trackId);
-            }
-            saveData();
-            renderTrackList();
-        }
-
-        function showUploadForm() {
-            haptic();
-            document.getElementById('uploadSection').style.display = 'none';
-            document.getElementById('customTrackForm').classList.add('active');
-        }
-
-        function hideUploadForm() {
-            document.getElementById('uploadSection').style.display = 'block';
-            document.getElementById('customTrackForm').classList.remove('active');
-        }
-
-        function saveCustomTrack() {
-            haptic();
-            
-            const artist = document.getElementById('customArtist').value.trim();
-            const title = document.getElementById('customTitle').value.trim();
-            const difficulty = document.getElementById('customDifficulty').value;
-            const lyricsText = document.getElementById('customLyrics').value.trim();
-            
-            if (!artist || !title || !lyricsText) {
-                if (tg.showAlert) {
-                    tg.showAlert('Заполни все поля!');
-                } else {
-                    alert('Заполни все поля!');
+        // ==================== STREET MODE: РАСШИРЕННЫЙ СЛЕНГ-СЛОВАРЬ ====================
+        const slangData = {
+            oldschool: [
+                {
+                    id: 'oldschool-1',
+                    name: 'Old School Basics',
+                    description: 'Классика 90-х',
+                    words: [
+                        { word: 'Dope', trans: '/dəʊp/', rus: '[дoup]', meaning: 'Крутой, классный', emoji: '🔥', example: '"That beat is dope!"', exampleRu: '"Этот бит крутой!"', context: 'Одно из самых узнаваемых слов 90-х', origin: 'Изначально "наркотик", перешло в значение "круто"' },
+                        { word: 'Fresh', trans: '/freʃ/', rus: '[фрэш]', meaning: 'Свежий, стильный', emoji: '✨', example: '"His style is so fresh."', exampleRu: '"Его стиль такой свежий."', context: 'Новое, модное, неизбитое', origin: 'От "fresh" — свежий' },
+                        { word: 'Word is bond', trans: '/wɜːd ɪz bɒnd/', rus: '[ворд из бонд]', meaning: 'Честное слово', emoji: '🤝', example: '"Word is bond, I\'ll be there."', exampleRu: '"Честное слово, я буду там."', context: 'Серьёзное обещание', origin: 'От "my word is my bond" — моё слово моя облигация' },
+                        { word: 'Props', trans: '/prɒps/', rus: '[пропс]', meaning: 'Уважение, респект', emoji: '🙌', example: '"Mad props to the DJ."', exampleRu: '"Огромный респект диджею."', context: 'Выражение уважения', origin: 'От "proper respect" — надлежащий респект' },
+                        { word: 'Def', trans: '/def/', rus: '[деф]', meaning: 'Отличный', emoji: '💯', example: '"That\'s def, man!"', exampleRu: '"Это круто, чувак!"', context: 'Высшая степень одобрения', origin: 'Сокращение от "definite" или "definitive"' }
+                    ]
+                },
+                {
+                    id: 'oldschool-2',
+                    name: 'Hip-Hop Culture',
+                    description: 'Термины культуры',
+                    words: [
+                        { word: 'Cypher', trans: '/ˈsaɪ.fər/', rus: '[сай-фэ]', meaning: 'Круг рэперов, фристайл', emoji: '⭕', example: '"They\'re having a cypher in the park."', exampleRu: '"Они устраивают фристайл-круг в парке."', context: 'Импровизационная битва рэперов', origin: 'От круга (cipher) — форма баттла' },
+                        { word: 'Flow', trans: '/fləʊ/', rus: '[флоу]', meaning: 'Подача, ритм речи', emoji: '🌊', example: '"His flow is incredible."', exampleRu: '"Его подача невероятная."', context: 'Манера читать рэп', origin: 'От "flow" — поток' },
+                        { word: 'Diss', trans: '/dɪs/', rus: '[дис]', meaning: 'Оскорбление, задисить', emoji: '💥', example: '"He dissed his rival in the track."', exampleRu: '"Он задиссил своего соперника в треке."', context: 'Публичное оскорбление в тексте', origin: 'От "disrespect" — неуважение' },
+                        { word: 'Beef', trans: '/biːf/', rus: '[биф]', meaning: 'Вражда, конфликт', emoji: '⚔️', example: '"There\'s beef between those rappers."', exampleRu: '"Между этими рэперами вражда."', context: 'Серьёзный конфликт', origin: 'От фразы "what\'s your beef?" — в чём претензия?' },
+                        { word: 'Mic', trans: '/maɪk/', rus: '[майк]', meaning: 'Микрофон', emoji: '🎤', example: '"Pass the mic!"', exampleRu: '"Передай микрофон!"', context: 'Инструмент рэпера', origin: 'Сокращение от microphone' }
+                    ]
                 }
-                return;
+            ],
+            modern: [
+                {
+                    id: 'modern-1',
+                    name: 'Modern Classics',
+                    description: 'Сленг 2010-х',
+                    words: [
+                        { word: 'Lit', trans: '/lɪt/', rus: '[лит]', meaning: 'Зажигательно, весело', emoji: '🔥', example: '"The party was lit!"', exampleRu: '"Вечеринка была огонь!"', context: 'Высокая энергия, крутая атмосфера', origin: 'От "lit" — зажжённый, в огне' },
+                        { word: 'Savage', trans: '/ˈsæv.ɪdʒ/', rus: '[сэ-видж]', meaning: 'Жестокий, беспощадный', emoji: '🐆', example: '"That comeback was savage."', exampleRu: '"Эта отповедь была беспощадной."', context: 'Безжалостная эффективность', origin: 'От "savage" — дикий, необузданный' },
+                        { word: 'Slay', trans: '/sleɪ/', rus: '[слэй]', meaning: 'Убить (в хорошем смысле)', emoji: '💅', example: '"You slay in that outfit!"', exampleRu: '"Ты убиваешь в этом наряде!"', context: 'Выглядеть потрясающе', origin: 'От "slay" — убивать, поражать' },
+                        { word: 'Goals', trans: '/ɡəʊlz/', rus: '[голз]', meaning: 'Цель, идеал', emoji: '🎯', example: '"Their relationship is goals."', exampleRu: '"Их отношения — это цель."', context: 'Желаемый идеал', origin: 'Стандартное слово в новом контексте' },
+                        { word: 'Tea', trans: '/tiː/', rus: '[ти]', meaning: 'Сплетни, новости', emoji: '☕', example: '"Spill the tea!"', exampleRu: '"Выдай сплетни!"', context: 'Интересная информация', origin: 'От "T" — truth, или чайная культура' }
+                    ]
+                }
+            ],
+            trap: [
+                {
+                    id: 'trap-1',
+                    name: 'Trap Basics',
+                    description: 'Основы трэпа',
+                    words: [
+                        { word: 'Drip', trans: '/drɪp/', rus: '[дрип]', meaning: 'Стиль, одежда', emoji: '💧', example: '"Check out my drip!"', exampleRu: '"Смотри на мой стиль!"', context: 'Мода и аксессуары', origin: 'От "drip" — капать, сочиться стилем' },
+                        { word: 'Ice', trans: '/aɪs/', rus: '[айс]', meaning: 'Бриллианты, украшения', emoji: '💎', example: '"He\'s covered in ice."', exampleRu: '"Он весь в бриллиантах."', context: 'Драгоценности', origin: 'От "ice" — лёд, блеск камней' },
+                        { word: 'No cap', trans: '/nəʊ kæp/', rus: '[но кэп]', meaning: 'Без шуток, честно', emoji: '🤞', example: '"No cap, that was the best concert."', exampleRu: '"Без кэпа, это был лучший концерт."', context: 'Подтверждение правдивости', origin: 'Усиление "cap" — ложь' },
+                        { word: 'Bussin', trans: '/ˈbʌs.ɪn/', rus: '[бассин]', meaning: 'Очень вкусный', emoji: '🔥', example: '"This food is bussin!"', exampleRu: '"Эта еда бомба!"', context: 'Вкусная еда или крутая вещь', origin: 'То же что и в modern' },
+                        { word: 'Bet', trans: '/bet/', rus: '[бэт]', meaning: 'Договорились, окей', emoji: '🤙', example: '"You coming tonight?" "Bet!"', exampleRu: '"Ты придёшь сегодня?" "Бет!"', context: 'Согласие на планы', origin: 'То же что и в modern' }
+                    ]
+                }
+            ],
+            drill: [
+                {
+                    id: 'drill-1',
+                    name: 'Drill Basics',
+                    description: 'Основы дрилла',
+                    words: [
+                        { word: 'Drill', trans: '/drɪl/', rus: '[дрил]', meaning: 'Дрилл (жанр и образ жизни)', emoji: '🎵', example: '"He\'s about that drill life."', exampleRu: '"Он про ту дрилл жизнь."', context: 'Жанр музыки и уличная жизнь', origin: 'От "drill" — сверлить, долбить' },
+                        { word: 'Slide', trans: '/slaɪd/', rus: '[слайд]', meaning: 'Приехать, подъехать', emoji: '🚗', example: '"We gonna slide through."', exampleRu: '"Мы подъедем."', context: 'Прибыть на место', origin: 'От "slide" — скользить, проезжать' },
+                        { word: 'Spin', trans: '/spɪn/', rus: '[спин]', meaning: 'Проехаться, крутиться', emoji: '🔄', example: '"Let\'s do a spin."', exampleRu: '"Давай проедемся."', context: 'Проехать по району', origin: 'От "spin" — крутиться' },
+                        { word: 'Lack', trans: '/læk/', rus: '[лэк]', meaning: 'Быть безоружным, слабым', emoji: '😰', example: '"He\'s lacking."', exampleRu: '"Он слаб (беззащитен)."', context: 'Уязвимое положение', origin: 'От "lack" — недостаток' },
+                        { word: 'Pack', trans: '/pæk/', rus: '[пэк]', meaning: 'Пачка, блок', emoji: '📦', example: '"He\'s smoking on that pack."', exampleRu: '"Он курит ту пачку."', context: 'Пачка сигарет или другого', origin: 'От "pack" — пачка, упаковка' }
+                    ]
+                }
+            ],
+            phonk: [
+                {
+                    id: 'phonk-1',
+                    name: 'Phonk Culture',
+                    description: 'Фонк культура',
+                    words: [
+                        { word: 'Phonk', trans: '/fɒŋk/', rus: '[фонк]', meaning: 'Фонк (жанр музыки)', emoji: '🎵', example: '"I love phonk music."', exampleRu: '"Обожаю фонк."', context: 'Жанр музыки с сэмплами', origin: 'От "funk" — фанк + phonk (ономатопея)' },
+                        { word: 'Drift', trans: '/drɪft/', rus: '[дрифт]', meaning: 'Дрифт', emoji: '🏎️', example: '"That drift was clean."', exampleRu: '"Этот дрифт был чистым."', context: 'Автомобильный дрифт', origin: 'От "drift" — дрифтовать' },
+                        { word: 'Cowbell', trans: '/ˈkaʊ.bel/', rus: '[кау-бэл]', meaning: 'Ковбелл (звук)', emoji: '🔔', example: '"That cowbell hit different."', exampleRu: '"Этот ковбелл зашёл по-другому."', context: 'Характерный звук в фонке', origin: 'От "cowbell" — коровий колокольчик' },
+                        { word: 'Memphis', trans: '/ˈmem.fɪs/', rus: '[мэм-фис]', meaning: 'Мемфис (родина фонка)', emoji: '🏙️', example: '"Old Memphis sound."', exampleRu: '"Старый мемфис звук."', context: 'Город Мемфис, родина жанра', origin: 'От города Memphis, Tennessee' },
+                        { word: 'Slowed', trans: '/sləʊd/', rus: '[слоуд]', meaning: 'Замедленный', emoji: '🐌', example: '"Slowed + reverb."', exampleRu: '"Замедлено + реверб."', context: 'Замедленная версия трека', origin: 'От "slowed" — замедленный' }
+                    ]
+                }
+            ],
+            uk: [
+                {
+                    id: 'uk-1',
+                    name: 'UK Slang',
+                    description: 'Британский сленг',
+                    words: [
+                        { word: 'Mate', trans: '/meɪt/', rus: '[мэйт]', meaning: 'Друг, приятель', emoji: '🤝', example: '"Alright, mate?"', exampleRu: '"Как дела, приятель?"', context: 'Универсальное обращение', origin: 'Стандартное британское слово' },
+                        { word: 'Bloke', trans: '/bləʊk/', rus: '[блоук]', meaning: 'Парень, мужик', emoji: '👨', example: '"He\'s a nice bloke."', exampleRu: '"Он хороший парень."', context: 'Обычный мужчина', origin: 'Классическое британское слово' },
+                        { word: 'Cheeky', trans: '/ˈtʃiː.ki/', rus: '[чи-ки]', meaning: 'Наглый, дерзкий', emoji: '😏', example: '"A cheeky pint."', exampleRu: '"Дерзкая пинта (пиво)."', context: 'Игривая дерзость', origin: 'От "cheek" — щека, наглость' },
+                        { word: 'Gutted', trans: '/ˈɡʌt.ɪd/', rus: '[га-тид]', meaning: 'Разочарованный', emoji: '😞', example: '"I\'m gutted."', exampleRu: '"Я разочарован."', context: 'Сильное разочарование', origin: 'От "gut" — кишка, вырезать внутренности' },
+                        { word: 'Knackered', trans: '/ˈnæk.əd/', rus: '[нэ-кэд]', meaning: 'Уставший', emoji: '😴', example: '"I\'m absolutely knackered."', exampleRu: '"Я совершенно вымотан."', context: 'Полная усталость', origin: 'От "knacker" — убойщик лошадей' }
+                    ]
+                }
+            ]
+        };
+
+        // ==================== TRACKS DATA ====================
+        const defaultTracks = [
+            {
+                id: 'track-1',
+                artist: 'Travis Scott',
+                title: 'Sicko Mode',
+                emoji: '🌵',
+                difficulty: 'medium',
+                telegramLink: 'https://t.me/DeezerMusicBot?start=Travis%20Scott%20Sicko%20Mode',
+                lyrics: [
+                    {
+                        original: "Made this here with all the ice on in the booth",
+                        rusTrans: "[Мэйд зис хиа уиз ол зи айс он ин зи буф]",
+                        clean: "Made this here with all the diamonds/jewelry on in the recording studio",
+                        russian: "Сделал это здесь, весь в бриллиантах, в студии",
+                        slang: [
+                            { word: "ice", rusTrans: "[айс]", meaning: "бриллианты, украшения", explanation: "В хип-хопе 'ice' означает дорогие украшения с бриллиантами." }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 'track-2',
+                artist: 'Drake',
+                title: 'God\'s Plan',
+                emoji: '🦉',
+                difficulty: 'easy',
+                telegramLink: 'https://t.me/DeezerMusicBot?start=Drake%20Gods%20Plan',
+                lyrics: [
+                    {
+                        original: "She say, 'Do you love me?' I tell her, 'Only partly'",
+                        rusTrans: "[Ши сей, 'Ду ю лав ми?' Ай тел хэ, 'Оунли партли']",
+                        clean: "She asks if I love her, I tell her only partially",
+                        russian: "Она спрашивает 'Ты меня любишь?' Я говорю ей 'Только отчасти'",
+                        slang: [],
+                        explanation: "Игра слов о невозможности полной отдачи в отношениях."
+                    }
+                ]
+            }
+        ];
+
+        // ==================== GAME TYPES ====================
+        const gameTypes = [
+            {
+                id: 'flashcard-speed',
+                name: 'Скоростные карточки',
+                description: 'Успей перевести за 3 секунды!',
+                emoji: '⚡',
+                color: '#F39C12'
+            },
+            {
+                id: 'quiz',
+                name: 'Викторина',
+                description: 'Выбери правильный перевод',
+                emoji: '❓',
+                color: '#3498DB'
+            },
+            {
+                id: 'match',
+                name: 'Найди пару',
+                description: 'Соедини слово и перевод',
+                emoji: '🔗',
+                color: '#9B59B6'
+            },
+            {
+                id: 'scramble',
+                name: 'Анаграммы',
+                description: 'Собери слово из букв',
+                emoji: '🧩',
+                color: '#E74C3C'
+            },
+            {
+                id: 'listening',
+                name: 'Аудирование',
+                description: 'Услышь и напиши',
+                emoji: '👂',
+                color: '#1ABC9C'
+            },
+            {
+                id: 'spelling',
+                name: 'Правописание',
+                description: 'Напиши слово правильно',
+                emoji: '✍️',
+                color: '#34495E'
+            }
+        ];
+
+        // ==================== STATE VARIABLES ====================
+        let currentMode = 'strict';
+        let currentCategory = 'oldschool';
+        let currentTrack = null;
+        let currentGame = null;
+        let isPlaying = false;
+        let playInterval = null;
+        let currentPlayTime = 0;
+        let streetCred = 0;
+        let gameScore = 0;
+        let gameLevel = 1;
+        let isStreetLesson = false;
+        let currentTrackSection = 'all';
+        let currentDifficultyFilter = 'all';
+        let favorites = [];
+        let customTracks = [];
+        let searchQuery = '';
+        let currentCard = 0;
+        let isFlipped = false;
+        let showRusTrans = false;
+        let lessonStartTime = null;
+        let currentLevel = null;
+        let learnedWords = 0;
+        let streak = 0;
+        let gameCombo = 0;
+        let maxCombo = 0;
+        let gameCorrect = 0;
+        let practiceWords = [];
+        let currentPracticeIndex = 0;
+
+        const STORAGE_KEY = 'linguaparrot_progress_v5';
+
+        // ==================== ИСПРАВЛЕННЫЙ AI ФУНКЦИОНАЛ ====================
+        
+        // Глобальная переменная для хранения истории чата
+        let chatHistory = [];
+
+        async function getAIResponse(prompt) {
+            const YANDEX_API_KEY = 'ajea95bb2bksus7volqp';
+            const FOLDER_ID = 'b1gq2kupev56dtuhpek7';
+            
+            // Добавляем сообщение пользователя в историю
+            chatHistory.push({ role: 'user', text: prompt });
+            
+            // Ограничиваем историю последними 10 сообщениями
+            if (chatHistory.length > 10) {
+                chatHistory = chatHistory.slice(-10);
             }
             
-            const lines = lyricsText.split('\n').filter(l => l.trim());
-            const parsedLyrics = lines.map(line => {
-                const detectedSlang = detectSlangInLine(line);
-                return {
-                    original: line,
-                    rusTrans: generateRusTrans(line),
-                    clean: cleanSlangFromLine(line),
-                    russian: 'Добавьте перевод вручную или используйте AI',
-                    slang: detectedSlang
-                };
-            });
-            
-            const newTrack = {
-                id: 'custom-' + Date.now(),
-                artist: artist,
-                title: title,
-                emoji: '🎵',
-                difficulty: difficulty,
-                telegramLink: `https://t.me/DeezerMusicBot?start=${encodeURIComponent(artist + ' ' + title)}`,
-                lyrics: parsedLyrics,
-                isCustom: true
-            };
-            
-            customTracks.push(newTrack);
-            saveData();
-            
-            document.getElementById('customArtist').value = '';
-            document.getElementById('customTitle').value = '';
-            document.getElementById('customLyrics').value = '';
-            
-            hideUploadForm();
-            renderTrackList();
-            
-            addStreetCred(50);
-            
-            if (tg.showPopup) {
-                tg.showPopup({
-                    title: '✅ Трек добавлен!',
-                    message: 'Твой трек сохранён в "Мои треки"',
-                    buttons: [{type: 'ok'}]
+            try {
+                const response = await fetch('https://llm.api.cloud.yandex.net/foundationModels/v1/completion', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Api-Key ${YANDEX_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        modelUri: `gpt://${FOLDER_ID}/yandexgpt-lite`,
+                        completionOptions: {
+                            stream: false,
+                            temperature: 0.6,
+                            maxTokens: 1000
+                        },
+                        messages: [
+                            {
+                                role: 'system',
+                                text: 'Ты — опытный преподаватель английского языка для русскоязычных студентов. Ты умеешь: 1) Объяснять грамматику простым языком с примерами, 2) Составлять тесты с вариантами ответов, 3) Проверять переводы и находить ошибки, 4) Вести диалоги на английском для практики. Будь дружелюбным, позитивным и давай конкретные примеры. Отвечай на русском языке, если не просят иначе.'
+                            },
+                            ...chatHistory.map(msg => ({
+                                role: msg.role,
+                                text: msg.text
+                            }))
+                        ]
+                    })
                 });
-            }
-        }
-
-        function detectSlangInLine(text) {
-            const detected = [];
-            const allSlang = [];
-            
-            Object.values(slangData).forEach(cat => {
-                cat.forEach(subcat => {
-                    subcat.words.forEach(word => {
-                        allSlang.push({
-                            word: word.word,
-                            rusTrans: word.rus,
-                            meaning: word.meaning,
-                            explanation: word.context || word.origin || 'Сленговое выражение'
-                        });
-                    });
-                });
-            });
-            
-            allSlang.forEach(slang => {
-                const regex = new RegExp(`\\b${slang.word}\\b`, 'i');
-                if (regex.test(text)) {
-                    detected.push(slang);
-                }
-            });
-            
-            return detected;
-        }
-
-        function cleanSlangFromLine(text) {
-            let clean = text;
-            const replacements = {
-                'ice': 'jewelry/diamonds',
-                'drip': 'style/outfit',
-                'flex': 'show off',
-                'cap': 'lie',
-                'no cap': 'no lie',
-                'bussin': 'amazing',
-                'lit': 'amazing/fun',
-                'fire': 'amazing'
-            };
-            
-            Object.entries(replacements).forEach(([slang, replacement]) => {
-                const regex = new RegExp(`\\b${slang}\\b`, 'gi');
-                clean = clean.replace(regex, replacement);
-            });
-            
-            return clean;
-        }
-
-        function generateRusTrans(englishText) {
-            return '[' + englishText.split('').map(c => {
-                const trans = {
-                    'a': 'э', 'b': 'б', 'c': 'к', 'd': 'д', 'e': 'и', 'f': 'ф',
-                    'g': 'г', 'h': 'х', 'i': 'ай', 'j': 'дж', 'k': 'к', 'l': 'л',
-                    'm': 'м', 'n': 'н', 'o': 'о', 'p': 'п', 'q': 'к', 'r': 'р',
-                    's': 'с', 't': 'т', 'u': 'у', 'v': 'в', 'w': 'у', 'x': 'кс',
-                    'y': 'ай', 'z': 'з', ' ': ' ', '\'': '', '"': '', ',': ',', '.': '.'
-                };
-                return trans[c.toLowerCase()] || c;
-            }).join('') + ']';
-        }
-
-        function openTrackAnalysis(trackId) {
-            haptic();
-            
-            const track = [...defaultTracks, ...customTracks].find(t => t.id === trackId);
-            if (!track) return;
-            
-            currentTrack = track;
-            
-            document.getElementById('analysisTitle').textContent = track.artist + ' - ' + track.title;
-            document.getElementById('trackTitleDisplay').textContent = track.title;
-            document.getElementById('trackArtistDisplay').textContent = track.artist;
-            document.getElementById('trackVisual').textContent = track.emoji;
-            document.getElementById('difficultyBadge').textContent = track.difficulty;
-            document.getElementById('difficultyBadge').className = 'difficulty-badge difficulty-' + track.difficulty;
-            document.getElementById('lyricsTitle').textContent = track.title;
-            
-            const lyricsContainer = document.getElementById('lyricsContent');
-            lyricsContainer.innerHTML = '';
-            
-            track.lyrics.forEach((line, index) => {
-                const lineDiv = document.createElement('div');
-                lineDiv.className = 'lyrics-line';
                 
-                let originalHTML = line.original;
-                if (line.slang && line.slang.length > 0) {
-                    line.slang.forEach(s => {
-                        const regex = new RegExp(`\\b${s.word}\\b`, 'gi');
-                        originalHTML = originalHTML.replace(regex, `<span class="slang-word" onclick="showSlangExplanation('${s.word}', '${s.rusTrans}', '${s.meaning}', '${s.explanation}')">${s.word}</span>`);
-                    });
+                if (!response.ok) {
+                    console.error('Yandex API error:', response.status);
+                    // Если API не работает, используем локальный ответ
+                    return getLocalAIResponse(prompt);
                 }
                 
-                lineDiv.innerHTML = `
-                    <div class="original-line">${originalHTML}</div>
-                    <div class="rus-trans-block">
-                        <div class="rus-trans-title">🗣 Произношение</div>
-                        <div class="rus-trans-text">${line.rusTrans}</div>
-                    </div>
-                    <div class="clean-line">${line.clean}</div>
-                    <div class="translation-line">${line.russian}</div>
-                    ${line.explanation ? `<div style="margin-top: 12px; font-size: 13px; color: rgba(255,255,255,0.5); font-style: italic;">💡 ${line.explanation}</div>` : ''}
-                `;
+                const data = await response.json();
+                const aiResponse = data.result.alternatives[0].message.text;
                 
-                lyricsContainer.appendChild(lineDiv);
-            });
-            
-            document.getElementById('mainScreen').classList.remove('active');
-            document.getElementById('trackAnalysisScreen').classList.add('active');
-        }
-
-        function showSlangExplanation(word, rusTrans, meaning, explanation) {
-            haptic();
-            
-            document.querySelectorAll('.explanation-box').forEach(e => e.remove());
-            
-            const box = document.createElement('div');
-            box.className = 'explanation-box show';
-            box.innerHTML = `
-                <div class="explanation-title">🔥 ${word} <span style="opacity: 0.7; font-size: 14px;">${rusTrans}</span></div>
-                <div style="color: #F7C59F; margin-bottom: 8px; font-weight: 600;">${meaning}</div>
-                <div class="explanation-text">${explanation}</div>
-            `;
-            
-            event.target.closest('.lyrics-line').appendChild(box);
-        }
-
-        function openInTelegram() {
-            if (currentTrack && currentTrack.telegramLink) {
-                tg.openTelegramLink(currentTrack.telegramLink);
+                // Добавляем ответ AI в историю
+                chatHistory.push({ role: 'assistant', text: aiResponse });
+                
+                return aiResponse;
+                
+            } catch (error) {
+                console.error('AI Error:', error);
+                return getLocalAIResponse(prompt);
             }
         }
 
-        function showAnalysis() {
-            haptic();
-            document.getElementById('trackPlayer').style.display = 'none';
-            document.getElementById('lyricsContainer').classList.add('active');
-            addStreetCred(10);
-        }
-
-        function backToPlayer() {
-            haptic();
-            document.getElementById('trackPlayer').style.display = 'block';
-            document.getElementById('lyricsContainer').classList.remove('active');
-        }
-
-        function closeTrackAnalysis() {
-            haptic();
-            document.getElementById('trackAnalysisScreen').classList.remove('active');
-            document.getElementById('mainScreen').classList.add('active');
-            document.getElementById('trackPlayer').style.display = 'block';
-            document.getElementById('lyricsContainer').classList.remove('active');
-        }
-
-        // ==================== AI TUTOR ====================
-        function openAITutor() {
-            haptic();
-            document.getElementById('mainScreen').classList.remove('active');
-            document.getElementById('aiTutorScreen').classList.add('active');
+        function getLocalAIResponse(prompt) {
+            const lower = prompt.toLowerCase();
             
-            const messages = document.getElementById('aiChatMessages');
-            if (messages.children.length === 0) {
-                addAIMessage('bot', 'Привет! Я твой AI-учитель 🤖\n\nЯ могу:\n• Проверить твои знания\n• Объяснить грамматику\n• Потренировать разговорный английский\n• Дать задания на закрепление\n\nВыбери быстрое действие ниже или напиши мне!');
+            if (lower.includes('привет') || lower.includes('здравствуй')) {
+                return 'Привет! 👋 Готов учить английский? Выбери тему или спроси меня о чём-то конкретном!';
             }
+            if (lower.includes('практика') || lower.includes('тренировка')) {
+                return 'Отлично! Давай потренируемся. Я задам тебе 5 слов из твоего последнего урока. Готов? Напиши "да"!';
+            }
+            if (lower.includes('грамматика') || lower.includes('времена')) {
+                return 'Грамматика - это скелет языка! 📚\n\nОсновные времена:\n• Present Simple: I go (привычки)\n• Present Continuous: I am going (сейчас)\n• Past Simple: I went (прошлое)\n• Future: I will go (будущее)\n\nКакое время хочешь разобрать подробнее?';
+            }
+            if (lower.includes('слова') || lower.includes('vocabulary')) {
+                return 'Давай учить слова! 🎯\n\nМетоды:\n1. Ассоциации - связывай с известным\n2. Контекст - учи в предложениях\n3. Повторение - через 1, 3, 7 дней\n\nНачнём с категории "Еда" или "Путешествия"?';
+            }
+            if (lower.includes('проверь')) {
+                return 'Хорошо, проверим! 📝\n\nПереведи: "I have been learning English for 2 years"\n\nВарианты:\nа) Я учу английский 2 года\nб) Я учил английский 2 года\nв) Я буду учить английский 2 года\n\nКакой правильный?';
+            }
+            
+            return 'Интересный вопрос! 🤔\n\nЯ могу помочь с:\n• Переводом слов и фраз\n• Грамматикой\n• Произношением\n• Практическими задания\n\nЧто конкретно тебе нужно? Или выбери быстрое действие внизу!';
         }
 
-        function closeAITutor() {
-            haptic();
-            document.getElementById('aiTutorScreen').classList.remove('active');
-            document.getElementById('mainScreen').classList.add('active');
+        // ИСПРАВЛЕННАЯ функция отправки сообщения
+        async function sendAIMessage() {
+            const input = document.getElementById('aiInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Добавляем сообщение пользователя в чат
+            addAIMessage('user', message);
+            input.value = '';
+            
+            // Показываем индикатор загрузки
+            showAILoading();
+            
+            // Получаем ответ от AI
+            const response = await getAIResponse(message);
+            
+            // Скрываем индикатор загрузки
+            hideAILoading();
+            
+            // Добавляем ответ AI
+            addAIMessage('bot', response);
         }
 
         function addAIMessage(sender, text) {
@@ -3297,1355 +2742,79 @@
             if (loading) loading.remove();
         }
 
-    async function getAIResponse(prompt) {
-    const YANDEX_API_KEY = 'ajea95bb2bksus7volqp';
-    const FOLDER_ID = 'b1gq2kupev56dtuhpek7';
-    
-    try {
-        const response = await fetch('https://llm.api.cloud.yandex.net/foundationModels/v1/completion', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Api-Key ${YANDEX_API_KEY}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                modelUri: `gpt://${FOLDER_ID}/yandexgpt-lite`,
-                completionOptions: {
-                    stream: false,
-                    temperature: 0.6,
-                    maxTokens: 1000
-                },
-                messages: [
-                    {
-                        role: 'system',
-                        text: 'Ты — опытный преподаватель английского языка для русскоязычных студентов. Ты умеешь: 1) Объяснять грамматику простым языком с примерами, 2) Составлять тесты с вариантами ответов, 3) Проверять переводы и находить ошибки, 4) Вести диалоги на английском для практики. Будь дружелюбным, позитивным и давай конкретные примеры.'
-                    },
-                    {
-                        role: 'user',
-                        text: prompt
-                    }
-                ]
-            })
-        });
+        function askAI(topic) {
+            haptic();
+            document.getElementById('aiInput').value = topic;
+            sendAIMessage();
+        }
+
+        // ==================== ОСНОВНЫЕ ФУНКЦИИ (продолжение в следующей части) ====================
         
-        if (!response.ok) {
-            console.log('Yandex API error:', response.status);
-            return getLocalAIResponse(prompt);
-        }
-        
-        const data = await response.json();
-        return data.result.alternatives[0].message.text;
-        
-    } catch (error) {
-        console.log('Error:', error.message);
-        return getLocalAIResponse(prompt);
-    }
-}
-
-function getLocalAIResponse(prompt) {
-    const lower = prompt.toLowerCase();
-    
-    if (lower.includes('привет') || lower.includes('здравствуй')) {
-        return 'Привет! 👋 Готов учить английский? Выбери тему или спроси меня о чём-то конкретном!';
-    }
-    if (lower.includes('практика') || lower.includes('тренировка')) {
-        return 'Отлично! Давай потренируемся. Я задам тебе 5 слов из твоего последнего урока. Готов? Напиши "да"!';
-    }
-    if (lower.includes('грамматика') || lower.includes('времена')) {
-        return 'Грамматика - это скелет языка! 📚\n\nОсновные времена:\n• Present Simple: I go (привычки)\n• Present Continuous: I am going (сейчас)\n• Past Simple: I went (прошлое)\n• Future: I will go (будущее)\n\nКакое время хочешь разобрать подробнее?';
-    }
-    if (lower.includes('слова') || lower.includes('vocabulary')) {
-        return 'Давай учить слова! 🎯\n\nМетоды:\n1. Ассоциации - связывай с известным\n2. Контекст - учи в предложениях\n3. Повторение - через 1, 3, 7 дней\n\nНачнём с категории "Еда" или "Путешествия"?';
-    }
-    if (lower.includes('проверь')) {
-        return 'Хорошо, проверим! 📝\n\nПереведи: "I have been learning English for 2 years"\n\nВарианты:\nа) Я учу английский 2 года\nб) Я учил английский 2 года\nв) Я буду учить английский 2 года\n\nКакой правильный?';
-    }
-    
-    return 'Интересный вопрос! 🤔\n\nЯ могу помочь с:\n• Переводом слов и фраз\n• Грамматикой\n• Произношением\n• Практическими задания\n\nЧто конкретно тебе нужно? Или выбери быстрое действие внизу!';
-}
-
-function askAI(topic) {
-    haptic();
-    document.getElementById('aiInput').value = topic;
-    sendAIMessage();
-}      
-
-        // ==================== PRACTICE MODE ====================
-        function startPractice() {
-            haptic();
-            
-            if (!practiceWords || practiceWords.length === 0) {
-                practiceWords = getUniqueRandomWords(5);
-            }
-            
-            currentPracticeIndex = 0;
-            
-            document.getElementById('resultScreen').classList.remove('active');
-            document.getElementById('practiceScreen').classList.add('active');
-            
-            generatePracticeDots();
-            showPracticeQuestion();
-        }
-
-        function closePractice() {
-            haptic();
-            if (confirm('Прервать практику?')) {
-                document.getElementById('practiceScreen').classList.remove('active');
-                document.getElementById('mainScreen').classList.add('active');
-                practiceWords = [];
-            }
-        }
-
-        function generatePracticeDots() {
-            const container = document.getElementById('practiceDots');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            const count = Math.min(practiceWords.length, 5);
-            
-            for (let i = 0; i < count; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'dot';
-                container.appendChild(dot);
-            }
-        }
-
-        function showPracticeQuestion() {
-            if (currentPracticeIndex >= Math.min(practiceWords.length, 5)) {
-                finishPractice();
-                return;
-            }
-            
-            const word = practiceWords[currentPracticeIndex];
-            const questionEl = document.getElementById('practiceQuestion');
-            const optionsEl = document.getElementById('practiceOptions');
-            const imageEl = document.getElementById('practiceImage');
-            const hintEl = document.getElementById('practiceHint');
-            
-            if (imageEl) imageEl.textContent = word.emoji || '🎯';
-            
-            const questionType = Math.random() > 0.5 ? 0 : 1;
-            
-            if (questionType === 0) {
-                questionEl.textContent = `Что значит "${word.word}"?`;
-                
-                const wrongOptions = gameWords
-                    .filter(w => w.word !== word.word)
-                    .sort(() => Math.random() - 0.5)
-                    .slice(0, 3)
-                    .map(w => w.meaning);
-                
-                const options = [...wrongOptions, word.meaning].sort(() => Math.random() - 0.5);
-                
-                renderPracticeOptions(options, word.meaning);
-            } else {
-                questionEl.textContent = `Какое слово переводится как "${word.meaning}"?`;
-                
-                const wrongOptions = gameWords
-                    .filter(w => w.word !== word.word)
-                    .sort(() => Math.random() - 0.5)
-                    .slice(0, 3)
-                    .map(w => w.word);
-                
-                const options = [...wrongOptions, word.word].sort(() => Math.random() - 0.5);
-                
-                renderPracticeOptions(options, word.word);
-            }
-            
-            hintEl.textContent = `Вопрос ${currentPracticeIndex + 1} из ${Math.min(practiceWords.length, 5)}`;
-            
-            const dots = document.querySelectorAll('#practiceDots .dot');
-            dots.forEach((d, i) => {
-                d.classList.remove('active', 'completed');
-                if (i < currentPracticeIndex) d.classList.add('completed');
-                if (i === currentPracticeIndex) d.classList.add('active');
-            });
-        }
-
-        function renderPracticeOptions(options, correct) {
-            const container = document.getElementById('practiceOptions');
-            container.innerHTML = '';
-            
-            options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = 'practice-option';
-                btn.textContent = opt;
-                btn.onclick = () => checkPracticeAnswer(btn, opt, correct);
-                container.appendChild(btn);
-            });
-        }
-
-        function checkPracticeAnswer(button, selected, correct) {
-            const buttons = document.querySelectorAll('.practice-option');
-            buttons.forEach(b => b.disabled = true);
-            
-            if (selected === correct) {
-                button.classList.add('correct');
-                hapticSuccess();
-                
-                if (currentMode === 'street') {
-                    addStreetCred(20);
-                } else if (currentMode === 'game') {
-                    addGameScore(20);
-                } else {
-                    learnedWords += 1;
-                    document.getElementById('wordsCount').textContent = learnedWords;
-                    saveData();
+        function haptic() {
+            try {
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.impactOccurred('light');
                 }
-            } else {
-                button.classList.add('wrong');
-                hapticError();
-                
-                buttons.forEach(b => {
-                    if (b.textContent === correct) {
-                        b.classList.add('correct');
-                    }
-                });
-            }
-            
-            setTimeout(() => {
-                currentPracticeIndex++;
-                showPracticeQuestion();
-            }, 1500);
+            } catch (e) {}
         }
 
-        function finishPractice() {
-            hapticSuccess();
-            
-            if (tg.showPopup) {
-                tg.showPopup({
-                    title: '🎉 Отлично!',
-                    message: 'Ты закрепил материал! Продолжай в том же духе.',
-                    buttons: [{type: 'ok', text: 'Продолжить'}]
-                }, () => {
-                    document.getElementById('practiceScreen').classList.remove('active');
-                    document.getElementById('mainScreen').classList.add('active');
-                });
-            } else {
-                alert('🎉 Отлично! Ты закрепил материал!');
-                document.getElementById('practiceScreen').classList.remove('active');
-                document.getElementById('mainScreen').classList.add('active');
-            }
+        function hapticSuccess() {
+            try {
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('success');
+                }
+            } catch (e) {}
         }
 
-        // ==================== FINISH LESSONS ====================
-        function finishLesson() {
-            hapticSuccess();
-            
-            if (currentLevel) {
-                learnedWords += currentLevel.words.length;
-                saveLevelProgress(currentLevel.id, currentLevel.words.length);
-                saveData();
-            }
-            
-            isFlipped = false;
-            currentCard = 0;
-            
-            if (isStreetLesson) {
-                addStreetCred(100);
-                document.getElementById('flashcard').classList.remove('street-card');
-                isStreetLesson = false;
-            }
-            
-            document.getElementById('wordsCount').textContent = learnedWords;
-            
-            document.getElementById('lessonScreen').classList.remove('active');
-            document.getElementById('resultScreen').classList.remove('active');
-            document.getElementById('mainScreen').classList.add('active');
-            
-            tg.MainButton.hide();
-            
-            renderLevels();
-        }
-
-        function openChat() {
-            haptic();
-            openAITutor();
-        }
-
-        // ==================== MAIN BUTTON HANDLER ====================
-        tg.MainButton.onClick(() => {
-            haptic();
-            if (!isFlipped && !isStreetLesson) {
-                flipCard();
-                return;
-            }
-            
-            currentCard++;
-            
-            if (currentCard >= currentLevel.words.length) {
-                const timeSpent = Math.floor((Date.now() - lessonStartTime) / 1000);
-                const mins = Math.floor(timeSpent / 60);
-                const secs = timeSpent % 60;
-                
-                document.getElementById('timeValue').textContent = mins + ':' + secs.toString().padStart(2, '0');
-                document.getElementById('resultWords').textContent = currentLevel.words.length;
-                document.getElementById('resultXP').textContent = isStreetLesson ? '+100 STREET CRED' : '+100 XP';
-                document.getElementById('xpLabel').textContent = isStreetLesson ? 'Street Cred' : 'Опыт';
-                document.getElementById('resultSubtitle').textContent = 'Уровень "' + currentLevel.name + '" пройден!';
-                
-                document.getElementById('lessonScreen').classList.remove('active');
-                document.getElementById('resultScreen').classList.add('active');
-                tg.MainButton.hide();
-            } else {
-                isFlipped = false;
-                if (isStreetLesson) {
-                    updateStreetCard();
-                } else {
-                    updateCard();
+        function hapticError() {
+            try {
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('error');
                 }
-                tg.MainButton.hide();
-            }
-        });
-
-        // ==================== GAME MODE ====================
-        function renderGameMenu() {
-            const grid = document.getElementById('gameGrid');
-            if (!grid) return;
-            
-            grid.innerHTML = '';
-            
-            gameTypes.forEach((game) => {
-                const card = document.createElement('div');
-                card.className = 'game-card';
-                card.onclick = () => startGame(game.id);
-                card.style.borderColor = game.color;
-                
-                card.innerHTML = `
-                    <div class="game-icon">${game.emoji}</div>
-                    <div class="game-name">${game.name}</div>
-                    <div class="game-desc">${game.description}</div>
-                `;
-                
-                grid.appendChild(card);
-            });
-        }
-
-        function startGame(gameId) {
-            haptic();
-            currentGame = gameId;
-            
-            gameCombo = 0;
-            maxCombo = 0;
-            gameCorrect = 0;
-            
-            document.getElementById('mainScreen').classList.remove('active');
-            document.getElementById('gameScreen').classList.add('active');
-            
-            const container = document.getElementById('gameContainer');
-            container.innerHTML = '';
-            
-            window.currentGameCleanup = null;
-            
-            switch(gameId) {
-                case 'flashcard-speed':
-                    initFlashcardSpeedGame(container);
-                    break;
-                case 'quiz':
-                    initQuizGame(container);
-                    break;
-                case 'match':
-                    initMatchGame(container);
-                    break;
-                case 'scramble':
-                    initScrambleGame(container);
-                    break;
-                case 'listening':
-                    initListeningGame(container);
-                    break;
-                case 'spelling':
-                    initSpellingGame(container);
-                    break;
-            }
-        }
-
-        function closeGame() {
-            haptic();
-            
-            if (window.currentGameCleanup) {
-                window.currentGameCleanup();
-            }
-            
-            if (window.speechSynthesis) {
-                window.speechSynthesis.cancel();
-            }
-            
-            document.getElementById('gameScreen').classList.remove('active');
-            document.getElementById('mainScreen').classList.add('active');
-        }
-
-        function finishGame() {
-            haptic();
-            
-            if (window.currentGameCleanup) {
-                window.currentGameCleanup();
-            }
-            
-            document.getElementById('gameResultScreen').classList.remove('active');
-            document.getElementById('mainScreen').classList.add('active');
-            renderGameMenu();
-        }
-
-        function showCombo() {
-            document.querySelectorAll('.combo-indicator').forEach(el => el.remove());
-            
-            const combo = document.createElement('div');
-            combo.className = 'combo-indicator';
-            combo.textContent = `🔥 COMBO x${gameCombo}!`;
-            document.body.appendChild(combo);
-            
-            requestAnimationFrame(() => {
-                combo.classList.add('show');
-                setTimeout(() => combo.classList.add('pulse'), 100);
-            });
-            
-            setTimeout(() => {
-                combo.classList.remove('show');
-                setTimeout(() => combo.remove(), 300);
-            }, 1500);
-        }
-
-        function endGame(score, correct, total) {
-            const comboBonus = Math.floor(maxCombo / 3) * 50;
-            const finalScore = score + comboBonus;
-            
-            addGameScore(finalScore);
-            
-            document.getElementById('gameCorrectAnswers').textContent = `${correct}/${total}`;
-            document.getElementById('gameResultScore').textContent = `+${finalScore}`;
-            document.getElementById('gameMaxCombo').textContent = `x${maxCombo}`;
-            
-            let subtitle = `Правильных ответов: ${correct} из ${total}`;
-            if (comboBonus > 0) {
-                subtitle += `\nБонус за комбо: +${comboBonus}`;
-            }
-            document.getElementById('gameResultSubtitle').textContent = subtitle;
-            
-            document.getElementById('gameScreen').classList.remove('active');
-            document.getElementById('gameResultScreen').classList.add('active');
-        }
-
-        // ==================== GAME 1: FLASHCARD SPEED ====================
-        function initFlashcardSpeedGame(container) {
-            let currentWordIndex = 0;
-            let score = 0;
-            let timeLeft = 3;
-            let timerInterval = null;
-            
-            let gameWords = getUniqueRandomWords(10);
-            
-            const gameDiv = document.createElement('div');
-            gameDiv.className = 'flashcard-game';
-            
-            gameDiv.innerHTML = `
-                <div class="game-timer" id="speedTimer">3.0</div>
-                <div class="game-flashcard" id="speedCard">
-                    <div class="game-word" id="speedWord"></div>
-                    <div class="game-trans" id="speedTrans"></div>
-                    <div class="game-meaning" id="speedMeaning"></div>
-                </div>
-                <div class="game-buttons">
-                    <button class="game-btn wrong" id="btnWrong">✗ Не знаю</button>
-                    <button class="game-btn correct" id="btnCorrect">✓ Знаю</button>
-                </div>
-            `;
-            
-            container.appendChild(gameDiv);
-            
-            const btnWrong = document.getElementById('btnWrong');
-            const btnCorrect = document.getElementById('btnCorrect');
-            
-            const handleWrong = () => speedAnswer(false);
-            const handleCorrect = () => speedAnswer(true);
-            
-            btnWrong.onclick = handleWrong;
-            btnCorrect.onclick = handleCorrect;
-            
-            window.currentGameCleanup = () => {
-                clearInterval(timerInterval);
-                btnWrong.onclick = null;
-                btnCorrect.onclick = null;
-            };
-            
-            function speedAnswer(knew) {
-                clearInterval(timerInterval);
-                
-                const card = document.getElementById('speedCard');
-                const meaning = document.getElementById('speedMeaning');
-                
-                if (knew) {
-                    score += 100 + (gameCombo * 10);
-                    gameCorrect++;
-                    gameCombo++;
-                    if (gameCombo > maxCombo) maxCombo = gameCombo;
-                    if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                    
-                    meaning.style.color = '#27AE60';
-                } else {
-                    gameCombo = 0;
-                    meaning.style.color = '#E74C3C';
-                }
-                
-                card.classList.add('show-meaning');
-                
-                setTimeout(() => {
-                    currentWordIndex++;
-                    if (currentWordIndex >= gameWords.length) {
-                        endGame(score, gameCorrect, gameWords.length);
-                    } else {
-                        nextSpeedCard();
-                    }
-                }, 1000);
-            }
-            
-            function nextSpeedCard() {
-                if (currentWordIndex >= gameWords.length) return;
-                
-                const word = gameWords[currentWordIndex];
-                document.getElementById('speedWord').textContent = word.word;
-                document.getElementById('speedTrans').textContent = word.trans;
-                document.getElementById('speedMeaning').textContent = word.meaning;
-                
-                const card = document.getElementById('speedCard');
-                card.classList.remove('show-meaning');
-                
-                timeLeft = 3;
-                document.getElementById('speedTimer').textContent = timeLeft.toFixed(1);
-                
-                clearInterval(timerInterval);
-                timerInterval = setInterval(() => {
-                    timeLeft -= 0.1;
-                    document.getElementById('speedTimer').textContent = Math.max(0, timeLeft).toFixed(1);
-                    
-                    if (timeLeft <= 0) {
-                        speedAnswer(false);
-                    }
-                }, 100);
-            }
-            
-            nextSpeedCard();
-        }
-
-        // ==================== GAME 2: QUIZ ====================
-        function initQuizGame(container) {
-            let currentQuestion = 0;
-            let score = 0;
-            
-            let questions = generateQuizQuestions(10);
-            
-            const gameDiv = document.createElement('div');
-            gameDiv.className = 'quiz-game';
-            
-            gameDiv.innerHTML = `
-                <div class="quiz-progress" id="quizProgress"></div>
-                <div class="quiz-question">
-                    <div class="quiz-word" id="quizWord"></div>
-                    <div class="quiz-hint" id="quizHint"></div>
-                </div>
-                <div class="quiz-options" id="quizOptions"></div>
-            `;
-            
-            container.appendChild(gameDiv);
-            
-            const progressDiv = document.getElementById('quizProgress');
-            for (let i = 0; i < questions.length; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'quiz-dot';
-                if (i === 0) dot.classList.add('current');
-                progressDiv.appendChild(dot);
-            }
-            
-            window.currentGameCleanup = () => {};
-            
-            function showQuestion() {
-                if (currentQuestion >= questions.length) {
-                    endGame(score, gameCorrect, questions.length);
-                    return;
-                }
-                
-                const q = questions[currentQuestion];
-                document.getElementById('quizWord').textContent = q.word;
-                document.getElementById('quizHint').textContent = q.hint || `[${q.trans}]`;
-                
-                const optionsDiv = document.getElementById('quizOptions');
-                optionsDiv.innerHTML = '';
-                
-                q.options.forEach((opt, idx) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'quiz-option';
-                    btn.textContent = opt;
-                    btn.onclick = () => answerQuiz(idx, q.correct);
-                    optionsDiv.appendChild(btn);
-                });
-                
-                const dots = document.querySelectorAll('.quiz-dot');
-                dots.forEach((d, i) => {
-                    d.classList.remove('current');
-                    if (i === currentQuestion) d.classList.add('current');
-                });
-            }
-            
-            function answerQuiz(selected, correct) {
-                const buttons = document.querySelectorAll('.quiz-option');
-                buttons.forEach((btn, idx) => {
-                    btn.disabled = true;
-                    if (idx === correct) btn.classList.add('correct');
-                    if (idx === selected && idx !== correct) btn.classList.add('wrong');
-                });
-                
-                if (selected === correct) {
-                    score += 100 + (gameCombo * 10);
-                    gameCorrect++;
-                    gameCombo++;
-                    if (gameCombo > maxCombo) maxCombo = gameCombo;
-                    if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                    
-                    const dots = document.querySelectorAll('.quiz-dot');
-                    dots[currentQuestion].classList.add('correct');
-                    hapticSuccess();
-                } else {
-                    gameCombo = 0;
-                    const dots = document.querySelectorAll('.quiz-dot');
-                    dots[currentQuestion].classList.add('wrong');
-                    hapticError();
-                }
-                
-                setTimeout(() => {
-                    currentQuestion++;
-                    showQuestion();
-                }, 1000);
-            }
-            
-            showQuestion();
-        }
-
-        function generateQuizQuestions(count) {
-            const questions = [];
-            const usedWords = new Set();
-            
-            const availableWords = [...gameWords].sort(() => Math.random() - 0.5);
-            
-            for (let i = 0; i < Math.min(count, availableWords.length); i++) {
-                const word = availableWords[i];
-                if (usedWords.has(word.word)) continue;
-                usedWords.add(word.word);
-                
-                const wrongOptions = [];
-                const usedMeanings = new Set([word.meaning]);
-                
-                for (let w of gameWords.sort(() => Math.random() - 0.5)) {
-                    if (wrongOptions.length >= 3) break;
-                    if (w.word !== word.word && !usedMeanings.has(w.meaning)) {
-                        wrongOptions.push(w.meaning);
-                        usedMeanings.add(w.meaning);
-                    }
-                }
-                
-                while (wrongOptions.length < 3) {
-                    const randomWord = gameWords[Math.floor(Math.random() * gameWords.length)];
-                    if (randomWord.word !== word.word) {
-                        wrongOptions.push(randomWord.meaning);
-                    }
-                }
-                
-                const options = [...wrongOptions, word.meaning].sort(() => Math.random() - 0.5);
-                
-                questions.push({
-                    word: word.word,
-                    trans: word.trans,
-                    hint: word.emoji,
-                    options: options,
-                    correct: options.indexOf(word.meaning)
-                });
-            }
-            
-            return questions;
-        }
-
-        // ==================== GAME 3: MATCH PAIRS ====================
-        function initMatchGame(container) {
-            let score = 0;
-            let matches = 0;
-            let selectedCards = [];
-            let canClick = true;
-            let gameTimer = null;
-            
-            const words = getUniqueRandomWords(6);
-            const pairs = [];
-            
-            words.forEach(w => {
-                pairs.push({ type: 'word', content: w.word, match: w.meaning, id: w.word });
-                pairs.push({ type: 'meaning', content: w.meaning, match: w.word, id: w.word + '_mean' });
-            });
-            
-            pairs.sort(() => Math.random() - 0.5);
-            
-            const gameDiv = document.createElement('div');
-            gameDiv.className = 'match-game';
-            
-            const grid = document.createElement('div');
-            grid.className = 'match-grid';
-            grid.id = 'matchGrid';
-            
-            gameDiv.appendChild(grid);
-            container.appendChild(gameDiv);
-            
-            pairs.forEach((pair, idx) => {
-                const card = document.createElement('div');
-                card.className = 'match-card';
-                card.dataset.index = idx;
-                card.dataset.match = pair.match;
-                card.dataset.id = pair.id;
-                card.textContent = '?';
-                
-                card.onclick = () => handleCardClick(card, pair);
-                grid.appendChild(card);
-            });
-            
-            window.currentGameCleanup = () => {
-                canClick = false;
-                clearTimeout(gameTimer);
-            };
-            
-            function handleCardClick(card, pair) {
-                if (!canClick || card.classList.contains('matched') || card.classList.contains('flipped')) {
-                    return;
-                }
-                
-                haptic();
-                card.classList.add('flipped');
-                card.textContent = pair.content;
-                selectedCards.push({ element: card, match: pair.match, id: pair.id });
-                
-                if (selectedCards.length === 2) {
-                    canClick = false;
-                    checkMatch();
-                }
-            }
-            
-            function checkMatch() {
-                const [first, second] = selectedCards;
-                
-                const isMatch = first.match === second.match && first.id !== second.id;
-                
-                if (isMatch) {
-                    gameTimer = setTimeout(() => {
-                        first.element.classList.add('matched');
-                        second.element.classList.add('matched');
-                        
-                        score += 100 + (gameCombo * 15);
-                        matches++;
-                        gameCombo++;
-                        if (gameCombo > maxCombo) maxCombo = gameCombo;
-                        if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                        gameCorrect++;
-                        
-                        hapticSuccess();
-                        
-                        selectedCards = [];
-                        canClick = true;
-                        
-                        if (matches >= words.length) {
-                            gameTimer = setTimeout(() => endGame(score, gameCorrect, words.length), 500);
-                        }
-                    }, 500);
-                } else {
-                    gameCombo = 0;
-                    hapticError();
-                    
-                    gameTimer = setTimeout(() => {
-                        first.element.classList.remove('flipped');
-                        second.element.classList.remove('flipped');
-                        first.element.textContent = '?';
-                        second.element.textContent = '?';
-                        
-                        selectedCards = [];
-                        canClick = true;
-                    }, 1000);
-                }
-            }
-        }
-
-        // ==================== GAME 4: WORD SCRAMBLE ====================
-        function initScrambleGame(container) {
-            let currentWordIndex = 0;
-            let score = 0;
-            let words = getUniqueRandomWords(10);
-            let currentWord = words[0];
-            let scrambled = scrambleWord(currentWord.word);
-            
-            const gameDiv = document.createElement('div');
-            gameDiv.className = 'scramble-game';
-            
-            gameDiv.innerHTML = `
-                <div class="scramble-hint" id="scrambleHint">Собери слово: ${currentWord.meaning}</div>
-                <div class="scramble-word" id="scrambleLetters"></div>
-                <input type="text" class="scramble-input" id="scrambleInput" placeholder="Введи слово..." autocomplete="off" autocorrect="off" autocapitalize="off">
-                <div class="game-buttons">
-                    <button class="game-btn" id="btnCheck" style="background: var(--game-primary); color: white;">Проверить</button>
-                    <button class="game-btn secondary" id="btnSkip">Пропустить</button>
-                </div>
-            `;
-            
-            container.appendChild(gameDiv);
-            
-            const input = document.getElementById('scrambleInput');
-            const btnCheck = document.getElementById('btnCheck');
-            const btnSkip = document.getElementById('btnSkip');
-            
-            window.currentGameCleanup = () => {
-                input.onkeydown = null;
-                btnCheck.onclick = null;
-                btnSkip.onclick = null;
-            };
-            
-            renderScrambleLetters();
-            
-            function renderScrambleLetters() {
-                const container = document.getElementById('scrambleLetters');
-                container.innerHTML = '';
-                
-                scrambled.forEach((letter, idx) => {
-                    const span = document.createElement('div');
-                    span.className = 'scramble-letter';
-                    span.textContent = letter;
-                    span.onclick = () => {
-                        input.value += letter;
-                        span.classList.add('selected');
-                        setTimeout(() => span.classList.remove('selected'), 200);
-                        input.focus();
-                    };
-                    container.appendChild(span);
-                });
-            }
-            
-            function checkScramble() {
-                const value = input.value.toLowerCase().trim();
-                const correct = currentWord.word.toLowerCase();
-                
-                const letters = document.querySelectorAll('.scramble-letter');
-                
-                if (value === correct) {
-                    score += 150 + (gameCombo * 15);
-                    gameCorrect++;
-                    gameCombo++;
-                    if (gameCombo > maxCombo) maxCombo = gameCombo;
-                    if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                    
-                    letters.forEach(l => l.classList.add('correct'));
-                    hapticSuccess();
-                    
-                    setTimeout(() => nextWord(), 500);
-                } else {
-                    gameCombo = 0;
-                    letters.forEach(l => {
-                        l.classList.add('wrong');
-                        setTimeout(() => l.classList.remove('wrong'), 500);
-                    });
-                    hapticError();
-                    input.value = '';
-                    input.focus();
-                }
-            }
-            
-            function skipScramble() {
-                gameCombo = 0;
-                input.value = currentWord.word;
-                input.style.color = 'rgba(255,255,255,0.5)';
-                
-                setTimeout(() => {
-                    input.style.color = '';
-                    nextWord();
-                }, 1500);
-            }
-            
-            function nextWord() {
-                currentWordIndex++;
-                if (currentWordIndex >= words.length) {
-                    endGame(score, gameCorrect, words.length);
-                } else {
-                    currentWord = words[currentWordIndex];
-                    scrambled = scrambleWord(currentWord.word);
-                    document.getElementById('scrambleHint').textContent = `Собери слово: ${currentWord.meaning}`;
-                    input.value = '';
-                    renderScrambleLetters();
-                    input.focus();
-                }
-            }
-            
-            btnCheck.onclick = checkScramble;
-            btnSkip.onclick = skipScramble;
-            
-            input.onkeydown = (e) => {
-                if (e.key === 'Enter') checkScramble();
-            };
-            
-            input.focus();
-        }
-
-        function scrambleWord(word) {
-            const letters = word.split('');
-            let scrambled;
-            let attempts = 0;
-            
-            do {
-                scrambled = [...letters].sort(() => Math.random() - 0.5);
-                attempts++;
-            } while (scrambled.join('') === word && attempts < 10);
-            
-            if (scrambled.join('') === word && letters.length > 1) {
-                [scrambled[0], scrambled[1]] = [scrambled[1], scrambled[0]];
-            }
-            
-            return scrambled;
-        }
-
-        // ==================== GAME 5: LISTENING ====================
-        function initListeningGame(container) {
-            let currentWordIndex = 0;
-            let score = 0;
-            let words = getUniqueRandomWords(8);
-            let isPlaying = false;
-            
-            const gameDiv = document.createElement('div');
-            gameDiv.className = 'listening-game';
-            
-            gameDiv.innerHTML = `
-                <div class="listen-button" id="listenBtn">🔊</div>
-                <div class="scramble-hint">Нажми на кнопку и напиши, что услышал</div>
-                <input type="text" class="scramble-input" id="listenInput" placeholder="Введи слово..." autocomplete="off" autocorrect="off">
-                <div class="game-buttons">
-                    <button class="game-btn" id="btnCheck" style="background: var(--game-primary); color: white;">Проверить</button>
-                    <button class="game-btn secondary" id="btnSkip">Пропустить</button>
-                </div>
-                <div style="margin-top: 20px; font-size: 13px; opacity: 0.7;">
-                    💡 Подсказка: ${words[currentWordIndex].emoji} ${words[currentWordIndex].meaning}
-                </div>
-            `;
-            
-            container.appendChild(gameDiv);
-            
-            const listenBtn = document.getElementById('listenBtn');
-            const input = document.getElementById('listenInput');
-            const btnCheck = document.getElementById('btnCheck');
-            const btnSkip = document.getElementById('btnSkip');
-            
-            window.currentGameCleanup = () => {
-                if (window.speechSynthesis) {
-                    window.speechSynthesis.cancel();
-                }
-                listenBtn.onclick = null;
-                btnCheck.onclick = null;
-                btnSkip.onclick = null;
-                input.onkeydown = null;
-            };
-            
-            function playWord() {
-                if (isPlaying) return;
-                
-                window.speechSynthesis.cancel();
-                
-                isPlaying = true;
-                listenBtn.classList.add('playing');
-                
-                const utterance = new SpeechSynthesisUtterance(words[currentWordIndex].word);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.7;
-                utterance.pitch = 1;
-                
-                utterance.onend = () => {
-                    isPlaying = false;
-                    listenBtn.classList.remove('playing');
-                };
-                
-                utterance.onerror = () => {
-                    isPlaying = false;
-                    listenBtn.classList.remove('playing');
-                    input.placeholder = `[${words[currentWordIndex].trans}]`;
-                };
-                
-                window.speechSynthesis.speak(utterance);
-                
-                haptic();
-            }
-            
-            function checkListen() {
-                const value = input.value.toLowerCase().trim();
-                const correct = words[currentWordIndex].word.toLowerCase();
-                
-                if (value === correct) {
-                    score += 200 + (gameCombo * 20);
-                    gameCorrect++;
-                    gameCombo++;
-                    if (gameCombo > maxCombo) maxCombo = gameCombo;
-                    if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                    
-                    input.style.borderColor = '#27AE60';
-                    hapticSuccess();
-                    
-                    setTimeout(() => {
-                        input.style.borderColor = '';
-                        nextListenWord();
-                    }, 500);
-                } else {
-                    gameCombo = 0;
-                    input.classList.add('wrong');
-                    hapticError();
-                    
-                    setTimeout(() => {
-                        input.classList.remove('wrong');
-                        input.value = '';
-                        input.focus();
-                    }, 500);
-                }
-            }
-            
-            function skipListen() {
-                gameCombo = 0;
-                input.value = words[currentWordIndex].word;
-                input.style.color = 'rgba(255,255,255,0.5)';
-                
-                setTimeout(() => {
-                    input.style.color = '';
-                    nextListenWord();
-                }, 1500);
-            }
-            
-            function nextListenWord() {
-                currentWordIndex++;
-                if (currentWordIndex >= words.length) {
-                    endGame(score, gameCorrect, words.length);
-                } else {
-                    const hintDiv = gameDiv.querySelector('div:last-child');
-                    if (hintDiv) {
-                        hintDiv.innerHTML = `💡 Подсказка: ${words[currentWordIndex].emoji} ${words[currentWordIndex].meaning}`;
-                    }
-                    input.value = '';
-                    input.placeholder = 'Введи слово...';
-                    
-                    setTimeout(playWord, 500);
-                }
-            }
-            
-            listenBtn.onclick = playWord;
-            btnCheck.onclick = checkListen;
-            btnSkip.onclick = skipListen;
-            
-            input.onkeydown = (e) => {
-                if (e.key === 'Enter') checkListen();
-            };
-            
-            setTimeout(playWord, 500);
-        }
-
-        // ==================== GAME 6: SPELLING ====================
-        function initSpellingGame(container) {
-            let currentWordIndex = 0;
-            let score = 0;
-            let words = getUniqueRandomWords(10);
-            let hintUsed = false;
-            
-            const gameDiv = document.createElement('div');
-            gameDiv.className = 'scramble-game';
-            
-            gameDiv.innerHTML = `
-                <div style="font-size: 60px; margin-bottom: 20px;" id="spellingEmoji">${words[0].emoji}</div>
-                <div class="scramble-hint" id="spellingHint">${words[0].meaning}</div>
-                <div style="color: rgba(255,255,255,0.6); margin-bottom: 20px; font-size: 14px;" id="spellingTrans">[${words[0].trans}]</div>
-                <input type="text" class="scramble-input" id="spellingInput" placeholder="Напиши слово..." autocomplete="off" autocorrect="off" autocapitalize="off">
-                <div class="game-buttons">
-                    <button class="game-btn" id="btnCheck" style="background: var(--game-primary); color: white;">Проверить</button>
-                    <button class="game-btn secondary" id="btnHint">💡 Подсказка</button>
-                </div>
-            `;
-            
-            container.appendChild(gameDiv);
-            
-            const input = document.getElementById('spellingInput');
-            const btnCheck = document.getElementById('btnCheck');
-            const btnHint = document.getElementById('btnHint');
-            
-            window.currentGameCleanup = () => {
-                input.onkeydown = null;
-                btnCheck.onclick = null;
-                btnHint.onclick = null;
-            };
-            
-            function checkSpelling() {
-                const value = input.value.toLowerCase().trim();
-                const correct = words[currentWordIndex].word.toLowerCase();
-                
-                if (value === correct) {
-                    const points = hintUsed ? 100 : 150;
-                    score += points + (gameCombo * 15);
-                    gameCorrect++;
-                    gameCombo++;
-                    if (gameCombo > maxCombo) maxCombo = gameCombo;
-                    if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                    
-                    input.style.borderColor = '#27AE60';
-                    hapticSuccess();
-                    
-                    hintUsed = false;
-                    setTimeout(() => {
-                        input.style.borderColor = '';
-                        nextSpellingWord();
-                    }, 500);
-                } else {
-                    gameCombo = 0;
-                    input.style.borderColor = '#E74C3C';
-                    hapticError();
-                    
-                    setTimeout(() => {
-                        input.style.borderColor = '';
-                        input.value = '';
-                        input.focus();
-                    }, 500);
-                }
-            }
-            
-            function showHint() {
-                hintUsed = true;
-                const word = words[currentWordIndex].word;
-                
-                const hint = word[0] + '•'.repeat(word.length - 2) + word[word.length - 1];
-                input.value = hint;
-                input.style.color = 'rgba(255,255,255,0.5)';
-                
-                setTimeout(() => {
-                    input.style.color = '';
-                    input.setSelectionRange(1, word.length - 1);
-                    input.focus();
-                }, 100);
-                
-                score = Math.max(0, score - 25);
-            }
-            
-            function nextSpellingWord() {
-                currentWordIndex++;
-                if (currentWordIndex >= words.length) {
-                    endGame(score, gameCorrect, words.length);
-                } else {
-                    const word = words[currentWordIndex];
-                    document.getElementById('spellingEmoji').textContent = word.emoji || '🎯';
-                    document.getElementById('spellingHint').textContent = word.meaning;
-                    document.getElementById('spellingTrans').textContent = `[${word.trans}]`;
-                    input.value = '';
-                    hintUsed = false;
-                    input.focus();
-                }
-            }
-            
-            btnCheck.onclick = checkSpelling;
-            btnHint.onclick = showHint;
-            
-            input.onkeydown = (e) => {
-                if (e.key === 'Enter') checkSpelling();
-            };
-            
-            input.focus();
-        }
-
-        // ==================== HELPERS ====================
-        function getUniqueRandomWords(count) {
-            const available = gameWords.filter(w => w.word && w.word.length >= 3 && w.word.length <= 15);
-            
-            const shuffled = [...available].sort(() => Math.random() - 0.5);
-            
-            const unique = [];
-            const usedWords = new Set();
-            
-            for (let word of shuffled) {
-                if (unique.length >= count) break;
-                if (!usedWords.has(word.word.toLowerCase())) {
-                    unique.push(word);
-                    usedWords.add(word.word.toLowerCase());
-                }
-            }
-            
-            while (unique.length < count && unique.length < available.length) {
-                const random = available[Math.floor(Math.random() * available.length)];
-                if (!usedWords.has(random.word.toLowerCase())) {
-                    unique.push(random);
-                    usedWords.add(random.word.toLowerCase());
-                }
-            }
-            
-            return unique.slice(0, count);
+            } catch (e) {}
         }
 
         // ==================== INIT ====================
         function init() {
-            loadData();
-            
+            // Загружаем данные
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const data = JSON.parse(saved);
+                streetCred = data.streetCred || 0;
+                gameScore = data.gameScore || 0;
+                gameLevel = data.gameLevel || 1;
+                favorites = data.favorites || [];
+                customTracks = data.customTracks || [];
+                learnedWords = data.learnedWords || 0;
+                streak = data.streak || 0;
+            }
+
+            // Инициализация UI
             renderLevels();
             updateStreetStats();
             updateGameStats();
-            
-            const aiInput = document.getElementById('aiInput');
-            if (aiInput) {
-                aiInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        sendAIMessage();
-                    }
-                });
-            }
-            
-            const trackSearch = document.getElementById('trackSearch');
-            if (trackSearch) {
-                let searchTimeout;
-                trackSearch.addEventListener('input', () => {
-                    clearTimeout(searchTimeout);
-                    searchTimeout = setTimeout(filterTracks, 300);
-                });
-            }
+            document.getElementById('wordsCount').textContent = learnedWords;
+            document.getElementById('streakCount').textContent = streak;
             
             updateDailyGoal();
-            checkStreak();
             
-            console.log('LinguaParrot initialized successfully!');
+            console.log('LinguaParrot initialized!');
         }
 
         function updateDailyGoal() {
             const today = new Date().toDateString();
             const studyTime = localStorage.getItem(`study_time_${today}`) || 0;
             const minutes = Math.floor(parseInt(studyTime) / 60);
-            
             const progress = Math.min((minutes / 15) * 100, 100);
             document.getElementById('dailyProgress').textContent = minutes;
             document.getElementById('progressBar').style.width = progress + '%';
         }
 
-        function addStudyTime(seconds) {
-            const today = new Date().toDateString();
-            const current = parseInt(localStorage.getItem(`study_time_${today}`) || 0);
-            localStorage.setItem(`study_time_${today}`, (current + seconds).toString());
-            updateDailyGoal();
-        }
-
-        function checkStreak() {
-            const lastStudy = localStorage.getItem('last_study_date');
-            const today = new Date().toDateString();
-            const yesterday = new Date(Date.now() - 86400000).toDateString();
-            
-            if (lastStudy === yesterday) {
-                // Продолжаем streak
-            } else if (lastStudy !== today) {
-                if (lastStudy !== yesterday && lastStudy !== today) {
-                    streak = 0;
-                    saveData();
-                }
-            }
-            
-            localStorage.setItem('last_study_date', today);
-        }
-
-        // ==================== EVENT LISTENERS ====================
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        document.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
-
-        document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
-
-        function handleSwipe() {
-            const flashcard = document.getElementById('flashcard');
-            if (!flashcard || !flashcard.classList.contains('flipped')) {
-                if (touchEndX < touchStartX - 50) {
-                    if (isFlipped && currentLevel && currentCard < currentLevel.words.length - 1) {
-                        tg.MainButton.click();
-                    }
-                }
-            }
-        }
-
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                saveData();
-                
-                if (window.currentGameCleanup) {
-                    window.currentGameCleanup();
-                }
-            }
-        });
-
-        window.onerror = function(msg, url, line, col, error) {
-            console.error('Error: ' + msg + '\nURL: ' + url + '\nLine: ' + line);
-            return false;
-        };
-
-        window.onbeforeunload = function(e) {
-            const activeScreens = ['lessonScreen', 'gameScreen', 'practiceScreen', 'aiTutorScreen'];
-            for (let id of activeScreens) {
-                const screen = document.getElementById(id);
-                if (screen && screen.classList.contains('active')) {
-                    e.preventDefault();
-                    e.returnValue = 'У тебя есть несохранённый прогресс. Точно хочешь уйти?';
-                    return e.returnValue;
-                }
-            }
-        };
-
-        // ==================== TELEGRAM SPECIFIC ====================
-        tg.MainButton.setParams({
-            text: 'Проверить ✅',
-            color: '#2D7A5F',
-            text_color: '#FFFFFF',
-            is_active: true,
-            is_visible: false
-        });
-
-        tg.onEvent('themeChanged', () => {
-            const root = document.documentElement;
-            if (tg.themeParams.bg_color) {
-                root.style.setProperty('--tg-bg', tg.themeParams.bg_color);
-            }
-            if (tg.themeParams.text_color) {
-                root.style.setProperty('--tg-text', tg.themeParams.text_color);
-            }
-            if (tg.themeParams.button_color) {
-                root.style.setProperty('--tg-button', tg.themeParams.button_color);
-            }
-        });
-
-        tg.onEvent('viewportChanged', (e) => {
-            if (e.isStateStable) {
-                const activeElement = document.activeElement;
-                if (activeElement && activeElement.tagName === 'INPUT') {
-                    activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }
-        });
-
-        // ==================== START ====================
+        // Запускаем инициализацию
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
         } else {
             init();
-        }
-
-        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-            window.debug = {
-                tg: tg,
-                state: {
-                    currentMode,
-                    currentLevel,
-                    gameScore,
-                    streetCred,
-                    learnedWords
-                },
-                functions: {
-                    saveData,
-                    loadData,
-                    addGameScore,
-                    addStreetCred
-                }
-            };
         }
     </script>
 </body>
