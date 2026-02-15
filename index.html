@@ -451,7 +451,6 @@
             <div class="lesson-header">
                 <button class="back-btn haptic" onclick="closeAITutor()">←</button>
                 <div style="flex: 1; text-align: center; font-weight: 700;">🤖 AI-Учитель</div>
-                <button class="back-btn haptic" onclick="testAIConnection()" style="font-size: 12px; background: var(--accent);">🧪</button>
                 <div style="width: 36px;"></div>
             </div>
             
@@ -484,14 +483,6 @@
                 </div>
                 
                 <div class="ai-chat-messages" id="aiChatMessages"></div>
-                
-                <!-- Диагностический блок -->
-                <div id="aiDiagnostics" style="display: none; margin: 20px; padding: 15px; background: rgba(0,0,0,0.1); border-radius: 12px; font-size: 12px; font-family: monospace;">
-                    <div style="font-weight: bold; margin-bottom: 10px;">🔧 AI Диагностика:</div>
-                    <div id="aiStatus">Статус: ожидание...</div>
-                    <div id="aiLastError" style="color: var(--error); margin-top: 5px;"></div>
-                    <button onclick="clearAIDiagnostics()" style="margin-top: 10px; padding: 5px 10px; font-size: 11px;">Очистить</button>
-                </div>
             </div>
             
             <div class="ai-input-container">
@@ -1535,8 +1526,7 @@
             50% { transform: translateX(-50%) scale(1.2); }
             100% { transform: translateX(-50%) scale(1); }
         }
-    </style>
-    <style>
+
         /* AI Tutor Screen */
         .ai-tutor-screen {
             display: none;
@@ -1791,199 +1781,10 @@
         }
     </style>
     <script>
-        // ==================== КОНФИГУРАЦИЯ AI С ДИАГНОСТИКОЙ ====================
-        const AI_CONFIG = {
-            YANDEX_API_KEY: 'ajea95bb2bksus7volqp',
-            FOLDER_ID: 'b1gq2kupev56dtuhpek7',
-            ENDPOINT: 'https://llm.api.cloud.yandex.net/foundationModels/v1/completion',
-            TIMEOUT: 15000, // 15 секунд таймаут
-            MAX_RETRIES: 2
-        };
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
 
-        // Логирование для диагностики
-        let aiDiagnosticsLog = [];
-        
-        function logAIDiagnostic(message, type = 'info') {
-            const timestamp = new Date().toLocaleTimeString();
-            const entry = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
-            aiDiagnosticsLog.push(entry);
-            console.log(entry);
-            
-            // Обновляем UI диагностики если открыт
-            const statusEl = document.getElementById('aiStatus');
-            const errorEl = document.getElementById('aiLastError');
-            if (statusEl) {
-                statusEl.textContent = `Статус: ${message}`;
-                if (type === 'error' && errorEl) {
-                    errorEl.textContent = `Ошибка: ${message}`;
-                }
-            }
-        }
-
-        // Функция тестирования соединения
-        async function testAIConnection() {
-            logAIDiagnostic('Запуск теста соединения...', 'info');
-            const diagnosticsDiv = document.getElementById('aiDiagnostics');
-            if (diagnosticsDiv) {
-                diagnosticsDiv.style.display = 'block';
-            }
-            
-            addAIMessage('bot', '🧪 Тестирую соединение с AI...');
-            
-            try {
-                const testResponse = await getAIResponse('Привет! Это тестовое сообщение. Ответь коротко: "Тест успешен" если видишь это.', true);
-                logAIDiagnostic('Тест успешен', 'success');
-                addAIMessage('bot', '✅ Соединение с AI работает! Можешь задавать вопросы.');
-            } catch (error) {
-                logAIDiagnostic(`Тест провален: ${error.message}`, 'error');
-                addAIMessage('bot', `❌ Ошибка соединения: ${error.message}\n\nПроверь:\n1. Интернет-соединение\n2. API ключи\n3. CORS политику`);
-            }
-        }
-
-        function clearAIDiagnostics() {
-            aiDiagnosticsLog = [];
-            const statusEl = document.getElementById('aiStatus');
-            const errorEl = document.getElementById('aiLastError');
-            if (statusEl) statusEl.textContent = 'Статус: очищено';
-            if (errorEl) errorEl.textContent = '';
-        }
-
-        // ==================== ОСНОВНАЯ ФУНКЦИЯ AI С УЛУЧШЕННОЙ ОБРАБОТКОЙ ОШИБОК ====================
-        async function getAIResponse(prompt, isTest = false) {
-            logAIDiagnostic(`Отправка запроса: "${prompt.substring(0, 50)}..."`, 'info');
-            
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => {
-                controller.abort();
-                logAIDiagnostic('Таймаут запроса (15с)', 'error');
-            }, AI_CONFIG.TIMEOUT);
-
-            try {
-                const response = await fetch(AI_CONFIG.ENDPOINT, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Api-Key ${AI_CONFIG.YANDEX_API_KEY}`,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        modelUri: `gpt://${AI_CONFIG.FOLDER_ID}/yandexgpt-lite`,
-                        completionOptions: {
-                            stream: false,
-                            temperature: 0.6,
-                            maxTokens: 1000
-                        },
-                        messages: [
-                            {
-                                role: 'system',
-                                text: 'Ты — опытный преподаватель английского языка для русскоязычных студентов. Ты умеешь: 1) Объяснять грамматику простым языком с примерами, 2) Составлять тесты с вариантами ответов, 3) Проверять переводы и находить ошибки, 4) Вести диалоги на английском для практики. Будь дружелюбным, позитивным и давай конкретные примеры.'
-                            },
-                            {
-                                role: 'user',
-                                text: prompt
-                            }
-                        ]
-                    }),
-                    signal: controller.signal
-                });
-
-                clearTimeout(timeoutId);
-
-                logAIDiagnostic(`Получен ответ: HTTP ${response.status}`, 'info');
-
-                if (!response.ok) {
-                    let errorText = '';
-                    try {
-                        const errorData = await response.json();
-                        errorText = JSON.stringify(errorData);
-                    } catch {
-                        errorText = await response.text();
-                    }
-                    throw new Error(`HTTP ${response.status}: ${errorText}`);
-                }
-
-                const data = await response.json();
-                
-                if (!data.result || !data.result.alternatives || !data.result.alternatives[0]) {
-                    throw new Error('Некорректный формат ответа от API');
-                }
-
-                const text = data.result.alternatives[0].message.text;
-                logAIDiagnostic(`Успешный ответ: "${text.substring(0, 50)}..."`, 'success');
-                return text;
-
-            } catch (error) {
-                clearTimeout(timeoutId);
-                
-                if (error.name === 'AbortError') {
-                    logAIDiagnostic('Запрос отменен по таймауту', 'error');
-                    throw new Error('Превышено время ожидания (15 сек). Проверь соединение.');
-                }
-                
-                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-                    logAIDiagnostic('Ошибка сети (CORS/Offline)', 'error');
-                    throw new Error('Ошибка сети. Возможно проблема с CORS или нет интернета.');
-                }
-                
-                logAIDiagnostic(`Ошибка: ${error.message}`, 'error');
-                throw error;
-            }
-        }
-
-        // Fallback функция
-        function getLocalAIResponse(prompt) {
-            logAIDiagnostic('Используется локальный fallback', 'warning');
-            const lower = prompt.toLowerCase();
-            
-            if (lower.includes('привет') || lower.includes('здравствуй')) {
-                return 'Привет! 👋 Готов учить английский? Выбери тему или спроси меня о чём-то конкретном!';
-            }
-            if (lower.includes('практика') || lower.includes('тренировка')) {
-                return 'Отлично! Давай потренируемся. Я задам тебе 5 слов из твоего последнего урока. Готов? Напиши "да"!';
-            }
-            if (lower.includes('грамматика') || lower.includes('времена')) {
-                return 'Грамматика - это скелет языка! 📚\n\nОсновные времена:\n• Present Simple: I go (привычки)\n• Present Continuous: I am going (сейчас)\n• Past Simple: I went (прошлое)\n• Future: I will go (будущее)\n\nКакое время хочешь разобрать подробнее?';
-            }
-            if (lower.includes('слова') || lower.includes('vocabulary')) {
-                return 'Давай учить слова! 🎯\n\nМетоды:\n1. Ассоциации - связывай с известным\n2. Контекст - учи в предложениях\n3. Повторение - через 1, 3, 7 дней\n\nНачнём с категории "Еда" или "Путешествия"?';
-            }
-            if (lower.includes('проверь')) {
-                return 'Хорошо, проверим! 📝\n\nПереведи: "I have been learning English for 2 years"\n\nВарианты:\nа) Я учу английский 2 года\nб) Я учил английский 2 года\nв) Я буду учить английский 2 года\n\nКакой правильный?';
-            }
-            
-            return 'Интересный вопрос! 🤔\n\nЯ могу помочь с:\n• Переводом слов и фраз\n• Грамматикой\n• Произношением\n• Практическими задания\n\nЧто конкретно тебе нужно? Или выбери быстрое действие внизу!';
-        }
-
-        // ==================== ОТПРАВКА СООБЩЕНИЯ AI ====================
-        async function sendAIMessage() {
-            const input = document.getElementById('aiInput');
-            const text = input.value.trim();
-            
-            if (!text) return;
-            
-            haptic();
-            addAIMessage('user', text);
-            input.value = '';
-            
-            showAILoading();
-            
-            try {
-                const response = await getAIResponse(text);
-                hideAILoading();
-                addAIMessage('bot', response);
-            } catch (error) {
-                hideAILoading();
-                logAIDiagnostic(`Ошибка в sendAIMessage: ${error.message}`, 'error');
-                const fallback = getLocalAIResponse(text);
-                addAIMessage('bot', `⚠️ Проблема с сервером AI. Использую локальный режим.\n\n${fallback}`);
-            }
-        }
-
-        function askAI(topic) {
-            haptic();
-            document.getElementById('aiInput').value = topic;
-            sendAIMessage();
-        }
         // ==================== STRICT MODE: РАСШИРЕННЫЕ УРОВНИ С КАТЕГОРИЯМИ И КАРТИНКАМИ ====================
         const strictLevels = [
             {
@@ -2589,6 +2390,7 @@
                 color: '#34495E'
             }
         ];
+        
         // ==================== STATE VARIABLES ====================
         let currentMode = 'strict';
         let currentCategory = 'oldschool';
@@ -2620,7 +2422,6 @@
         let currentPracticeIndex = 0;
 
         const STORAGE_KEY = 'linguaparrot_progress_v5';
-        
         // ==================== CLOUD STORAGE ====================
         function loadData() {
             try {
@@ -3058,6 +2859,7 @@
             haptic();
             isStreetLesson = true;
             const category = slangData[currentCategory][categoryIndex];
+            // ИСПРАВЛЕНО: было cat.name, стало category.name
             currentLevel = { words: category.words, name: category.name, isStreet: true };
             currentCard = 0;
             isFlipped = false;
@@ -3461,7 +3263,7 @@
             
             const messages = document.getElementById('aiChatMessages');
             if (messages.children.length === 0) {
-                addAIMessage('bot', 'Привет! Я твой AI-учитель 🤖\n\nЯ могу:\n• Проверить твои знания\n• Объяснить грамматику\n• Потренировать разговорный английский\n• Дать задания на закрепление\n\nВыбери быстрое действие ниже или напиши мне!\n\n💡 Нажми 🧪 вверху для диагностики AI.');
+                addAIMessage('bot', 'Привет! Я твой AI-учитель 🤖\n\nЯ могу:\n• Проверить твои знания\n• Объяснить грамматику\n• Потренировать разговорный английский\n• Дать задания на закрепление\n\nВыбери быстрое действие ниже или напиши мне!');
             }
         }
 
@@ -3493,6 +3295,81 @@
         function hideAILoading() {
             const loading = document.getElementById('aiLoading');
             if (loading) loading.remove();
+        }
+
+        async function sendAIMessage() {
+            const input = document.getElementById('aiInput');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            haptic();
+            addAIMessage('user', text);
+            input.value = '';
+            
+            showAILoading();
+            
+            try {
+                const response = await getAIResponse(text);
+                hideAILoading();
+                addAIMessage('bot', response);
+            } catch (error) {
+                hideAILoading();
+                const fallbackResponse = getLocalAIResponse(text);
+                addAIMessage('bot', fallbackResponse);
+            }
+        }
+
+        async function getAIResponse(prompt) {
+            const API_KEY = 'AIzaSyB';
+            
+            if (API_KEY === 'AIzaSyB') {
+                throw new Error('API key not set');
+            }
+            
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: `Ты - дружелюбный учитель английского языка для русскоязычного студента. Отвечай кратко, понятно, с примерами. Вопрос: ${prompt}`
+                        }]
+                    }]
+                })
+            });
+            
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        function getLocalAIResponse(prompt) {
+            const lower = prompt.toLowerCase();
+            
+            if (lower.includes('привет') || lower.includes('здравствуй')) {
+                return 'Привет! 👋 Готов учить английский? Выбери тему или спроси меня о чём-то конкретном!';
+            }
+            if (lower.includes('практика') || lower.includes('тренировка')) {
+                return 'Отлично! Давай потренируемся. Я задам тебе 5 слов из твоего последнего урока. Готов? Напиши "да"!';
+            }
+            if (lower.includes('грамматика') || lower.includes('времена')) {
+                return 'Грамматика - это скелет языка! 📚\n\nОсновные времена:\n• Present Simple: I go (привычки)\n• Present Continuous: I am going (сейчас)\n• Past Simple: I went (прошлое)\n• Future: I will go (будущее)\n\nКакое время хочешь разобрать подробнее?';
+            }
+            if (lower.includes('слова') || lower.includes('vocabulary')) {
+                return 'Давай учить слова! 🎯\n\nМетоды:\n1. Ассоциации - связывай с известным\n2. Контекст - учи в предложениях\n3. Повторение - через 1, 3, 7 дней\n\nНачнём с категории "Еда" или "Путешествия"?';
+            }
+            if (lower.includes('проверь')) {
+                return 'Хорошо, проверим! 📝\n\nПереведи: "I have been learning English for 2 years"\n\nВарианты:\nа) Я учу английский 2 года\nб) Я учил английский 2 года\nв) Я буду учить английский 2 года\n\nКакой правильный?';
+            }
+            
+            return 'Интересный вопрос! 🤔\n\nЯ могу помочь с:\n• Переводом слов и фраз\n• Грамматикой\n• Произношением\n• Практическими задания\n\nЧто конкретно тебе нужно? Или выбери быстрое действие внизу!';
+        }
+
+        function askAI(topic) {
+            haptic();
+            document.getElementById('aiInput').value = topic;
+            sendAIMessage();
         }
 
         // ==================== PRACTICE MODE ====================
@@ -3850,14 +3727,14 @@
             document.getElementById('gameResultScreen').classList.add('active');
         }
 
-        // ==================== GAME IMPLEMENTATIONS ====================
+        // ==================== GAME 1: FLASHCARD SPEED ====================
         function initFlashcardSpeedGame(container) {
             let currentWordIndex = 0;
             let score = 0;
             let timeLeft = 3;
             let timerInterval = null;
             
-            let gameWordsList = getUniqueRandomWords(10);
+            let gameWords = getUniqueRandomWords(10);
             
             const gameDiv = document.createElement('div');
             gameDiv.className = 'flashcard-game';
@@ -3915,8 +3792,8 @@
                 
                 setTimeout(() => {
                     currentWordIndex++;
-                    if (currentWordIndex >= gameWordsList.length) {
-                        endGame(score, gameCorrect, gameWordsList.length);
+                    if (currentWordIndex >= gameWords.length) {
+                        endGame(score, gameCorrect, gameWords.length);
                     } else {
                         nextSpeedCard();
                     }
@@ -3924,9 +3801,9 @@
             }
             
             function nextSpeedCard() {
-                if (currentWordIndex >= gameWordsList.length) return;
+                if (currentWordIndex >= gameWords.length) return;
                 
-                const word = gameWordsList[currentWordIndex];
+                const word = gameWords[currentWordIndex];
                 document.getElementById('speedWord').textContent = word.word;
                 document.getElementById('speedTrans').textContent = word.trans;
                 document.getElementById('speedMeaning').textContent = word.meaning;
@@ -3951,284 +3828,7 @@
             nextSpeedCard();
         }
 
-        function initQuizGame(container) {
-            let currentQuestion = 0;
-            let score = 0;
-            
-            let questions = generateQuizQuestions(10);
-            
-            const gameDiv = document.createElement('div');
-            gameDiv.className = 'quiz-game';
-            
-            gameDiv.innerHTML = `
-                <div class="quiz-progress" id="quizProgress"></div>
-                <div class="quiz-question">
-                    <div class="quiz-word" id="quizWord"></div>
-                    <div class="quiz-hint" id="quizHint"></div>
-                </div>
-                <div class="quiz-options" id="quizOptions"></div>
-            `;
-            
-            container.appendChild(gameDiv);
-            
-            const progressDiv = document.getElementById('quizProgress');
-            for (let i = 0; i < questions.length; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'quiz-dot';
-                if (i === 0) dot.classList.add('current');
-                progressDiv.appendChild(dot);
-            }
-            
-            window.currentGameCleanup = () => {};
-            
-            function showQuestion() {
-                if (current                document.getElementById('resultWords').textContent = currentLevel.words.length;
-                document.getElementById('resultXP').textContent = isStreetLesson ? '+100 STREET CRED' : '+100 XP';
-                document.getElementById('xpLabel').textContent = isStreetLesson ? 'Street Cred' : 'Опыт';
-                document.getElementById('resultSubtitle').textContent = 'Уровень "' + currentLevel.name + '" пройден!';
-                
-                document.getElementById('lessonScreen').classList.remove('active');
-                document.getElementById('resultScreen').classList.add('active');
-                tg.MainButton.hide();
-            } else {
-                isFlipped = false;
-                if (isStreetLesson) {
-                    updateStreetCard();
-                } else {
-                    updateCard();
-                }
-                tg.MainButton.hide();
-            }
-        });
-
-        // ==================== GAME MODE ====================
-        function renderGameMenu() {
-            const grid = document.getElementById('gameGrid');
-            if (!grid) return;
-            
-            grid.innerHTML = '';
-            
-            gameTypes.forEach((game) => {
-                const card = document.createElement('div');
-                card.className = 'game-card';
-                card.onclick = () => startGame(game.id);
-                card.style.borderColor = game.color;
-                
-                card.innerHTML = `
-                    <div class="game-icon">${game.emoji}</div>
-                    <div class="game-name">${game.name}</div>
-                    <div class="game-desc">${game.description}</div>
-                `;
-                
-                grid.appendChild(card);
-            });
-        }
-
-        function startGame(gameId) {
-            haptic();
-            currentGame = gameId;
-            
-            gameCombo = 0;
-            maxCombo = 0;
-            gameCorrect = 0;
-            
-            document.getElementById('mainScreen').classList.remove('active');
-            document.getElementById('gameScreen').classList.add('active');
-            
-            const container = document.getElementById('gameContainer');
-            container.innerHTML = '';
-            
-            window.currentGameCleanup = null;
-            
-            switch(gameId) {
-                case 'flashcard-speed':
-                    initFlashcardSpeedGame(container);
-                    break;
-                case 'quiz':
-                    initQuizGame(container);
-                    break;
-                case 'match':
-                    initMatchGame(container);
-                    break;
-                case 'scramble':
-                    initScrambleGame(container);
-                    break;
-                case 'listening':
-                    initListeningGame(container);
-                    break;
-                case 'spelling':
-                    initSpellingGame(container);
-                    break;
-            }
-        }
-
-        function closeGame() {
-            haptic();
-            
-            if (window.currentGameCleanup) {
-                window.currentGameCleanup();
-            }
-            
-            if (window.speechSynthesis) {
-                window.speechSynthesis.cancel();
-            }
-            
-            document.getElementById('gameScreen').classList.remove('active');
-            document.getElementById('mainScreen').classList.add('active');
-        }
-
-        function finishGame() {
-            haptic();
-            
-            if (window.currentGameCleanup) {
-                window.currentGameCleanup();
-            }
-            
-            document.getElementById('gameResultScreen').classList.remove('active');
-            document.getElementById('mainScreen').classList.add('active');
-            renderGameMenu();
-        }
-
-        function showCombo() {
-            document.querySelectorAll('.combo-indicator').forEach(el => el.remove());
-            
-            const combo = document.createElement('div');
-            combo.className = 'combo-indicator';
-            combo.textContent = `🔥 COMBO x${gameCombo}!`;
-            document.body.appendChild(combo);
-            
-            requestAnimationFrame(() => {
-                combo.classList.add('show');
-                setTimeout(() => combo.classList.add('pulse'), 100);
-            });
-            
-            setTimeout(() => {
-                combo.classList.remove('show');
-                setTimeout(() => combo.remove(), 300);
-            }, 1500);
-        }
-
-        function endGame(score, correct, total) {
-            const comboBonus = Math.floor(maxCombo / 3) * 50;
-            const finalScore = score + comboBonus;
-            
-            addGameScore(finalScore);
-            
-            document.getElementById('gameCorrectAnswers').textContent = `${correct}/${total}`;
-            document.getElementById('gameResultScore').textContent = `+${finalScore}`;
-            document.getElementById('gameMaxCombo').textContent = `x${maxCombo}`;
-            
-            let subtitle = `Правильных ответов: ${correct} из ${total}`;
-            if (comboBonus > 0) {
-                subtitle += `\nБонус за комбо: +${comboBonus}`;
-            }
-            document.getElementById('gameResultSubtitle').textContent = subtitle;
-            
-            document.getElementById('gameScreen').classList.remove('active');
-            document.getElementById('gameResultScreen').classList.add('active');
-        }
-
-        // ==================== GAME IMPLEMENTATIONS ====================
-        function initFlashcardSpeedGame(container) {
-            let currentWordIndex = 0;
-            let score = 0;
-            let timeLeft = 3;
-            let timerInterval = null;
-            
-            let gameWordsList = getUniqueRandomWords(10);
-            
-            const gameDiv = document.createElement('div');
-            gameDiv.className = 'flashcard-game';
-            
-            gameDiv.innerHTML = `
-                <div class="game-timer" id="speedTimer">3.0</div>
-                <div class="game-flashcard" id="speedCard">
-                    <div class="game-word" id="speedWord"></div>
-                    <div class="game-trans" id="speedTrans"></div>
-                    <div class="game-meaning" id="speedMeaning"></div>
-                </div>
-                <div class="game-buttons">
-                    <button class="game-btn wrong" id="btnWrong">✗ Не знаю</button>
-                    <button class="game-btn correct" id="btnCorrect">✓ Знаю</button>
-                </div>
-            `;
-            
-            container.appendChild(gameDiv);
-            
-            const btnWrong = document.getElementById('btnWrong');
-            const btnCorrect = document.getElementById('btnCorrect');
-            
-            const handleWrong = () => speedAnswer(false);
-            const handleCorrect = () => speedAnswer(true);
-            
-            btnWrong.onclick = handleWrong;
-            btnCorrect.onclick = handleCorrect;
-            
-            window.currentGameCleanup = () => {
-                clearInterval(timerInterval);
-                btnWrong.onclick = null;
-                btnCorrect.onclick = null;
-            };
-            
-            function speedAnswer(knew) {
-                clearInterval(timerInterval);
-                
-                const card = document.getElementById('speedCard');
-                const meaning = document.getElementById('speedMeaning');
-                
-                if (knew) {
-                    score += 100 + (gameCombo * 10);
-                    gameCorrect++;
-                    gameCombo++;
-                    if (gameCombo > maxCombo) maxCombo = gameCombo;
-                    if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                    
-                    meaning.style.color = '#27AE60';
-                } else {
-                    gameCombo = 0;
-                    meaning.style.color = '#E74C3C';
-                }
-                
-                card.classList.add('show-meaning');
-                
-                setTimeout(() => {
-                    currentWordIndex++;
-                    if (currentWordIndex >= gameWordsList.length) {
-                        endGame(score, gameCorrect, gameWordsList.length);
-                    } else {
-                        nextSpeedCard();
-                    }
-                }, 1000);
-            }
-            
-            function nextSpeedCard() {
-                if (currentWordIndex >= gameWordsList.length) return;
-                
-                const word = gameWordsList[currentWordIndex];
-                document.getElementById('speedWord').textContent = word.word;
-                document.getElementById('speedTrans').textContent = word.trans;
-                document.getElementById('speedMeaning').textContent = word.meaning;
-                
-                const card = document.getElementById('speedCard');
-                card.classList.remove('show-meaning');
-                
-                timeLeft = 3;
-                document.getElementById('speedTimer').textContent = timeLeft.toFixed(1);
-                
-                clearInterval(timerInterval);
-                timerInterval = setInterval(() => {
-                    timeLeft -= 0.1;
-                    document.getElementById('speedTimer').textContent = Math.max(0, timeLeft).toFixed(1);
-                    
-                    if (timeLeft <= 0) {
-                        speedAnswer(false);
-                    }
-                }, 100);
-            }
-            
-            nextSpeedCard();
-        }
-
+        // ==================== GAME 2: QUIZ ====================
         function initQuizGame(container) {
             let currentQuestion = 0;
             let score = 0;
@@ -4364,6 +3964,7 @@
             return questions;
         }
 
+        // ==================== GAME 3: MATCH PAIRS ====================
         function initMatchGame(container) {
             let score = 0;
             let matches = 0;
@@ -4467,6 +4068,7 @@
             }
         }
 
+        // ==================== GAME 4: WORD SCRAMBLE ====================
         function initScrambleGame(container) {
             let currentWordIndex = 0;
             let score = 0;
@@ -4600,11 +4202,12 @@
             return scrambled;
         }
 
+        // ==================== GAME 5: LISTENING ====================
         function initListeningGame(container) {
             let currentWordIndex = 0;
             let score = 0;
             let words = getUniqueRandomWords(8);
-            let isPlayingAudio = false;
+            let isPlaying = false;
             
             const gameDiv = document.createElement('div');
             gameDiv.className = 'listening-game';
@@ -4624,1160 +4227,428 @@
             
             container.appendChild(gameDiv);
             
-            const listenBtn = document.getElementById
-                } else {
-                    button.classList.add('wrong');
-                    hapticError();
-                    
-                    buttons.forEach(b => {
-                        if (b.textContent === correct) {
-                            b.classList.add('correct');
-                        }
-                    });
-                }
-                
-                setTimeout(() => {
-                    currentPracticeIndex++;
-                    showPracticeQuestion();
-                }, 1500);
-            }
-
-            function finishPractice() {
-                hapticSuccess();
-                
-                if (tg.showPopup) {
-                    tg.showPopup({
-                        title: '🎉 Отлично!',
-                        message: 'Ты закрепил материал! Продолжай в том же духе.',
-                        buttons: [{type: 'ok', text: 'Продолжить'}]
-                    }, () => {
-                        document.getElementById('practiceScreen').classList.remove('active');
-                        document.getElementById('mainScreen').classList.add('active');
-                    });
-                } else {
-                    alert('🎉 Отлично! Ты закрепил материал!');
-                    document.getElementById('practiceScreen').classList.remove('active');
-                    document.getElementById('mainScreen').classList.add('active');
-                }
-            }
-
-            // ==================== FINISH LESSONS ====================
-            function finishLesson() {
-                hapticSuccess();
-                
-                if (currentLevel) {
-                    learnedWords += currentLevel.words.length;
-                    saveLevelProgress(currentLevel.id, currentLevel.words.length);
-                    saveData();
-                }
-                
-                isFlipped = false;
-                currentCard = 0;
-                
-                if (isStreetLesson) {
-                    addStreetCred(100);
-                    document.getElementById('flashcard').classList.remove('street-card');
-                    isStreetLesson = false;
-                }
-                
-                document.getElementById('wordsCount').textContent = learnedWords;
-                
-                document.getElementById('lessonScreen').classList.remove('active');
-                document.getElementById('resultScreen').classList.remove('active');
-                document.getElementById('mainScreen').classList.add('active');
-                
-                tg.MainButton.hide();
-                
-                renderLevels();
-            }
-
-            function openChat() {
-                haptic();
-                openAITutor();
-            }
-
-            // ==================== MAIN BUTTON HANDLER ====================
-            tg.MainButton.onClick(() => {
-                haptic();
-                if (!isFlipped && !isStreetLesson) {
-                    flipCard();
-                    return;
-                }
-                
-                currentCard++;
-                
-                if (currentCard >= currentLevel.words.length) {
-                    const timeSpent = Math.floor((Date.now() - lessonStartTime) / 1000);
-                    const mins = Math.floor(timeSpent / 60);
-                    const secs = timeSpent % 60;
-                    
-                    document.getElementById('timeValue').textContent = mins + ':' + secs.toString().padStart(2, '0');
-                    document.getElementById('resultWords').textContent = currentLevel.words.length;
-                    document.getElementById('resultXP').textContent = isStreetLesson ? '+100 STREET CRED' : '+100 XP';
-                    document.getElementById('xpLabel').textContent = isStreetLesson ? 'Street Cred' : 'Опыт';
-                    document.getElementById('resultSubtitle').textContent = 'Уровень "' + currentLevel.name + '" пройден!';
-                    
-                    document.getElementById('lessonScreen').classList.remove('active');
-                    document.getElementById('resultScreen').classList.add('active');
-                    tg.MainButton.hide();
-                } else {
-                    isFlipped = false;
-                    if (isStreetLesson) {
-                        updateStreetCard();
-                    } else {
-                        updateCard();
-                    }
-                    tg.MainButton.hide();
-                }
-            });
-
-            // ==================== GAME MODE ====================
-            function renderGameMenu() {
-                const grid = document.getElementById('gameGrid');
-                if (!grid) return;
-                
-                grid.innerHTML = '';
-                
-                gameTypes.forEach((game) => {
-                    const card = document.createElement('div');
-                    card.className = 'game-card';
-                    card.onclick = () => startGame(game.id);
-                    card.style.borderColor = game.color;
-                    
-                    card.innerHTML = `
-                        <div class="game-icon">${game.emoji}</div>
-                        <div class="game-name">${game.name}</div>
-                        <div class="game-desc">${game.description}</div>
-                    `;
-                    
-                    grid.appendChild(card);
-                });
-            }
-
-            function startGame(gameId) {
-                haptic();
-                currentGame = gameId;
-                
-                gameCombo = 0;
-                maxCombo = 0;
-                gameCorrect = 0;
-                
-                document.getElementById('mainScreen').classList.remove('active');
-                document.getElementById('gameScreen').classList.add('active');
-                
-                const container = document.getElementById('gameContainer');
-                container.innerHTML = '';
-                
-                window.currentGameCleanup = null;
-                
-                switch(gameId) {
-                    case 'flashcard-speed':
-                        initFlashcardSpeedGame(container);
-                        break;
-                    case 'quiz':
-                        initQuizGame(container);
-                        break;
-                    case 'match':
-                        initMatchGame(container);
-                        break;
-                    case 'scramble':
-                        initScrambleGame(container);
-                        break;
-                    case 'listening':
-                        initListeningGame(container);
-                        break;
-                    case 'spelling':
-                        initSpellingGame(container);
-                        break;
-                }
-            }
-
-            function closeGame() {
-                haptic();
-                
-                if (window.currentGameCleanup) {
-                    window.currentGameCleanup();
-                }
-                
+            const listenBtn = document.getElementById('listenBtn');
+            const input = document.getElementById('listenInput');
+            const btnCheck = document.getElementById('btnCheck');
+            const btnSkip = document.getElementById('btnSkip');
+            
+            window.currentGameCleanup = () => {
                 if (window.speechSynthesis) {
                     window.speechSynthesis.cancel();
                 }
+                listenBtn.onclick = null;
+                btnCheck.onclick = null;
+                btnSkip.onclick = null;
+                input.onkeydown = null;
+            };
+            
+            function playWord() {
+                if (isPlaying) return;
                 
-                document.getElementById('gameScreen').classList.remove('active');
-                document.getElementById('mainScreen').classList.add('active');
-            }
-
-            function finishGame() {
+                window.speechSynthesis.cancel();
+                
+                isPlaying = true;
+                listenBtn.classList.add('playing');
+                
+                const utterance = new SpeechSynthesisUtterance(words[currentWordIndex].word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.7;
+                utterance.pitch = 1;
+                
+                utterance.onend = () => {
+                    isPlaying = false;
+                    listenBtn.classList.remove('playing');
+                };
+                
+                utterance.onerror = () => {
+                    isPlaying = false;
+                    listenBtn.classList.remove('playing');
+                    input.placeholder = `[${words[currentWordIndex].trans}]`;
+                };
+                
+                window.speechSynthesis.speak(utterance);
+                
                 haptic();
+            }
+            
+            function checkListen() {
+                const value = input.value.toLowerCase().trim();
+                const correct = words[currentWordIndex].word.toLowerCase();
+                
+                if (value === correct) {
+                    score += 200 + (gameCombo * 20);
+                    gameCorrect++;
+                    gameCombo++;
+                    if (gameCombo > maxCombo) maxCombo = gameCombo;
+                    if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
+                    
+                    input.style.borderColor = '#27AE60';
+                    hapticSuccess();
+                    
+                    setTimeout(() => {
+                        input.style.borderColor = '';
+                        nextListenWord();
+                    }, 500);
+                } else {
+                    gameCombo = 0;
+                    input.classList.add('wrong');
+                    hapticError();
+                    
+                    setTimeout(() => {
+                        input.classList.remove('wrong');
+                        input.value = '';
+                        input.focus();
+                    }, 500);
+                }
+            }
+            
+            function skipListen() {
+                gameCombo = 0;
+                input.value = words[currentWordIndex].word;
+                input.style.color = 'rgba(255,255,255,0.5)';
+                
+                setTimeout(() => {
+                    input.style.color = '';
+                    nextListenWord();
+                }, 1500);
+            }
+            
+            function nextListenWord() {
+                currentWordIndex++;
+                if (currentWordIndex >= words.length) {
+                    endGame(score, gameCorrect, words.length);
+                } else {
+                    const hintDiv = gameDiv.querySelector('div:last-child');
+                    if (hintDiv) {
+                        hintDiv.innerHTML = `💡 Подсказка: ${words[currentWordIndex].emoji} ${words[currentWordIndex].meaning}`;
+                    }
+                    input.value = '';
+                    input.placeholder = 'Введи слово...';
+                    
+                    setTimeout(playWord, 500);
+                }
+            }
+            
+            listenBtn.onclick = playWord;
+            btnCheck.onclick = checkListen;
+            btnSkip.onclick = skipListen;
+            
+            input.onkeydown = (e) => {
+                if (e.key === 'Enter') checkListen();
+            };
+            
+            setTimeout(playWord, 500);
+        }
+
+        // ==================== GAME 6: SPELLING ====================
+        function initSpellingGame(container) {
+            let currentWordIndex = 0;
+            let score = 0;
+            let words = getUniqueRandomWords(10);
+            let hintUsed = false;
+            
+            const gameDiv = document.createElement('div');
+            gameDiv.className = 'scramble-game';
+            
+            gameDiv.innerHTML = `
+                <div style="font-size: 60px; margin-bottom: 20px;" id="spellingEmoji">${words[0].emoji}</div>
+                <div class="scramble-hint" id="spellingHint">${words[0].meaning}</div>
+                <div style="color: rgba(255,255,255,0.6); margin-bottom: 20px; font-size: 14px;" id="spellingTrans">[${words[0].trans}]</div>
+                <input type="text" class="scramble-input" id="spellingInput" placeholder="Напиши слово..." autocomplete="off" autocorrect="off" autocapitalize="off">
+                <div class="game-buttons">
+                    <button class="game-btn" id="btnCheck" style="background: var(--game-primary); color: white;">Проверить</button>
+                    <button class="game-btn secondary" id="btnHint">💡 Подсказка</button>
+                </div>
+            `;
+            
+            container.appendChild(gameDiv);
+            
+            const input = document.getElementById('spellingInput');
+            const btnCheck = document.getElementById('btnCheck');
+            const btnHint = document.getElementById('btnHint');
+            
+            window.currentGameCleanup = () => {
+                input.onkeydown = null;
+                btnCheck.onclick = null;
+                btnHint.onclick = null;
+            };
+            
+            function checkSpelling() {
+                const value = input.value.toLowerCase().trim();
+                const correct = words[currentWordIndex].word.toLowerCase();
+                
+                if (value === correct) {
+                    const points = hintUsed ? 100 : 150;
+                    score += points + (gameCombo * 15);
+                    gameCorrect++;
+                    gameCombo++;
+                    if (gameCombo > maxCombo) maxCombo = gameCombo;
+                    if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
+                    
+                    input.style.borderColor = '#27AE60';
+                    hapticSuccess();
+                    
+                    hintUsed = false;
+                    setTimeout(() => {
+                        input.style.borderColor = '';
+                        nextSpellingWord();
+                    }, 500);
+                } else {
+                    gameCombo = 0;
+                    input.style.borderColor = '#E74C3C';
+                    hapticError();
+                    
+                    setTimeout(() => {
+                        input.style.borderColor = '';
+                        input.value = '';
+                        input.focus();
+                    }, 500);
+                }
+            }
+            
+            function showHint() {
+                hintUsed = true;
+                const word = words[currentWordIndex].word;
+                
+                const hint = word[0] + '•'.repeat(word.length - 2) + word[word.length - 1];
+                input.value = hint;
+                input.style.color = 'rgba(255,255,255,0.5)';
+                
+                setTimeout(() => {
+                    input.style.color = '';
+                    input.setSelectionRange(1, word.length - 1);
+                    input.focus();
+                }, 100);
+                
+                score = Math.max(0, score - 25);
+            }
+            
+            function nextSpellingWord() {
+                currentWordIndex++;
+                if (currentWordIndex >= words.length) {
+                    endGame(score, gameCorrect, words.length);
+                } else {
+                    const word = words[currentWordIndex];
+                    document.getElementById('spellingEmoji').textContent = word.emoji || '🎯';
+                    document.getElementById('spellingHint').textContent = word.meaning;
+                    document.getElementById('spellingTrans').textContent = `[${word.trans}]`;
+                    input.value = '';
+                    hintUsed = false;
+                    input.focus();
+                }
+            }
+            
+            btnCheck.onclick = checkSpelling;
+            btnHint.onclick = showHint;
+            
+            input.onkeydown = (e) => {
+                if (e.key === 'Enter') checkSpelling();
+            };
+            
+            input.focus();
+        }
+
+        // ==================== HELPERS ====================
+        function getUniqueRandomWords(count) {
+            const available = gameWords.filter(w => w.word && w.word.length >= 3 && w.word.length <= 15);
+            
+            const shuffled = [...available].sort(() => Math.random() - 0.5);
+            
+            const unique = [];
+            const usedWords = new Set();
+            
+            for (let word of shuffled) {
+                if (unique.length >= count) break;
+                if (!usedWords.has(word.word.toLowerCase())) {
+                    unique.push(word);
+                    usedWords.add(word.word.toLowerCase());
+                }
+            }
+            
+            while (unique.length < count && unique.length < available.length) {
+                const random = available[Math.floor(Math.random() * available.length)];
+                if (!usedWords.has(random.word.toLowerCase())) {
+                    unique.push(random);
+                    usedWords.add(random.word.toLowerCase());
+                }
+            }
+            
+            return unique.slice(0, count);
+        }
+
+        // ==================== INIT ====================
+        function init() {
+            loadData();
+            
+            renderLevels();
+            updateStreetStats();
+            updateGameStats();
+            
+            const aiInput = document.getElementById('aiInput');
+            if (aiInput) {
+                aiInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        sendAIMessage();
+                    }
+                });
+            }
+            
+            const trackSearch = document.getElementById('trackSearch');
+            if (trackSearch) {
+                let searchTimeout;
+                trackSearch.addEventListener('input', () => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(filterTracks, 300);
+                });
+            }
+            
+            updateDailyGoal();
+            checkStreak();
+            
+            console.log('LinguaParrot initialized successfully!');
+        }
+
+        function updateDailyGoal() {
+            const today = new Date().toDateString();
+            const studyTime = localStorage.getItem(`study_time_${today}`) || 0;
+            const minutes = Math.floor(parseInt(studyTime) / 60);
+            
+            const progress = Math.min((minutes / 15) * 100, 100);
+            document.getElementById('dailyProgress').textContent = minutes;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function addStudyTime(seconds) {
+            const today = new Date().toDateString();
+            const current = parseInt(localStorage.getItem(`study_time_${today}`) || 0);
+            localStorage.setItem(`study_time_${today}`, (current + seconds).toString());
+            updateDailyGoal();
+        }
+
+        function checkStreak() {
+            const lastStudy = localStorage.getItem('last_study_date');
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            
+            if (lastStudy === yesterday) {
+                // Продолжаем streak
+            } else if (lastStudy !== today) {
+                if (lastStudy !== yesterday && lastStudy !== today) {
+                    streak = 0;
+                    saveData();
+                }
+            }
+            
+            localStorage.setItem('last_study_date', today);
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+
+        function handleSwipe() {
+            const flashcard = document.getElementById('flashcard');
+            if (!flashcard || !flashcard.classList.contains('flipped')) {
+                if (touchEndX < touchStartX - 50) {
+                    if (isFlipped && currentLevel && currentCard < currentLevel.words.length - 1) {
+                        tg.MainButton.click();
+                    }
+                }
+            }
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                saveData();
                 
                 if (window.currentGameCleanup) {
                     window.currentGameCleanup();
                 }
-                
-                document.getElementById('gameResultScreen').classList.remove('active');
-                document.getElementById('mainScreen').classList.add('active');
-                renderGameMenu();
             }
+        });
 
-            function showCombo() {
-                document.querySelectorAll('.combo-indicator').forEach(el => el.remove());
-                
-                const combo = document.createElement('div');
-                combo.className = 'combo-indicator';
-                combo.textContent = `🔥 COMBO x${gameCombo}!`;
-                document.body.appendChild(combo);
-                
-                requestAnimationFrame(() => {
-                    combo.classList.add('show');
-                    setTimeout(() => combo.classList.add('pulse'), 100);
-                });
-                
-                setTimeout(() => {
-                    combo.classList.remove('show');
-                    setTimeout(() => combo.remove(), 300);
-                }, 1500);
-            }
+        window.onerror = function(msg, url, line, col, error) {
+            console.error('Error: ' + msg + '\nURL: ' + url + '\nLine: ' + line);
+            return false;
+        };
 
-            function endGame(score, correct, total) {
-                const comboBonus = Math.floor(maxCombo / 3) * 50;
-                const finalScore = score + comboBonus;
-                
-                addGameScore(finalScore);
-                
-                document.getElementById('gameCorrectAnswers').textContent = `${correct}/${total}`;
-                document.getElementById('gameResultScore').textContent = `+${finalScore}`;
-                document.getElementById('gameMaxCombo').textContent = `x${maxCombo}`;
-                
-                let subtitle = `Правильных ответов: ${correct} из ${total}`;
-                if (comboBonus > 0) {
-                    subtitle += `\nБонус за комбо: +${comboBonus}`;
-                }
-                document.getElementById('gameResultSubtitle').textContent = subtitle;
-                
-                document.getElementById('gameScreen').classList.remove('active');
-                document.getElementById('gameResultScreen').classList.add('active');
-            }
-
-            // ==================== GAME IMPLEMENTATIONS ====================
-            function initFlashcardSpeedGame(container) {
-                let currentWordIndex = 0;
-                let score = 0;
-                let timeLeft = 3;
-                let timerInterval = null;
-                
-                let gameWordsList = getUniqueRandomWords(10);
-                
-                const gameDiv = document.createElement('div');
-                gameDiv.className = 'flashcard-game';
-                
-                gameDiv.innerHTML = `
-                    <div class="game-timer" id="speedTimer">3.0</div>
-                    <div class="game-flashcard" id="speedCard">
-                        <div class="game-word" id="speedWord"></div>
-                        <div class="game-trans" id="speedTrans"></div>
-                        <div class="game-meaning" id="speedMeaning"></div>
-                    </div>
-                    <div class="game-buttons">
-                        <button class="game-btn wrong" id="btnWrong">✗ Не знаю</button>
-                        <button class="game-btn correct" id="btnCorrect">✓ Знаю</button>
-                    </div>
-                `;
-                
-                container.appendChild(gameDiv);
-                
-                const btnWrong = document.getElementById('btnWrong');
-                const btnCorrect = document.getElementById('btnCorrect');
-                
-                const handleWrong = () => speedAnswer(false);
-                const handleCorrect = () => speedAnswer(true);
-                
-                btnWrong.onclick = handleWrong;
-                btnCorrect.onclick = handleCorrect;
-                
-                window.currentGameCleanup = () => {
-                    clearInterval(timerInterval);
-                    btnWrong.onclick = null;
-                    btnCorrect.onclick = null;
-                };
-                
-                function speedAnswer(knew) {
-                    clearInterval(timerInterval);
-                    
-                    const card = document.getElementById('speedCard');
-                    const meaning = document.getElementById('speedMeaning');
-                    
-                    if (knew) {
-                        score += 100 + (gameCombo * 10);
-                        gameCorrect++;
-                        gameCombo++;
-                        if (gameCombo > maxCombo) maxCombo = gameCombo;
-                        if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                        
-                        meaning.style.color = '#27AE60';
-                    } else {
-                        gameCombo = 0;
-                        meaning.style.color = '#E74C3C';
-                    }
-                    
-                    card.classList.add('show-meaning');
-                    
-                    setTimeout(() => {
-                        currentWordIndex++;
-                        if (currentWordIndex >= gameWordsList.length) {
-                            endGame(score, gameCorrect, gameWordsList.length);
-                        } else {
-                            nextSpeedCard();
-                        }
-                    }, 1000);
-                }
-                
-                function nextSpeedCard() {
-                    if (currentWordIndex >= gameWordsList.length) return;
-                    
-                    const word = gameWordsList[currentWordIndex];
-                    document.getElementById('speedWord').textContent = word.word;
-                    document.getElementById('speedTrans').textContent = word.trans;
-                    document.getElementById('speedMeaning').textContent = word.meaning;
-                    
-                    const card = document.getElementById('speedCard');
-                    card.classList.remove('show-meaning');
-                    
-                    timeLeft = 3;
-                    document.getElementById('speedTimer').textContent = timeLeft.toFixed(1);
-                    
-                    clearInterval(timerInterval);
-                    timerInterval = setInterval(() => {
-                        timeLeft -= 0.1;
-                        document.getElementById('speedTimer').textContent = Math.max(0, timeLeft).toFixed(1);
-                        
-                        if (timeLeft <= 0) {
-                            speedAnswer(false);
-                        }
-                    }, 100);
-                }
-                
-                nextSpeedCard();
-            }
-
-            function initQuizGame(container) {
-                let currentQuestion = 0;
-                let score = 0;
-                
-                let questions = generateQuizQuestions(10);
-                
-                const gameDiv = document.createElement('div');
-                gameDiv.className = 'quiz-game';
-                
-                gameDiv.innerHTML = `
-                    <div class="quiz-progress" id="quizProgress"></div>
-                    <div class="quiz-question">
-                        <div class="quiz-word" id="quizWord"></div>
-                        <div class="quiz-hint" id="quizHint"></div>
-                    </div>
-                    <div class="quiz-options" id="quizOptions"></div>
-                `;
-                
-                container.appendChild(gameDiv);
-                
-                const progressDiv = document.getElementById('quizProgress');
-                for (let i = 0; i < questions.length; i++) {
-                    const dot = document.createElement('div');
-                    dot.className = 'quiz-dot';
-                    if (i === 0) dot.classList.add('current');
-                    progressDiv.appendChild(dot);
-                }
-                
-                window.currentGameCleanup = () => {};
-                
-                function showQuestion() {
-                    if (currentQuestion >= questions.length) {
-                        endGame(score, gameCorrect, questions.length);
-                        return;
-                    }
-                    
-                    const q = questions[currentQuestion];
-                    document.getElementById('quizWord').textContent = q.word;
-                    document.getElementById('quizHint').textContent = q.hint || `[${q.trans}]`;
-                    
-                    const optionsDiv = document.getElementById('quizOptions');
-                    optionsDiv.innerHTML = '';
-                    
-                    q.options.forEach((opt, idx) => {
-                        const btn = document.createElement('button');
-                        btn.className = 'quiz-option';
-                        btn.textContent = opt;
-                        btn.onclick = () => answerQuiz(idx, q.correct);
-                        optionsDiv.appendChild(btn);
-                    });
-                    
-                    const dots = document.querySelectorAll('.quiz-dot');
-                    dots.forEach((d, i) => {
-                        d.classList.remove('current');
-                        if (i === currentQuestion) d.classList.add('current');
-                    });
-                }
-                
-                function answerQuiz(selected, correct) {
-                    const buttons = document.querySelectorAll('.quiz-option');
-                    buttons.forEach((btn, idx) => {
-                        btn.disabled = true;
-                        if (idx === correct) btn.classList.add('correct');
-                        if (idx === selected && idx !== correct) btn.classList.add('wrong');
-                    });
-                    
-                    if (selected === correct) {
-                        score += 100 + (gameCombo * 10);
-                        gameCorrect++;
-                        gameCombo++;
-                        if (gameCombo > maxCombo) maxCombo = gameCombo;
-                        if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                        
-                        const dots = document.querySelectorAll('.quiz-dot');
-                        dots[currentQuestion].classList.add('correct');
-                        hapticSuccess();
-                    } else {
-                        gameCombo = 0;
-                        const dots = document.querySelectorAll('.quiz-dot');
-                        dots[currentQuestion].classList.add('wrong');
-                        hapticError();
-                    }
-                    
-                    setTimeout(() => {
-                        currentQuestion++;
-                        showQuestion();
-                    }, 1000);
-                }
-                
-                showQuestion();
-            }
-
-            function generateQuizQuestions(count) {
-                const questions = [];
-                const usedWords = new Set();
-                
-                const availableWords = [...gameWords].sort(() => Math.random() - 0.5);
-                
-                for (let i = 0; i < Math.min(count, availableWords.length); i++) {
-                    const word = availableWords[i];
-                    if (usedWords.has(word.word)) continue;
-                    usedWords.add(word.word);
-                    
-                    const wrongOptions = [];
-                    const usedMeanings = new Set([word.meaning]);
-                    
-                    for (let w of gameWords.sort(() => Math.random() - 0.5)) {
-                        if (wrongOptions.length >= 3) break;
-                        if (w.word !== word.word && !usedMeanings.has(w.meaning)) {
-                            wrongOptions.push(w.meaning);
-                            usedMeanings.add(w.meaning);
-                        }
-                    }
-                    
-                    while (wrongOptions.length < 3) {
-                        const randomWord = gameWords[Math.floor(Math.random() * gameWords.length)];
-                        if (randomWord.word !== word.word) {
-                            wrongOptions.push(randomWord.meaning);
-                        }
-                    }
-                    
-                    const options = [...wrongOptions, word.meaning].sort(() => Math.random() - 0.5);
-                    
-                    questions.push({
-                        word: word.word,
-                        trans: word.trans,
-                        hint: word.emoji,
-                        options: options,
-                        correct: options.indexOf(word.meaning)
-                    });
-                }
-                
-                return questions;
-            }
-
-            function initMatchGame(container) {
-                let score = 0;
-                let matches = 0;
-                let selectedCards = [];
-                let canClick = true;
-                let gameTimer = null;
-                
-                const words = getUniqueRandomWords(6);
-                const pairs = [];
-                
-                words.forEach(w => {
-                    pairs.push({ type: 'word', content: w.word, match: w.meaning, id: w.word });
-                    pairs.push({ type: 'meaning', content: w.meaning, match: w.word, id: w.word + '_mean' });
-                });
-                
-                pairs.sort(() => Math.random() - 0.5);
-                
-                const gameDiv = document.createElement('div');
-                gameDiv.className = 'match-game';
-                
-                const grid = document.createElement('div');
-                grid.className = 'match-grid';
-                grid.id = 'matchGrid';
-                
-                gameDiv.appendChild(grid);
-                container.appendChild(gameDiv);
-                
-                pairs.forEach((pair, idx) => {
-                    const card = document.createElement('div');
-                    card.className = 'match-card';
-                    card.dataset.index = idx;
-                    card.dataset.match = pair.match;
-                    card.dataset.id = pair.id;
-                    card.textContent = '?';
-                    
-                    card.onclick = () => handleCardClick(card, pair);
-                    grid.appendChild(card);
-                });
-                
-                window.currentGameCleanup = () => {
-                    canClick = false;
-                    clearTimeout(gameTimer);
-                };
-                
-                function handleCardClick(card, pair) {
-                    if (!canClick || card.classList.contains('matched') || card.classList.contains('flipped')) {
-                        return;
-                    }
-                    
-                    haptic();
-                    card.classList.add('flipped');
-                    card.textContent = pair.content;
-                    selectedCards.push({ element: card, match: pair.match, id: pair.id });
-                    
-                    if (selectedCards.length === 2) {
-                        canClick = false;
-                        checkMatch();
-                    }
-                }
-                
-                function checkMatch() {
-                    const [first, second] = selectedCards;
-                    
-                    const isMatch = first.match === second.match && first.id !== second.id;
-                    
-                    if (isMatch) {
-                        gameTimer = setTimeout(() => {
-                            first.element.classList.add('matched');
-                            second.element.classList.add('matched');
-                            
-                            score += 100 + (gameCombo * 15);
-                            matches++;
-                            gameCombo++;
-                            if (gameCombo > maxCombo) maxCombo = gameCombo;
-                            if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                            gameCorrect++;
-                            
-                            hapticSuccess();
-                            
-                            selectedCards = [];
-                            canClick = true;
-                            
-                            if (matches >= words.length) {
-                                gameTimer = setTimeout(() => endGame(score, gameCorrect, words.length), 500);
-                            }
-                        }, 500);
-                    } else {
-                        gameCombo = 0;
-                        hapticError();
-                        
-                        gameTimer = setTimeout(() => {
-                            first.element.classList.remove('flipped');
-                            second.element.classList.remove('flipped');
-                            first.element.textContent = '?';
-                            second.element.textContent = '?';
-                            
-                            selectedCards = [];
-                            canClick = true;
-                        }, 1000);
-                    }
+        window.onbeforeunload = function(e) {
+            const activeScreens = ['lessonScreen', 'gameScreen', 'practiceScreen', 'aiTutorScreen'];
+            for (let id of activeScreens) {
+                const screen = document.getElementById(id);
+                if (screen && screen.classList.contains('active')) {
+                    e.preventDefault();
+                    e.returnValue = 'У тебя есть несохранённый прогресс. Точно хочешь уйти?';
+                    return e.returnValue;
                 }
             }
+        };
 
-            function initScrambleGame(container) {
-                let currentWordIndex = 0;
-                let score = 0;
-                let words = getUniqueRandomWords(10);
-                let currentWord = words[0];
-                let scrambled = scrambleWord(currentWord.word);
-                
-                const gameDiv = document.createElement('div');
-                gameDiv.className = 'scramble-game';
-                
-                gameDiv.innerHTML = `
-                    <div class="scramble-hint" id="scrambleHint">Собери слово: ${currentWord.meaning}</div>
-                    <div class="scramble-word" id="scrambleLetters"></div>
-                    <input type="text" class="scramble-input" id="scrambleInput" placeholder="Введи слово..." autocomplete="off" autocorrect="off" autocapitalize="off">
-                    <div class="game-buttons">
-                        <button class="game-btn" id="btnCheck" style="background: var(--game-primary); color: white;">Проверить</button>
-                        <button class="game-btn secondary" id="btnSkip">Пропустить</button>
-                    </div>
-                `;
-                
-                container.appendChild(gameDiv);
-                
-                const input = document.getElementById('scrambleInput');
-                const btnCheck = document.getElementById('btnCheck');
-                const btnSkip = document.getElementById('btnSkip');
-                
-                window.currentGameCleanup = () => {
-                    input.onkeydown = null;
-                    btnCheck.onclick = null;
-                    btnSkip.onclick = null;
-                };
-                
-                renderScrambleLetters();
-                
-                function renderScrambleLetters() {
-                    const container = document.getElementById('scrambleLetters');
-                    container.innerHTML = '';
-                    
-                    scrambled.forEach((letter, idx) => {
-                        const span = document.createElement('div');
-                        span.className = 'scramble-letter';
-                        span.textContent = letter;
-                        span.onclick = () => {
-                            input.value += letter;
-                            span.classList.add('selected');
-                            setTimeout(() => span.classList.remove('selected'), 200);
-                            input.focus();
-                        };
-                        container.appendChild(span);
-                    });
-                }
-                
-                function checkScramble() {
-                    const value = input.value.toLowerCase().trim();
-                    const correct = currentWord.word.toLowerCase();
-                    
-                    const letters = document.querySelectorAll('.scramble-letter');
-                    
-                    if (value === correct) {
-                        score += 150 + (gameCombo * 15);
-                        gameCorrect++;
-                        gameCombo++;
-                        if (gameCombo > maxCombo) maxCombo = gameCombo;
-                        if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                        
-                        letters.forEach(l => l.classList.add('correct'));
-                        hapticSuccess();
-                        
-                        setTimeout(() => nextWord(), 500);
-                    } else {
-                        gameCombo = 0;
-                        letters.forEach(l => {
-                            l.classList.add('wrong');
-                            setTimeout(() => l.classList.remove('wrong'), 500);
-                        });
-                        hapticError();
-                        input.value = '';
-                        input.focus();
-                    }
-                }
-                
-                function skipScramble() {
-                    gameCombo = 0;
-                    input.value = currentWord.word;
-                    input.style.color = 'rgba(255,255,255,0.5)';
-                    
-                    setTimeout(() => {
-                        input.style.color = '';
-                        nextWord();
-                    }, 1500);
-                }
-                
-                function nextWord() {
-                    currentWordIndex++;
-                    if (currentWordIndex >= words.length) {
-                        endGame(score, gameCorrect, words.length);
-                    } else {
-                        currentWord = words[currentWordIndex];
-                        scrambled = scrambleWord(currentWord.word);
-                        document.getElementById('scrambleHint').textContent = `Собери слово: ${currentWord.meaning}`;
-                        input.value = '';
-                        renderScrambleLetters();
-                        input.focus();
-                    }
-                }
-                
-                btnCheck.onclick = checkScramble;
-                btnSkip.onclick = skipScramble;
-                
-                input.onkeydown = (e) => {
-                    if (e.key === 'Enter') checkScramble();
-                };
-                
-                input.focus();
+        // ==================== TELEGRAM SPECIFIC ====================
+        tg.MainButton.setParams({
+            text: 'Проверить ✅',
+            color: '#2D7A5F',
+            text_color: '#FFFFFF',
+            is_active: true,
+            is_visible: false
+        });
+
+        tg.onEvent('themeChanged', () => {
+            const root = document.documentElement;
+            if (tg.themeParams.bg_color) {
+                root.style.setProperty('--tg-bg', tg.themeParams.bg_color);
             }
-
-            function scrambleWord(word) {
-                const letters = word.split('');
-                let scrambled;
-                let attempts = 0;
-                
-                do {
-                    scrambled = [...letters].sort(() => Math.random() - 0.5);
-                    attempts++;
-                } while (scrambled.join('') === word && attempts < 10);
-                
-                if (scrambled.join('') === word && letters.length > 1) {
-                    [scrambled[0], scrambled[1]] = [scrambled[1], scrambled[0]];
-                }
-                
-                return scrambled;
+            if (tg.themeParams.text_color) {
+                root.style.setProperty('--tg-text', tg.themeParams.text_color);
             }
-
-            function initListeningGame(container) {
-                let currentWordIndex = 0;
-                let score = 0;
-                let words = getUniqueRandomWords(8);
-                let isPlayingAudio = false;
-                
-                const gameDiv = document.createElement('div');
-                gameDiv.className = 'listening-game';
-                
-                gameDiv.innerHTML = `
-                    <div class="listen-button" id="listenBtn">🔊</div>
-                    <div class="scramble-hint">Нажми на кнопку и напиши, что услышал</div>
-                    <input type="text" class="scramble-input" id="listenInput" placeholder="Введи слово..." autocomplete="off" autocorrect="off">
-                    <div class="game-buttons">
-                        <button class="game-btn" id="btnCheck" style="background: var(--game-primary); color: white;">Проверить</button>
-                        <button class="game-btn secondary" id="btnSkip">Пропустить</button>
-                    </div>
-                    <div style="margin-top: 20px; font-size: 13px; opacity: 0.7;">
-                        💡 Подсказка: ${words[currentWordIndex].emoji} ${words[currentWordIndex].meaning}
-                    </div>
-                `;
-                
-                container.appendChild(gameDiv);
-                
-                const listenBtn = document.getElementById('listenBtn');
-                const input = document.getElementById('listenInput');
-                const btnCheck = document.getElementById('btnCheck');
-                const btnSkip = document.getElementById('btnSkip');
-                
-                window.currentGameCleanup = () => {
-                    if (window.speechSynthesis) {
-                        window.speechSynthesis.cancel();
-                    }
-                    listenBtn.onclick = null;
-                    btnCheck.onclick = null;
-                    btnSkip.onclick = null;
-                    input.onkeydown = null;
-                };
-                
-                function playWord() {
-                    if (isPlayingAudio) return;
-                    
-                    window.speechSynthesis.cancel();
-                    
-                    isPlayingAudio = true;
-                    listenBtn.classList.add('playing');
-                    
-                    const utterance = new SpeechSynthesisUtterance(words[currentWordIndex].word);
-                    utterance.lang = 'en-US';
-                    utterance.rate = 0.7;
-                    utterance.pitch = 1;
-                    
-                    utterance.onend = () => {
-                        isPlayingAudio = false;
-                        listenBtn.classList.remove('playing');
-                    };
-                    
-                    utterance.onerror = () => {
-                        isPlayingAudio = false;
-                        listenBtn.classList.remove('playing');
-                        input.placeholder = `[${words[currentWordIndex].trans}]`;
-                    };
-                    
-                    window.speechSynthesis.speak(utterance);
-                    
-                    haptic();
-                }
-                
-                function checkListen() {
-                    const value = input.value.toLowerCase().trim();
-                    const correct = words[currentWordIndex].word.toLowerCase();
-                    
-                    if (value === correct) {
-                        score += 200 + (gameCombo * 20);
-                        gameCorrect++;
-                        gameCombo++;
-                        if (gameCombo > maxCombo) maxCombo = gameCombo;
-                        if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                        
-                        input.style.borderColor = '#27AE60';
-                        hapticSuccess();
-                        
-                        setTimeout(() => {
-                            input.style.borderColor = '';
-                            nextListenWord();
-                        }, 500);
-                    } else {
-                        gameCombo = 0;
-                        input.classList.add('wrong');
-                        hapticError();
-                        
-                        setTimeout(() => {
-                            input.classList.remove('wrong');
-                            input.value = '';
-                            input.focus();
-                        }, 500);
-                    }
-                }
-                
-                function skipListen() {
-                    gameCombo = 0;
-                    input.value = words[currentWordIndex].word;
-                    input.style.color = 'rgba(255,255,255,0.5)';
-                    
-                    setTimeout(() => {
-                        input.style.color = '';
-                        nextListenWord();
-                    }, 1500);
-                }
-                
-                function nextListenWord() {
-                    currentWordIndex++;
-                    if (currentWordIndex >= words.length) {
-                        endGame(score, gameCorrect, words.length);
-                    } else {
-                        const hintDiv = gameDiv.querySelector('div:last-child');
-                        if (hintDiv) {
-                            hintDiv.innerHTML = `💡 Подсказка: ${words[currentWordIndex].emoji} ${words[currentWordIndex].meaning}`;
-                        }
-                        input.value = '';
-                        input.placeholder = 'Введи слово...';
-                        
-                        setTimeout(playWord, 500);
-                    }
-                }
-                
-                listenBtn.onclick = playWord;
-                btnCheck.onclick = checkListen;
-                btnSkip.onclick = skipListen;
-                
-                input.onkeydown = (e) => {
-                    if (e.key === 'Enter') checkListen();
-                };
-                
-                setTimeout(playWord, 500);
+            if (tg.themeParams.button_color) {
+                root.style.setProperty('--tg-button', tg.themeParams.button_color);
             }
+        });
 
-            function initSpellingGame(container) {
-                let currentWordIndex = 0;
-                let score = 0;
-                let words = getUniqueRandomWords(10);
-                let hintUsed = false;
-                
-                const gameDiv = document.createElement('div');
-                gameDiv.className = 'scramble-game';
-                
-                gameDiv.innerHTML = `
-                    <div style="font-size: 60px; margin-bottom: 20px;" id="spellingEmoji">${words[0].emoji}</div>
-                    <div class="scramble-hint" id="spellingHint">${words[0].meaning}</div>
-                    <div style="color: rgba(255,255,255,0.6); margin-bottom: 20px; font-size: 14px;" id="spellingTrans">[${words[0].trans}]</div>
-                    <input type="text" class="scramble-input" id="spellingInput" placeholder="Напиши слово..." autocomplete="off" autocorrect="off" autocapitalize="off">
-                    <div class="game-buttons">
-                        <button class="game-btn" id="btnCheck" style="background: var(--game-primary); color: white;">Проверить</button>
-                        <button class="game-btn secondary" id="btnHint">💡 Подсказка</button>
-                    </div>
-                `;
-                
-                container.appendChild(gameDiv);
-                
-                const input = document.getElementById('spellingInput');
-                const btnCheck = document.getElementById('btnCheck');
-                const btnHint = document.getElementById('btnHint');
-                
-                window.currentGameCleanup = () => {
-                    input.onkeydown = null;
-                    btnCheck.onclick = null;
-                    btnHint.onclick = null;
-                };
-                
-                function checkSpelling() {
-                    const value = input.value.toLowerCase().trim();
-                    const correct = words[currentWordIndex].word.toLowerCase();
-                    
-                    if (value === correct) {
-                        const points = hintUsed ? 100 : 150;
-                        score += points + (gameCombo * 15);
-                        gameCorrect++;
-                        gameCombo++;
-                        if (gameCombo > maxCombo) maxCombo = gameCombo;
-                        if (gameCombo > 0 && gameCombo % 3 === 0) showCombo();
-                        
-                        input.style.borderColor = '#27AE60';
-                        hapticSuccess();
-                        
-                        hintUsed = false;
-                        setTimeout(() => {
-                            input.style.borderColor = '';
-                            nextSpellingWord();
-                        }, 500);
-                    } else {
-                        gameCombo = 0;
-                        input.style.borderColor = '#E74C3C';
-                        hapticError();
-                        
-                        setTimeout(() => {
-                            input.style.borderColor = '';
-                            input.value = '';
-                            input.focus();
-                        }, 500);
-                    }
-                }
-                
-                function showHint() {
-                    hintUsed = true;
-                    const word = words[currentWordIndex].word;
-                    
-                    const hint = word[0] + '•'.repeat(word.length - 2) + word[word.length - 1];
-                    input.value = hint;
-                    input.style.color = 'rgba(255,255,255,0.5)';
-                    
-                    setTimeout(() => {
-                        input.style.color = '';
-                        input.setSelectionRange(1, word.length - 1);
-                        input.focus();
-                    }, 100);
-                    
-                    score = Math.max(0, score - 25);
-                }
-                
-                function nextSpellingWord() {
-                    currentWordIndex++;
-                    if (currentWordIndex >= words.length) {
-                        endGame(score, gameCorrect, words.length);
-                    } else {
-                        const word = words[currentWordIndex];
-                        document.getElementById('spellingEmoji').textContent = word.emoji || '🎯';
-                        document.getElementById('spellingHint').textContent = word.meaning;
-                        document.getElementById('spellingTrans').textContent = `[${word.trans}]`;
-                        input.value = '';
-                        hintUsed = false;
-                        input.focus();
-                    }
-                }
-                
-                btnCheck.onclick = checkSpelling;
-                btnHint.onclick = showHint;
-                
-                input.onkeydown = (e) => {
-                    if (e.key === 'Enter') checkSpelling();
-                };
-                
-                input.focus();
-            }
-
-            // ==================== HELPERS ====================
-            function getUniqueRandomWords(count) {
-                const available = gameWords.filter(w => w.word && w.word.length >= 3 && w.word.length <= 15);
-                
-                const shuffled = [...available].sort(() => Math.random() - 0.5);
-                
-                const unique = [];
-                const usedWords = new Set();
-                
-                for (let word of shuffled) {
-                    if (unique.length >= count) break;
-                    if (!usedWords.has(word.word.toLowerCase())) {
-                        unique.push(word);
-                        usedWords.add(word.word.toLowerCase());
-                    }
-                }
-                
-                while (unique.length < count && unique.length < available.length) {
-                    const random = available[Math.floor(Math.random() * available.length)];
-                    if (!usedWords.has(random.word.toLowerCase())) {
-                        unique.push(random);
-                        usedWords.add(random.word.toLowerCase());
-                    }
-                }
-                
-                return unique.slice(0, count);
-            }
-
-            // ==================== INIT ====================
-            function init() {
-                loadData();
-                
-                renderLevels();
-                updateStreetStats();
-                updateGameStats();
-                
-                const aiInput = document.getElementById('aiInput');
-                if (aiInput) {
-                    aiInput.addEventListener('keypress', (e) => {
-                        if (e.key === 'Enter') {
-                            sendAIMessage();
-                        }
-                    });
-                }
-                
-                const trackSearch = document.getElementById('trackSearch');
-                if (trackSearch) {
-                    let searchTimeout;
-                    trackSearch.addEventListener('input', () => {
-                        clearTimeout(searchTimeout);
-                        searchTimeout = setTimeout(filterTracks, 300);
-                    });
-                }
-                
-                updateDailyGoal();
-                checkStreak();
-                
-                console.log('LinguaParrot initialized successfully!');
-                console.log('AI Diagnostics available: click 🧪 button in AI Tutor screen');
-            }
-
-            function updateDailyGoal() {
-                const today = new Date().toDateString();
-                const studyTime = localStorage.getItem(`study_time_${today}`) || 0;
-                const minutes = Math.floor(parseInt(studyTime) / 60);
-                
-                const progress = Math.min((minutes / 15) * 100, 100);
-                document.getElementById('dailyProgress').textContent = minutes;
-                document.getElementById('progressBar').style.width = progress + '%';
-            }
-
-            function addStudyTime(seconds) {
-                const today = new Date().toDateString();
-                const current = parseInt(localStorage.getItem(`study_time_${today}`) || 0);
-                localStorage.setItem(`study_time_${today}`, (current + seconds).toString());
-                updateDailyGoal();
-            }
-
-            function checkStreak() {
-                const lastStudy = localStorage.getItem('last_study_date');
-                const today = new Date().toDateString();
-                const yesterday = new Date(Date.now() - 86400000).toDateString();
-                
-                if (lastStudy === yesterday) {
-                    // Продолжаем streak
-                } else if (lastStudy !== today) {
-                    if (lastStudy !== yesterday && lastStudy !== today) {
-                        streak = 0;
-                        saveData();
-                    }
-                }
-                
-                localStorage.setItem('last_study_date', today);
-            }
-
-            // ==================== EVENT LISTENERS ====================
-            let touchStartX = 0;
-            let touchEndX = 0;
-
-            document.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            }, false);
-
-            document.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            }, false);
-
-            function handleSwipe() {
-                const flashcard = document.getElementById('flashcard');
-                if (!flashcard || !flashcard.classList.contains('flipped')) {
-                    if (touchEndX < touchStartX - 50) {
-                        if (isFlipped && currentLevel && currentCard < currentLevel.words.length - 1) {
-                            tg.MainButton.click();
-                        }
-                    }
+        tg.onEvent('viewportChanged', (e) => {
+            if (e.isStateStable) {
+                const activeElement = document.activeElement;
+                if (activeElement && activeElement.tagName === 'INPUT') {
+                    activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             }
+        });
 
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) {
-                    saveData();
-                    
-                    if (window.currentGameCleanup) {
-                        window.currentGameCleanup();
-                    }
-                }
-            });
+        // ==================== START ====================
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
 
-            window.onerror = function(msg, url, line, col, error) {
-                console.error('Error: ' + msg + '\nURL: ' + url + '\nLine: ' + line);
-                return false;
-            };
-
-            window.onbeforeunload = function(e) {
-                const activeScreens = ['lessonScreen', 'gameScreen', 'practiceScreen', 'aiTutorScreen'];
-                for (let id of activeScreens) {
-                    const screen = document.getElementById(id);
-                    if (screen && screen.classList.contains('active')) {
-                        e.preventDefault();
-                        e.returnValue = 'У тебя есть несохранённый прогресс. Точно хочешь уйти?';
-                        return e.returnValue;
-                    }
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+            window.debug = {
+                tg: tg,
+                state: {
+                    currentMode,
+                    currentLevel,
+                    gameScore,
+                    streetCred,
+                    learnedWords
+                },
+                functions: {
+                    saveData,
+                    loadData,
+                    addGameScore,
+                    addStreetCred
                 }
             };
-
-            // ==================== TELEGRAM SPECIFIC ====================
-            tg.MainButton.setParams({
-                text: 'Проверить ✅',
-                color: '#2D7A5F',
-                text_color: '#FFFFFF',
-                is_active: true,
-                is_visible: false
-            });
-
-            tg.onEvent('themeChanged', () => {
-                const root = document.documentElement;
-                if (tg.themeParams.bg_color) {
-                    root.style.setProperty('--tg-bg', tg.themeParams.bg_color);
-                }
-                if (tg.themeParams.text_color) {
-                    root.style.setProperty('--tg-text', tg.themeParams.text_color);
-                }
-                if (tg.themeParams.button_color) {
-                    root.style.setProperty('--tg-button', tg.themeParams.button_color);
-                }
-            });
-
-            tg.onEvent('viewportChanged', (e) => {
-                if (e.isStateStable) {
-                    const activeElement = document.activeElement;
-                    if (activeElement && activeElement.tagName === 'INPUT') {
-                        activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                }
-            });
-
-            // ==================== START ====================
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', init);
-            } else {
-                init();
-            }
-
-            if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-                window.debug = {
-                    tg: tg,
-                    state: {
-                        currentMode,
-                        currentLevel,
-                        gameScore,
-                        streetCred,
-                        learnedWords
-                    },
-                    functions: {
-                        saveData,
-                        loadData,
-                        addGameScore,
-                        addStreetCred,
-                        testAIConnection,
-                        getAIResponse
-                    }
-                };
-            }
-        </script>
-    </body>
-    </html>
+        }
+    </script>
+</body>
+</html>
